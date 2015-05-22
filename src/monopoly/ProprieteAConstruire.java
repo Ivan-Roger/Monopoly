@@ -29,10 +29,6 @@ public class ProprieteAConstruire extends CarreauPropriete {
         }
     }
 
-    public String getProprietaire(Joueur joueur) {
-        throw new UnsupportedOperationException();
-    }
-
     @Override
     public int calculLoyer(Joueur j) {
         return 0;
