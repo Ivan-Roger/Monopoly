@@ -1,29 +1,30 @@
 package monopoly;
 
+import java.util.Scanner;
+
 public class Interface {
-	public Monopoly monopoly;
 
-	public void afficher(String message) {
-		throw new UnsupportedOperationException();
-	}
+    public Monopoly monopoly;
 
-	public int lireInt() {
-		throw new UnsupportedOperationException();
-	}
+    public void afficher(String aMessage) {
+        System.out.println(aMessage);
+    }
 
-	public boolean lireBoolean() {
-		throw new UnsupportedOperationException();
-	}
+    public int lireInt() {
+        Scanner sc = new Scanner(System.in);
+        int nb = sc.nextInt();
+        return nb;
+    }
 
-	public String lireString() {
-		throw new UnsupportedOperationException();
-	}
+    public boolean lireBoolean() {
+        Scanner sc = new Scanner(System.in);
+        Boolean b = sc.nextBoolean();
+        return b;
+    }
 
-	public boolean demanderConstruction() {
-		throw new UnsupportedOperationException();
-	}
-
-	public boolean demanderConstruire() {
-		throw new UnsupportedOperationException();
-	}
+    public String lireString() {
+        Scanner sc = new Scanner(System.in);
+        String st = sc.nextLine();
+        return st;
+    }
 }
