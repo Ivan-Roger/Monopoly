@@ -37,7 +37,6 @@ public class Monopoly {
                 int id = new Integer(data.get(i)[1]);
                 
                 if (caseType.compareTo("P") == 0) {
-                    System.out.println("Propriété :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
                     int[] loyers = new int[data.get(i).length-5];
                     for (int k=5; k<data.get(i).length; k++) {
                         loyers[k-5] = new Integer(data.get(i)[k]);
@@ -46,23 +45,18 @@ public class Monopoly {
                     carreaux.add(id, carreau);
                     groupes.get(CouleurPropriete.valueOf(data.get(i)[3])).addPropriete(carreau);
                 } else if (caseType.compareTo("G") == 0) {
-                    System.out.println("Gare :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
                     Gare carreau = new Gare(id,data.get(i)[2],this,new Integer(data.get(i)[3]));
                     carreaux.add(id, carreau);
                 } else if (caseType.compareTo("C") == 0) {
-                    System.out.println("Compagnie :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
                     Compagnie carreau = new Compagnie(id,data.get(i)[2],this,new Integer(data.get(i)[3]));
                     carreaux.add(id, carreau);
                 } else if (caseType.compareTo("CT") == 0) {
-                    System.out.println("Case Tirage :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
                     CarreauTirage carreau = new CarreauTirage(id,data.get(i)[2],this);
                     carreaux.add(id, carreau);
                 } else if (caseType.compareTo("CA") == 0) {
-                    System.out.println("Case Argent :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
                     CarreauArgent carreau = new CarreauArgent(id,data.get(i)[2],this,new Integer(data.get(i)[3]));
                     carreaux.add(id, carreau);
                 } else if (caseType.compareTo("CM") == 0) {
-                    System.out.println("Case Mouvement :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
                     CarreauMouvement carreau = new CarreauMouvement(id,data.get(i)[2],this);
                     carreaux.add(id, carreau);
                 } else {

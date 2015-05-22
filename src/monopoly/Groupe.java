@@ -1,13 +1,16 @@
 package monopoly;
 
+import java.util.ArrayList;
+
 public class Groupe {
 	private int prixAchatMaison;
 	private int prixAchatHotel;
 	private CouleurPropriete couleur;
-	private java.util.ArrayList<ProprieteAConstruire> proprietes;
+	private ArrayList<ProprieteAConstruire> proprietes;
 
         public Groupe(CouleurPropriete c) {
             couleur = c;
+            proprietes = new ArrayList<ProprieteAConstruire>();
         }
         
 	public CouleurPropriete getCouleur() {
