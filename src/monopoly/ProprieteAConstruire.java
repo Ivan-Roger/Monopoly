@@ -7,9 +7,10 @@ public class ProprieteAConstruire extends CarreauPropriete {
     private int[] loyers;
     private Groupe groupePropriete;
 
-    public ProprieteAConstruire(int numero, String nomCarreau, Monopoly monopoly, int prixAchat, int[] loyers) {
+    public ProprieteAConstruire(int numero, String nomCarreau, Monopoly monopoly, int prixAchat, Groupe g, int[] loyers) {
         super(numero, nomCarreau, monopoly, prixAchat);
         this.loyers=loyers;
+        this.groupePropriete = g;
     }
 
     @Override

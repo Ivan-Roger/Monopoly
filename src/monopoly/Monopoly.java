@@ -5,17 +5,23 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Monopoly {
 
     private int nbMaisons = 32;
     private int nbHotels = 12;
     private ArrayList<Carreau> carreaux;
+    private HashMap<CouleurPropriete,Groupe> groupes;
     private ArrayList<Joueur> joueurs;
     public Interface inter;
 
     public Monopoly(String dataFilename) {
         buildGamePlateau(dataFilename);
+        carreaux = new ArrayList<Carreau>();
+        for (CouleurPropriete c : CouleurPropriete.values()) {
+            groupes.put(c, new Groupe(c));
+        }
     }
 
     private void buildGamePlateau(String dataFilename) {
@@ -24,33 +30,44 @@ public class Monopoly {
 
             //TODO: create cases instead of displaying
             for (int i = 0; i < data.size(); ++i) {
+                
                 for (int j=0; j<data.get(i).length; j++) {
                     System.out.print(data.get(i)[j]+" - ");
                 }
                 System.out.println("");
+                
                 String caseType = data.get(i)[0];
+                int id = new Integer(data.get(i)[1]);
+                
                 if (caseType.compareTo("P") == 0) {
                     System.out.println("Propriété :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
-                    int[] loyers = new int[data.get(i).length-4];
-                    for (int k=4; k<data.get(i).length; k++) {
-                        loyers[k-4] = new Integer(data.get(i)[k]);
+                    int[] loyers = new int[data.get(i).length-5];
+                    for (int k=5; k<data.get(i).length; k++) {
+                        loyers[k-5] = new Integer(data.get(i)[k]);
                     }
-                    carreaux.add(new Integer(data.get(i)[1]), new ProprieteAConstruire(new Integer(data.get(i)[1]),data.get(i)[2],this,new Integer(data.get(i)[3]),loyers));
+                    ProprieteAConstruire carreau = new ProprieteAConstruire(id,data.get(i)[2],this,new Integer(data.get(i)[3]),groupes.get(CouleurPropriete.valueOf(data.get(i)[4])),loyers);
+                    carreaux.add(id, carreau);
+                    groupes.get(CouleurPropriete.valueOf(data.get(i)[4])).addPropriete(carreau);
                 } else if (caseType.compareTo("G") == 0) {
                     System.out.println("Gare :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
-                    carreaux.add(new Integer(data.get(i)[1]), new Gare(new Integer(data.get(i)[1]),data.get(i)[2],this,new Integer(data.get(i)[3])));
+                    Gare carreau = new Gare(id,data.get(i)[2],this,new Integer(data.get(i)[3]));
+                    carreaux.add(id, carreau);
                 } else if (caseType.compareTo("C") == 0) {
                     System.out.println("Compagnie :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
-                    carreaux.add(new Integer(data.get(i)[1]), new Compagnie(new Integer(data.get(i)[1]),data.get(i)[2],this,new Integer(data.get(i)[3]) ));
+                    Compagnie carreau = new Compagnie(id,data.get(i)[2],this,new Integer(data.get(i)[3]));
+                    carreaux.add(id, carreau);
                 } else if (caseType.compareTo("CT") == 0) {
                     System.out.println("Case Tirage :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
-                    carreaux.add(new Integer(data.get(i)[1]), new CarreauTirage(new Integer(data.get(i)[1]),data.get(i)[2],this));
+                    CarreauTirage carreau = new CarreauTirage(id,data.get(i)[2],this);
+                    carreaux.add(id, carreau);
                 } else if (caseType.compareTo("CA") == 0) {
                     System.out.println("Case Argent :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
-                    carreaux.add(new Integer(data.get(i)[1]), new CarreauArgent(new Integer(data.get(i)[1]),data.get(i)[2],this,new Integer(data.get(i)[3])));
+                    CarreauArgent carreau = new CarreauArgent(id,data.get(i)[2],this,new Integer(data.get(i)[3]));
+                    carreaux.add(id, carreau);
                 } else if (caseType.compareTo("CM") == 0) {
                     System.out.println("Case Mouvement :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
-                    carreaux.add(new Integer(data.get(i)[1]), new CarreauMouvement(new Integer(data.get(i)[1]),data.get(i)[2],this));
+                    CarreauMouvement carreau = new CarreauMouvement(id,data.get(i)[2],this);
+                    carreaux.add(id, carreau);
                 } else {
                     System.err.println("[buildGamePleateau()] : Invalid Data type ("+data.get(i)[0]+") line "+i);
                 }
