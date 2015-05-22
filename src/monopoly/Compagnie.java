@@ -16,7 +16,7 @@ public class Compagnie extends CarreauPropriete {
     }
     
     @Override
-    public void achatPropriete() {
+    public void achatPropriete(Joueur j) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
