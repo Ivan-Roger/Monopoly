@@ -68,7 +68,8 @@ public class ProprieteAConstruire extends CarreauPropriete {
         if (this.proprietaire != null) {
             this.achatPropriete(joueur);
         } else {
-            
+            joueur.payer(this.calculLoyer(joueur));
+            this.proprietaire.recevoirArgent(this.calculLoyer(joueur));
         }
     }
 }
