@@ -1,14 +1,13 @@
+package monopoly;
+
 public class ProprieteAConstruire extends CarreauPropriete {
 	private int nbMaisons = 0;
 	private int nbHotels = 0;
-	private java.util.ArrayList<int> loyerMaison;
+	private int[] loyerMaison;
 	private Groupe groupePropriete;
 
-	public void achatPropriété() {
-		throw new UnsupportedOperationException();
-	}
-
-	public ArrayList<Propriété> getPropriétés() {
+        @Override
+	public void achatPropriete() {
 		throw new UnsupportedOperationException();
 	}
 
@@ -16,7 +15,8 @@ public class ProprieteAConstruire extends CarreauPropriete {
 		throw new UnsupportedOperationException();
 	}
 
-	public void calculLoyer() {
+        @Override
+	public int calculLoyer() {
 		throw new UnsupportedOperationException();
 	}
 

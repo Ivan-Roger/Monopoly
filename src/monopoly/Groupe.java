@@ -1,3 +1,5 @@
+package monopoly;
+
 public class Groupe {
 	private int prixAchatMaison;
 	private int prixAchatHotel;

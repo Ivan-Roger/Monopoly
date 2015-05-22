@@ -1,3 +1,5 @@
+package monopoly;
+
 public class Joueur {
 	private String nomJoueur;
 	private int cash = 1500;

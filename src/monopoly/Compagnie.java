@@ -1,3 +1,5 @@
+package monopoly;
+
 public class Compagnie extends CarreauPropriete {
 
 	public void action() {

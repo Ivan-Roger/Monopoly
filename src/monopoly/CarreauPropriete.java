@@ -1,3 +1,5 @@
+package monopoly;
+
 public abstract class CarreauPropriete extends Carreau {
 	private int loyerBase;
 	private int prixAchat;

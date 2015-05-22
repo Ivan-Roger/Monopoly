@@ -1,11 +1,15 @@
+package monopoly;
+
+import java.util.ArrayList;
+
 public class Monopoly {
 	private int nbMaisons = 32;
 	private int nbHotels = 12;
 	private Carreau carreaux;
-	private java.util.ArrayList<Joueur> joueurs;
+	private ArrayList<Joueur> joueurs;
 	public Interface interface_8;
 
-	public int__ jetDeDes() {
+	public int[] jetDeDes() {
 		throw new UnsupportedOperationException();
 	}
 
@@ -21,7 +25,7 @@ public class Monopoly {
 		throw new UnsupportedOperationException();
 	}
 
-	public int calculTotalDes(int__ des) {
+	public int calculTotalDes(int[] des) {
 		throw new UnsupportedOperationException();
 	}
 

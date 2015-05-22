@@ -1,3 +1,5 @@
+package monopoly;
+
 public class Interface {
 	public Monopoly monopoly;
 

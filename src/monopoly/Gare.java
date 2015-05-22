@@ -1,3 +1,5 @@
+package monopoly;
+
 public class Gare extends CarreauPropriete {
 	private Gare calculLoyer;
 
