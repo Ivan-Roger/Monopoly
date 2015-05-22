@@ -8,11 +8,9 @@ public class Joueur {
         /* Attributs */
 	private String nomJoueur;
 	private int cash = 1500;
-	private ArrayList<ProprieteAConstruire> proprietes;
+	private ArrayList<CarreauPropriete> proprietes;
 	private Carreau position;
-	private ArrayList<Gare> gares;
 	private Monopoly monopoly;
-	private ArrayList<Compagnie> compagnies;
         
         /* Constructeur */
         // Changer le carreau de départ, plus en paramètre mais direct dans constructeur
@@ -21,8 +19,6 @@ public class Joueur {
             this.monopoly = monopoly;
             position = c;
             proprietes = new ArrayList<>();
-            gares = new ArrayList<>();
-            compagnies = new ArrayList<>();
         }
         
         
@@ -33,28 +29,54 @@ public class Joueur {
         }
         
         public int getNbGares() {
-            return gares.size();
+            int i=0;
+            for (CarreauPropriete c : proprietes) {
+                if (c.getClass().getSimpleName() == "Gare") {
+                    i++;
+                }
+            }
+            return i;
         }
         
         public int getNbCompagnies() {
-            return compagnies.size();
+            int i=0;
+            for (CarreauPropriete c : proprietes) {
+                if (c.getClass().getSimpleName() == "Compagnie") {
+                    i++;
+                }
+            }
+            return i;
         }
         
-        public ArrayList<ProprieteAConstruire> getProprietes() {
+        public ArrayList<CarreauPropriete> getProprietes() {
             return proprietes;
         }
         
         public ArrayList<Gare> getGares() {
-            return gares;
+            ArrayList<Gare> i= new ArrayList<>();
+            for (CarreauPropriete c : proprietes) {
+                if (c.getClass().getSimpleName() == "Gare") {
+                    i.add((Gare)c);
+                }
+            }
+            return i;
         }
         
         public ArrayList<Compagnie> getCompagnies() {
-            return compagnies;
+            ArrayList<Compagnie> i= new ArrayList<>();
+            for (CarreauPropriete c : proprietes) {
+                if (c.getClass().getSimpleName() == "Compagnie") {
+                    i.add((Compagnie)c);
+                }
+            }
+            return i;
         }
         
         
         /* Autres méthodes */
-        
+        public void addPropriete(CarreauPropriete c) {
+            this.proprietes.add(c);
+        }
        
         /* transferts d'argent */
 	public void recevoirLoyer(int l) {
