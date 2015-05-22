@@ -112,10 +112,6 @@ public class Monopoly {
         throw new UnsupportedOperationException();
     }
 
-    public void saisir() {
-        throw new UnsupportedOperationException();
-    }
-
     public ArrayList<Joueur> getJoueurs() {
         throw new UnsupportedOperationException();
     }
@@ -124,11 +120,7 @@ public class Monopoly {
         throw new UnsupportedOperationException();
     }
 
-    public void lancerDésAvancer() {
-        throw new UnsupportedOperationException();
-    }
-
-    public boolean demanderConstruction() {
+    public void lancerDesAvancer() {
         throw new UnsupportedOperationException();
     }
 
@@ -140,11 +132,7 @@ public class Monopoly {
         throw new UnsupportedOperationException();
     }
 
-    public void setMaison(int nb) {
-        throw new UnsupportedOperationException();
-    }
-
-    public boolean verifieAchat(int nbConstruction, int cashJoueur, int maisonBanque) {
+    public boolean verifieAchat(int nb, Joueur j) {
         throw new UnsupportedOperationException();
     }
 
