@@ -4,11 +4,12 @@ public class ProprieteAConstruire extends CarreauPropriete {
 
     private int nbMaisons = 0;
     private int nbHotels = 0;
-    private int[] loyerMaison;
+    private int[] loyers;
     private Groupe groupePropriete;
 
-    public ProprieteAConstruire(int numero, String nomCarreau, Monopoly monopoly, int prixAchat, int loyerBase) {
-        super(numero, nomCarreau, monopoly, prixAchat, loyerBase);
+    public ProprieteAConstruire(int numero, String nomCarreau, Monopoly monopoly, int prixAchat, int[] loyers) {
+        super(numero, nomCarreau, monopoly, prixAchat);
+        this.loyers=loyers;
     }
 
     @Override
@@ -21,7 +22,7 @@ public class ProprieteAConstruire extends CarreauPropriete {
     }
 
     @Override
-    public int calculLoyer() {
+    public int calculLoyer(Joueur j) {
         throw new UnsupportedOperationException();
     }
 

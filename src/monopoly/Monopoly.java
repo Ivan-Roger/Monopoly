@@ -24,25 +24,33 @@ public class Monopoly {
 
             //TODO: create cases instead of displaying
             for (int i = 0; i < data.size(); ++i) {
+                for (int j=0; j<data.get(i).length; j++) {
+                    System.out.print(data.get(i)[j]+" - ");
+                }
+                System.out.println("");
                 String caseType = data.get(i)[0];
                 if (caseType.compareTo("P") == 0) {
                     System.out.println("Propriété :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
-                    carreaux.add(new Integer(data.get(i)[1]), new ProprieteAConstruire());
+                    int[] loyers = new int[data.get(i).length-4];
+                    for (int k=4; k<data.get(i).length; k++) {
+                        loyers[k-4] = new Integer(data.get(i)[k]);
+                    }
+                    carreaux.add(new Integer(data.get(i)[1]), new ProprieteAConstruire(new Integer(data.get(i)[1]),data.get(i)[2],this,new Integer(data.get(i)[3]),loyers));
                 } else if (caseType.compareTo("G") == 0) {
                     System.out.println("Gare :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
-                    carreaux.add(new Integer(data.get(i)[1]), new Gare());
+                    carreaux.add(new Integer(data.get(i)[1]), new Gare(new Integer(data.get(i)[1]),data.get(i)[2],this,new Integer(data.get(i)[3])));
                 } else if (caseType.compareTo("C") == 0) {
                     System.out.println("Compagnie :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
-                    carreaux.add(new Integer(data.get(i)[1]), new Compagnie());
+                    carreaux.add(new Integer(data.get(i)[1]), new Compagnie(new Integer(data.get(i)[1]),data.get(i)[2],this,new Integer(data.get(i)[3]) ));
                 } else if (caseType.compareTo("CT") == 0) {
                     System.out.println("Case Tirage :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
-                    carreaux.add(new Integer(data.get(i)[1]), new CarreauTirage());
+                    carreaux.add(new Integer(data.get(i)[1]), new CarreauTirage(new Integer(data.get(i)[1]),data.get(i)[2],this));
                 } else if (caseType.compareTo("CA") == 0) {
                     System.out.println("Case Argent :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
-                    carreaux.add(new Integer(data.get(i)[1]), new CarreauArgent());
+                    carreaux.add(new Integer(data.get(i)[1]), new CarreauArgent(new Integer(data.get(i)[1]),data.get(i)[2],this,new Integer(data.get(i)[3])));
                 } else if (caseType.compareTo("CM") == 0) {
                     System.out.println("Case Mouvement :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
-                    carreaux.add(new Integer(data.get(i)[1]), new CarreauMouvement());
+                    carreaux.add(new Integer(data.get(i)[1]), new CarreauMouvement(new Integer(data.get(i)[1]),data.get(i)[2],this));
                 } else {
                     System.err.println("[buildGamePleateau()] : Invalid Data type ("+data.get(i)[0]+") line "+i);
                 }

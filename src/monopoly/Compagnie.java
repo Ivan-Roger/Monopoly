@@ -2,20 +2,16 @@ package monopoly;
 
 public class Compagnie extends CarreauPropriete {
 
-    public Compagnie(int numero, String nomCarreau, Monopoly monopoly, int prixAchat, int loyerBase) {
-        super(numero, nomCarreau, monopoly, prixAchat, loyerBase);
+    public Compagnie(int numero, String nomCarreau, Monopoly monopoly, int prixAchat) {
+        super(numero, nomCarreau, monopoly, prixAchat);
     }
 
     public void action() {
         throw new UnsupportedOperationException();
     }
 
-    public int calculLoyer(int tot) {
-        throw new UnsupportedOperationException();
-    }
-
     @Override
-    public int calculLoyer() {
+    public int calculLoyer(Joueur j) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
