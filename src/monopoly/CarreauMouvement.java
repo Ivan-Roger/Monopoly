@@ -7,7 +7,7 @@ public class CarreauMouvement extends CarreauAction {
     }
 
     @Override
-    public void action() {
+    public void action(Joueur j) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
