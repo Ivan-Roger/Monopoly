@@ -17,11 +17,13 @@ public class Monopoly {
     public Interface inter;
 
     public Monopoly(String dataFilename) {
-        buildGamePlateau(dataFilename);
         carreaux = new ArrayList<Carreau>();
+        carreaux.add(null);
+        groupes = new HashMap<CouleurPropriete,Groupe>();
         for (CouleurPropriete c : CouleurPropriete.values()) {
             groupes.put(c, new Groupe(c));
         }
+        buildGamePlateau(dataFilename);
     }
 
     private void buildGamePlateau(String dataFilename) {
@@ -30,12 +32,7 @@ public class Monopoly {
 
             //TODO: create cases instead of displaying
             for (int i = 0; i < data.size(); ++i) {
-                
-                for (int j=0; j<data.get(i).length; j++) {
-                    System.out.print(data.get(i)[j]+" - ");
-                }
-                System.out.println("");
-                
+                                
                 String caseType = data.get(i)[0];
                 int id = new Integer(data.get(i)[1]);
                 
@@ -45,9 +42,9 @@ public class Monopoly {
                     for (int k=5; k<data.get(i).length; k++) {
                         loyers[k-5] = new Integer(data.get(i)[k]);
                     }
-                    ProprieteAConstruire carreau = new ProprieteAConstruire(id,data.get(i)[2],this,new Integer(data.get(i)[3]),groupes.get(CouleurPropriete.valueOf(data.get(i)[4])),loyers);
+                    ProprieteAConstruire carreau = new ProprieteAConstruire(id,data.get(i)[2],this,new Integer(data.get(i)[4]),groupes.get(CouleurPropriete.valueOf(data.get(i)[3])),loyers);
                     carreaux.add(id, carreau);
-                    groupes.get(CouleurPropriete.valueOf(data.get(i)[4])).addPropriete(carreau);
+                    groupes.get(CouleurPropriete.valueOf(data.get(i)[3])).addPropriete(carreau);
                 } else if (caseType.compareTo("G") == 0) {
                     System.out.println("Gare :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
                     Gare carreau = new Gare(id,data.get(i)[2],this,new Integer(data.get(i)[3]));
