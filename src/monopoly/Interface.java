@@ -5,6 +5,10 @@ import java.util.Scanner;
 public class Interface {
 
     public Monopoly monopoly;
+    
+    public Interface(Monopoly monopoly) {
+        this.monopoly = monopoly;
+    }
 
     public void afficher(String aMessage) {
         System.out.println(aMessage);

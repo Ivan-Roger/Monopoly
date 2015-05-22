@@ -14,6 +14,7 @@ public class Monopoly {
     private ArrayList<Carreau> carreaux;
     private HashMap<CouleurPropriete,Groupe> groupes;
     private ArrayList<Joueur> joueurs;
+    private int idJoueur = -1;
     public Interface inter;
 
     public Monopoly(String dataFilename) {
@@ -24,6 +25,12 @@ public class Monopoly {
             groupes.put(c, new Groupe(c));
         }
         buildGamePlateau(dataFilename);
+        inter = new Interface(this);
+        
+        for (int i=0; i<10; i++) {
+            joueurSuivant();
+            afficherInfosTour();
+        }
     }
 
     private void buildGamePlateau(String dataFilename) {
@@ -89,14 +96,15 @@ public class Monopoly {
     }
 
     public Joueur joueurSuivant() {
-        throw new UnsupportedOperationException();
+        if (idJoueur+1 > joueurs.size()) {
+            idJoueur++;
+        } else {
+            idJoueur=0;
+        }
+        return joueurs.get(idJoueur);
     }
-
-    public int getNbMaison() {
-        throw new UnsupportedOperationException();
-    }
-
-    public void afficherInfosTour(Joueur j, int jet, Carreau c) {
+    
+    public void afficherInfosTour() {
         throw new UnsupportedOperationException();
     }
 
