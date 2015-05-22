@@ -1,6 +1,7 @@
 package monopoly;
 
 public class Gare extends CarreauPropriete {
+
     private int loyerBase = 25;
 
     public Gare(int numero, String nomCarreau, Monopoly monopoly, int prixAchat) {
