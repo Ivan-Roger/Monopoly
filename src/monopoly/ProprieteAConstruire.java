@@ -35,15 +35,20 @@ public class ProprieteAConstruire extends CarreauPropriete {
 
     @Override
     public int calculLoyer(Joueur j) {
-        return 0;
+        if (this.nbHotels !=1) {
+            return this.loyers[this.nbMaisons];
+        } else {
+            return this.loyers[5];
+        }
+        
     }
 
     public void setNbMaisons(int nb) {
-        throw new UnsupportedOperationException();
+        this.nbMaisons = nb;
     }
 
     public void setHotel(int hot) {
-        throw new UnsupportedOperationException();
+        this.nbHotels = hot;
     }
 
     public int getNbMaisons() {
