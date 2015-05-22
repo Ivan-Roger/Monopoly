@@ -12,6 +12,6 @@ public abstract class Carreau {
         this.monopoly = monopoly;
     }
     
-    public abstract void action();
+    public abstract void action(Joueur joueur);
 
 }
