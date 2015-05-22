@@ -31,6 +31,11 @@ public class Monopoly {
             joueurSuivant();
             afficherInfosTour();
         }
+        joueurs = new ArrayList<Joueur>();
+    }
+    
+    public void addJoueur(Joueur j) {
+        joueurs.add(j);
     }
 
     private void buildGamePlateau(String dataFilename) {
