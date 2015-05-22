@@ -16,4 +16,9 @@ public class Gare extends CarreauPropriete {
     public int calculLoyer(Joueur j) {
         return loyerBase * j.getNbGares();
     }
+
+    @Override
+    public void achatPropriete() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

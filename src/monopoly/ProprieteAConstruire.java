@@ -15,7 +15,18 @@ public class ProprieteAConstruire extends CarreauPropriete {
 
     @Override
     public void achatPropriete() {
-        throw new UnsupportedOperationException();
+        this.monopoly.inter.afficher("Voulez-vous acheter cette propriété ?");
+        Boolean b = this.monopoly.inter.lireBoolean();
+
+        if (b == true) {
+            if (this.prixAchat > this.proprietaire.getCash()) {
+                this.monopoly.inter.afficher("Vous ne possédez pas assez d'argent pour acheter cette propriété");
+                this.monopoly.inter.afficher("Il vous manque " + (this.prixAchat - this.proprietaire.getCash()) + " euros pour effectuer cette action");
+            } else {
+                this.monopoly.inter.afficher("Nom : "  + this.nomCarreau + "   " + "Groupe : " + this.getGroupe());
+                this.monopoly.inter.afficher("");
+            }
+        }
     }
 
     public String getProprietaire(Joueur joueur) {
@@ -24,7 +35,7 @@ public class ProprieteAConstruire extends CarreauPropriete {
 
     @Override
     public int calculLoyer(Joueur j) {
-        throw new UnsupportedOperationException();
+        return 0;
     }
 
     public void setNbMaisons(int nb) {
@@ -41,5 +52,9 @@ public class ProprieteAConstruire extends CarreauPropriete {
 
     public int getNbHotels() {
         return this.nbHotels;
+    }
+    
+    public Groupe getGroupe() {
+        return this.groupePropriete;
     }
 }

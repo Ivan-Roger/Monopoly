@@ -2,9 +2,9 @@ package monopoly;
 
 public abstract class Carreau {
 
-    private int numero;
-    private String nomCarreau;
-    private Monopoly monopoly;
+    protected int numero;
+    protected String nomCarreau;
+    protected Monopoly monopoly;
 
     public Carreau(int numero, String nomCarreau, Monopoly monopoly) {
         this.numero = numero;

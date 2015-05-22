@@ -14,4 +14,9 @@ public class Compagnie extends CarreauPropriete {
     public int calculLoyer(Joueur j) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
+    @Override
+    public void achatPropriete() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
