@@ -24,6 +24,6 @@ public abstract class CarreauPropriete extends Carreau {
         return prixAchat;
     }
 
-    public abstract void achatPropriete();
+    public abstract void achatPropriete(Joueur joueur);
 
 }
