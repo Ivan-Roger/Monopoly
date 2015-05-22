@@ -10,7 +10,7 @@ public class Monopoly {
 
     private int nbMaisons = 32;
     private int nbHotels = 12;
-    private Carreau carreaux;
+    private ArrayList<Carreau> carreaux;
     private ArrayList<Joueur> joueurs;
     public Interface inter;
 
@@ -27,18 +27,24 @@ public class Monopoly {
                 String caseType = data.get(i)[0];
                 if (caseType.compareTo("P") == 0) {
                     System.out.println("Propriété :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
+                    carreaux.add(new Integer(data.get(i)[1]), new ProprieteAConstruire());
                 } else if (caseType.compareTo("G") == 0) {
                     System.out.println("Gare :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
+                    carreaux.add(new Integer(data.get(i)[1]), new Gare());
                 } else if (caseType.compareTo("C") == 0) {
                     System.out.println("Compagnie :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
+                    carreaux.add(new Integer(data.get(i)[1]), new Compagnie());
                 } else if (caseType.compareTo("CT") == 0) {
                     System.out.println("Case Tirage :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
+                    carreaux.add(new Integer(data.get(i)[1]), new CarreauTirage());
                 } else if (caseType.compareTo("CA") == 0) {
                     System.out.println("Case Argent :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
+                    carreaux.add(new Integer(data.get(i)[1]), new CarreauArgent());
                 } else if (caseType.compareTo("CM") == 0) {
                     System.out.println("Case Mouvement :\t" + data.get(i)[2] + "\t@ case " + data.get(i)[1]);
+                    carreaux.add(new Integer(data.get(i)[1]), new CarreauMouvement());
                 } else {
-                    System.err.println("[buildGamePleateau()] : Invalid Data type");
+                    System.err.println("[buildGamePleateau()] : Invalid Data type ("+data.get(i)[0]+") line "+i);
                 }
             }
 
