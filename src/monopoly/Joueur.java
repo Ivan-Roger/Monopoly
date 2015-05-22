@@ -79,12 +79,8 @@ public class Joueur {
         }
        
         /* transferts d'argent */
-	public void recevoirLoyer(int l) {
+	public void recevoirArgent(int l) {
 		cash = cash + l;
-	}
-
-	public void payerLoyer(int l) {
-		cash = cash - l;
 	}
         
 	public void payer(int l) {
