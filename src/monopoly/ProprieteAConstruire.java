@@ -34,8 +34,7 @@ public class ProprieteAConstruire extends CarreauPropriete {
     }
 
     @Override
-    public int calculLoyer(Joueur j
-    ) {
+    public int calculLoyer(Joueur j) {
         return 0;
     }
 
@@ -57,5 +56,10 @@ public class ProprieteAConstruire extends CarreauPropriete {
 
     public Groupe getGroupe() {
         return this.groupePropriete;
+    }
+
+    @Override
+    public void action() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
