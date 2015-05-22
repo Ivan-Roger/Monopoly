@@ -14,7 +14,7 @@ public abstract class CarreauPropriete extends Carreau {
         return this.proprietaire;
     }
 
-    private void setProprietaire(Joueur proprietaire) {
+    protected void setProprietaire(Joueur proprietaire) {
         this.proprietaire = proprietaire;
     }
 
