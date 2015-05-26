@@ -17,7 +17,8 @@ public class Monopoly {
     private ArrayList<Joueur> joueurs;
     private int idJoueur = -1;
     public Interface inter;
-    private CarreauArgent carreauDepart;
+    public CarreauArgent carreauDepart;
+    public CarreauAction carreauPrison;
 
     public Monopoly(String dataFilename) {
         carreaux = new ArrayList<Carreau>();
@@ -28,8 +29,11 @@ public class Monopoly {
         }
         buildGamePlateau(dataFilename);
         carreauDepart = (CarreauArgent) carreaux.get(1);
+        carreauDepart = (CarreauArgent) carreaux.get(11);
         inter = new Interface(this);
         joueurs = new ArrayList<Joueur>();
+        
+        
 
         for (int i = 0; i < 10; i++) {
             Joueur currentPlayer = joueurSuivant();
