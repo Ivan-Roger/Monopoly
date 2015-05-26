@@ -105,7 +105,7 @@ public class Joueur {
 
     public void allerEnPrison() {
         estEnPrison = true;
-        setPosition(monopoly);
+        setPosition(monopoly.carreauPrison);
     }
     
     public void sortirPrison() {
