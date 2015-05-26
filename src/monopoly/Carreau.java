@@ -17,4 +17,8 @@ public abstract class Carreau {
     public int getId() {
         return numero;
     }
+    
+    public String getNomCarreau() {
+        return nomCarreau;
+    }
 }
