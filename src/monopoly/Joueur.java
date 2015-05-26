@@ -11,6 +11,7 @@ public class Joueur {
     private Carreau position;
     private Monopoly monopoly;
     private boolean estEnPrison;
+    private int nbDouble;
 
     /* Constructeur */
     // Changer le carreau de départ, plus en paramètre mais direct dans constructeur
@@ -24,6 +25,14 @@ public class Joueur {
     /* getters */
     public int getCash() {
         return cash;
+    }
+
+    public int getNbDouble() {
+        return nbDouble;
+    }
+    
+    public boolean estEnPrison() {
+        return estEnPrison;
     }
 
     public int getNbGares() {
@@ -74,6 +83,10 @@ public class Joueur {
     public void addPropriete(CarreauPropriete c) {
         this.proprietes.add(c);
     }
+    
+    public void addNbDouble() {
+        nbDouble++;
+    }
 
     /* transferts d'argent */
     public void recevoirArgent(int l) {
@@ -92,6 +105,10 @@ public class Joueur {
 
     public void allerEnPrison() {
         estEnPrison = true;
+    }
+    
+    public void sortirPrison() {
+        estEnPrison = false;
     }
             
     public void setPosition(Carreau c) {
