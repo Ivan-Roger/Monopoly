@@ -34,7 +34,7 @@ public class ProprieteAConstruire extends CarreauPropriete {
     }
 
     @Override
-    public int calculLoyer(Joueur j) {
+    public int calculLoyer() {
         if (this.nbHotels < 1) {
             return this.loyers[this.nbMaisons];
         } else {
@@ -68,8 +68,8 @@ public class ProprieteAConstruire extends CarreauPropriete {
         if (this.proprietaire == null) {
             this.achatPropriete(joueur);
         } else {
-            joueur.payer(this.calculLoyer(joueur));
-            this.proprietaire.recevoirArgent(this.calculLoyer(joueur));
+            joueur.payer(this.calculLoyer());
+            this.proprietaire.recevoirArgent(this.calculLoyer());
         }
     }
 }

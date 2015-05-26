@@ -9,7 +9,7 @@ public class Gare extends CarreauPropriete {
     }
 
     @Override
-    public int calculLoyer(Joueur j) {
+    public int calculLoyer() {
         return loyerBase * this.proprietaire.getNbGares();
     }
 
@@ -36,8 +36,8 @@ public class Gare extends CarreauPropriete {
         if (this.proprietaire == null) {
             this.achatPropriete(joueur);
         } else {
-            joueur.payer(this.calculLoyer(joueur));
-            this.proprietaire.recevoirArgent(this.calculLoyer(joueur));
+            joueur.payer(this.calculLoyer());
+            this.proprietaire.recevoirArgent(this.calculLoyer());
         }
     }
 }
