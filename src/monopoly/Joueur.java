@@ -10,6 +10,7 @@ public class Joueur {
     private ArrayList<CarreauPropriete> proprietes;
     private Carreau position;
     private Monopoly monopoly;
+    private boolean estEnPrison;
 
     /* Constructeur */
     // Changer le carreau de départ, plus en paramètre mais direct dans constructeur
@@ -89,7 +90,15 @@ public class Joueur {
         throw new UnsupportedOperationException();
     }
 
-
+    public void allerEnPrison() {
+        estEnPrison = true;
+    }
+            
+    public void setPosition(Carreau c) {
+        position = c;
+    }
+    
+    
     /* Affichage */
     public void afficherInfosJoueur(Joueur j) {
         throw new UnsupportedOperationException();
