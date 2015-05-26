@@ -14,4 +14,7 @@ public abstract class Carreau {
     
     public abstract void action(Joueur joueur);
 
+    public int getId() {
+        return numero;
+    }
 }

@@ -32,6 +32,7 @@ public class Monopoly {
             joueurSuivant();
             afficherInfosTour();
             lancerDesAvancer();
+            
             joueurs.get(idJoueur).getCarreau().action(joueurs.get(idJoueur));
         }
     }
