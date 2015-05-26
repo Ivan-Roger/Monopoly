@@ -16,6 +16,7 @@ public class Monopoly {
     private ArrayList<Joueur> joueurs;
     private int idJoueur = -1;
     public Interface inter;
+    private CarreauArgent carreauDepart;
 
     public Monopoly(String dataFilename) {
         carreaux = new ArrayList<Carreau>();
@@ -25,14 +26,19 @@ public class Monopoly {
             groupes.put(c, new Groupe(c));
         }
         buildGamePlateau(dataFilename);
+        carreauDepart = (CarreauArgent)carreaux.get(1);
         inter = new Interface(this);
         joueurs = new ArrayList<Joueur>();
 
         for (int i = 0; i < 10; i++) {
             joueurSuivant();
             afficherInfosTour();
+            int oldId = joueurs.get(idJoueur).getCarreau().getId();
             lancerDesAvancer();
-            
+            int newId = joueurs.get(idJoueur).getCarreau().getId();
+            if (newId<oldId) {
+                joueurs.get(idJoueur).recevoirArgent(carreauDepart.getMontant());
+            }
             joueurs.get(idJoueur).getCarreau().action(joueurs.get(idJoueur));
         }
     }
