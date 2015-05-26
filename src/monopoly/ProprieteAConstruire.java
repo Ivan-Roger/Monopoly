@@ -65,7 +65,7 @@ public class ProprieteAConstruire extends CarreauPropriete {
 
     @Override
     public void action(Joueur joueur) {
-        if (this.proprietaire != null) {
+        if (this.proprietaire == null) {
             this.achatPropriete(joueur);
         } else {
             joueur.payer(this.calculLoyer(joueur));
