@@ -26,12 +26,14 @@ public class Monopoly {
         }
         buildGamePlateau(dataFilename);
         inter = new Interface(this);
+        joueurs = new ArrayList<Joueur>();
 
         for (int i = 0; i < 10; i++) {
             joueurSuivant();
             afficherInfosTour();
+            lancerDesAvancer();
+            joueurs.get(idJoueur).getCarreau().action(joueurs.get(idJoueur));
         }
-        joueurs = new ArrayList<Joueur>();
     }
     
     public void addJoueur(Joueur j) {
