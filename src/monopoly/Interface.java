@@ -31,15 +31,10 @@ public class Interface {
         String st = sc.nextLine();
         return st;
     }
-
-    public void afficherLancerDes(int[] lancer) {
-        afficher("Lancer de dés : ");
-        for (int i : lancer) {
-            afficher(i + "/6");
-        }
-    }
-
-    public void afficherInfosTour() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    
+    public void afficherInfosJoueur(Joueur j) {
+        System.out.println("Nom :" + j.getNom());
+        System.out.println("Position :" + j.getPosition());
+        System.out.println("Cash :" + j.getCash());
     }
 }
