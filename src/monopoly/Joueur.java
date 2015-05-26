@@ -27,7 +27,7 @@ public class Joueur {
         return nomJoueur;
     }
     
-    public Carreau getposition() {
+    public Carreau getPosition() {
         return position;
     }
             
