@@ -23,6 +23,14 @@ public class Joueur {
     }
 
     /* getters */
+    public String getNom() {
+        return nomJoueur;
+    }
+    
+    public Carreau getposition() {
+        return position;
+    }
+            
     public int getCash() {
         return cash;
     }
