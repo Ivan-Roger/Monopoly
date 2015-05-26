@@ -10,8 +10,8 @@ public class Interface {
         this.monopoly = monopoly;
     }
 
-    public void afficher(String aMessage) {
-        System.out.println(aMessage);
+    public void afficher(String message) {
+        System.out.println(message);
     }
 
     public int lireInt() {
@@ -33,8 +33,19 @@ public class Interface {
     }
     
     public void afficherInfosJoueur(Joueur j) {
-        System.out.println("Nom :" + j.getNom());
-        System.out.println("Position :" + j.getPosition());
-        System.out.println("Cash :" + j.getCash());
+        afficher("Nom :" + j.getNom());
+        afficher("Position :" + j.getPosition());
+        afficher("Cash :" + j.getCash());
+    }
+
+    void afficherInfosTour() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    void afficherLancerDes(int[] lancer) {
+        afficher("Lancer de dés :");
+        for (int i : lancer) {
+            afficher(i+"/6");
+        }
     }
 }
