@@ -31,4 +31,10 @@ public class Interface {
         String st = sc.nextLine();
         return st;
     }
+    
+    public void afficherInfosJoueur(Joueur j) {
+        System.out.println("Nom :" + j.getNom());
+        System.out.println("Position :" + j.getPosition());
+        System.out.println("Cash :" + j.getCash());
+    }
 }
