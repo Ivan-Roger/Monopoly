@@ -42,7 +42,7 @@ public class Monopoly {
         joueurs.add(new Joueur("Jean-Luc", this, carreauDepart));
 
         for (int i = 0; i < 10; i++) {
-            afficherInfosTour();
+            inter.afficherInfosTour();
             for (Joueur currentPlayer : joueurs) {
                 jouerUnCoup(currentPlayer);
             }
@@ -131,9 +131,6 @@ public class Monopoly {
         return des[0] == des[1];
     }
 
-    public void afficherInfosTour() {
-
-    }
 
     public ArrayList<Joueur> getJoueurs() {
         throw new UnsupportedOperationException();
@@ -145,7 +142,7 @@ public class Monopoly {
             if (isDouble(lance = jetDeDes())) {
                 j.sortirPrison();
             }
-            afficherLancerDes(lance);
+            inter.afficherLancerDes(lance);
         } else {
             int oldId = j.getCarreau().getId();
             lancerDesAvancer();
@@ -168,7 +165,7 @@ public class Monopoly {
                 joueurs.get(idJoueur).allerEnPrison();
             }
         }
-        afficherLancerDes(lancer);
+        inter.afficherLancerDes(lancer);
         Carreau position = carreaux.get(joueurs.get(idJoueur).getCarreau().getId() + distance);
         joueurs.get(idJoueur).setPosition(position);
     }
@@ -193,10 +190,4 @@ public class Monopoly {
         return this.nbHotels;
     }
 
-    public void afficherLancerDes(int[] lancer) {
-        inter.afficher("Lancer de dés : ");
-        for (int i : lancer) {
-            inter.afficher(i + "/6");
-        }
-    }
 }
