@@ -106,8 +106,21 @@ public class Monopoly {
     }
 
     public int[] jetDeDes() {
-        throw new UnsupportedOperationException();
+        int[] des = null;
+        Random rand = new Random();
+        des[0] = rand.nextInt(7);
+        des[1] = rand.nextInt(7);
+        return des;
     }
+    
+    public int calculTotalDes(int[] des) {
+        return des[0] + des[1];
+    }
+    
+    public boolean isDouble(int[] des) {
+        return des[0] == des [1];
+    }
+
 
     public Joueur joueurSuivant() {
         if (idJoueur + 1 > joueurs.size()) {
@@ -119,10 +132,6 @@ public class Monopoly {
     }
 
     public void afficherInfosTour() {
-        throw new UnsupportedOperationException();
-    }
-
-    public int calculTotalDes(int[] des) {
         throw new UnsupportedOperationException();
     }
 
