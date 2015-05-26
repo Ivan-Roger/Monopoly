@@ -6,10 +6,6 @@ public class Compagnie extends CarreauPropriete {
         super(numero, nomCarreau, monopoly, prixAchat);
     }
 
-    public void action() {
-        throw new UnsupportedOperationException();
-    }
-
     @Override
     public int calculLoyer() {
         if (this.proprietaire.getNbCompagnies() == 2) {
