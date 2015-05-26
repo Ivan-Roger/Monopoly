@@ -7,7 +7,9 @@ public class Joueur {
     /* Attributs */
     private String nomJoueur;
     private int cash = 1500;
-    private ArrayList<CarreauPropriete> proprietes;
+    private ArrayList<ProprieteAConstruire> proprietes;
+    private ArrayList<Gare> gares;
+    private ArrayList<Compagnie> compagnies;
     private Carreau position;
     private Monopoly monopoly;
     private boolean estEnPrison;
@@ -20,6 +22,8 @@ public class Joueur {
         this.monopoly = monopoly;
         position = c;
         proprietes = new ArrayList<>();
+        gares = new ArrayList<>();
+        compagnies = new ArrayList<>();
     }
 
     /* getters */
@@ -63,33 +67,28 @@ public class Joueur {
         return i;
     }
 
-    public ArrayList<CarreauPropriete> getProprietes() {
+    public ArrayList<ProprieteAConstruire> getProprietes() {
         return proprietes;
     }
 
     public ArrayList<Gare> getGares() {
-        ArrayList<Gare> i = new ArrayList<>();
-        for (CarreauPropriete c : proprietes) {
-            if (c.getClass().getSimpleName() == "Gare") {
-                i.add((Gare) c);
-            }
-        }
-        return i;
+        return gares;
     }
 
     public ArrayList<Compagnie> getCompagnies() {
-        ArrayList<Compagnie> i = new ArrayList<>();
-        for (CarreauPropriete c : proprietes) {
-            if (c.getClass().getSimpleName() == "Compagnie") {
-                i.add((Compagnie) c);
-            }
-        }
-        return i;
+        return compagnies;
     }
+    
 
     /* Autres méthodes */
     public void addPropriete(CarreauPropriete c) {
-        this.proprietes.add(c);
+        if (c.getClass().getSimpleName() == "Compagnie") {
+            compagnies.add((Compagnie) c);
+        } else if (c.getClass().getSimpleName() == "Gare"){
+            gares.add((Gare) c);
+        } else {
+            proprietes.add((ProprieteAConstruire)c);
+        }
     }
     
     public void addNbDouble() {
