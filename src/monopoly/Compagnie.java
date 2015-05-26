@@ -25,8 +25,8 @@ public class Compagnie extends CarreauPropriete {
             this.monopoly.inter.afficher("Il vous manque " + (this.prixAchat - j.getCash()) + " euros pour effectuer cette action");
         } else {
             this.monopoly.inter.afficher("Nom : " + this.nomCarreau + "   " + "Groupe : Compagnie ");
-            this.monopoly.inter.afficher("Coût de la propriété : " + this.prixAchat);
-            this.monopoly.inter.afficher("Voulez-vous acheter cette propriété ?");
+            this.monopoly.inter.afficher("Coût de la compagnie : " + this.prixAchat);
+            this.monopoly.inter.afficher("Voulez-vous acheter cette compagnie ?");
             Boolean b = this.monopoly.inter.lireBoolean();
             if (b == true) {
             this.setProprietaire(j);
