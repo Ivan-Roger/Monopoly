@@ -55,12 +55,12 @@ public class Interface {
 
         afficher("  Gares :");
         for (Gare g : j.getGares()) {
-            afficher("  " + g.getNomCarreau());
+            afficherGare(g);
         }
 
         afficher("  Compagnies :");
         for (Compagnie c : j.getCompagnies()) {
-            afficher("  " + c.getNomCarreau());
+            afficherCompagnie(c);
         }
 
         afficher("");

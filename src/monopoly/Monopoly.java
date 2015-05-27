@@ -46,7 +46,7 @@ public class Monopoly {
             for (Joueur j : joueurs) {
                 j.resetNbDouble();
             }
-            for (idPlayer = 0; idPlayer<joueurs.size() ;idPlayer++) {
+            for (idPlayer = 0; idPlayer < joueurs.size(); idPlayer++) {
                 inter.afficherInfosJoueur(joueurs.get(idPlayer));
                 jouerUnCoup(joueurs.get(idPlayer));
             }
@@ -56,7 +56,7 @@ public class Monopoly {
     public void addJoueur(Joueur j) {
         joueurs.add(j);
     }
-    
+
     public Carreau getCarreau(int id) {
         return carreaux.get(id);
     }
@@ -135,7 +135,6 @@ public class Monopoly {
         return des[0] == des[1];
     }
 
-
     public ArrayList<Joueur> getJoueurs() {
         throw new UnsupportedOperationException();
     }
@@ -160,8 +159,8 @@ public class Monopoly {
             }
         }
         inter.afficher("Fin de votre tour ...");
-        inter.afficher("Vous finissez avec "+j.getCash()+"€");
-        inter.afficher("Appuyez sur une entrée pour continuer.");
+        inter.afficher("Vous finissez avec " + j.getCash() + "€");
+        inter.afficher("Appuyez sur entrée pour continuer.");
         inter.lireString();
     }
 
@@ -178,14 +177,14 @@ public class Monopoly {
                 inter.afficher("Vous avez fait 3 doubles ... Allez en Prison !");
             }
         }
-        Carreau pos = j.getCarreau();
-        Carreau position;
-        if (pos.getId() + distance > carreaux.size()) {
-            position = carreaux.get(pos.getId() + distance - carreaux.size());
-        } else {
-            position = carreaux.get(pos.getId() + distance);
+        if (!j.estEnPrison()) {
+            Carreau pos = j.getCarreau();
+            if (pos.getId() + distance >= carreaux.size()) {
+                j.setPosition(carreaux.get(pos.getId() + distance - (carreaux.size()-1)));
+            } else {
+                j.setPosition(carreaux.get(pos.getId() + distance));
+            }
         }
-        j.setPosition(position);
     }
 
     public void achatMaison(int nb, int prix) {
