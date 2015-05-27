@@ -15,7 +15,7 @@ public class Monopoly {
     private ArrayList<Carreau> carreaux;
     private HashMap<CouleurPropriete, Groupe> groupes;
     private ArrayList<Joueur> joueurs;
-    private int idJoueur = -1;
+    private int idPlayer = -1;
     public Interface inter;
     public CarreauArgent carreauDepart;
     public CarreauAction carreauPrison;
@@ -29,22 +29,23 @@ public class Monopoly {
         }
         buildGamePlateau(dataFilename);
         carreauDepart = (CarreauArgent) carreaux.get(1);
-        carreauDepart = (CarreauArgent) carreaux.get(11);
+        carreauPrison = (CarreauArgent) carreaux.get(11);
         inter = new Interface(this);
         joueurs = new ArrayList<Joueur>();
 
-        joueurs.add(new Joueur("Jean-Marc", this, carreauDepart));
-        joueurs.add(new Joueur("Jean-Louis", this, carreauDepart));
-        joueurs.add(new Joueur("Jean-Scott", this, carreauDepart));
-        joueurs.add(new Joueur("Jean-Charles", this, carreauDepart));
-        joueurs.add(new Joueur("Jean-Paul", this, carreauDepart));
-        joueurs.add(new Joueur("Jean-Pierre", this, carreauDepart));
-        joueurs.add(new Joueur("Jean-Luc", this, carreauDepart));
+        joueurs.add(new Joueur("Jean-Marc", this));
+        joueurs.add(new Joueur("Jean-Louis", this));
+        joueurs.add(new Joueur("Jean-Scott", this));
+        joueurs.add(new Joueur("Jean-Charles", this));
+        joueurs.add(new Joueur("Jean-Paul", this));
+        joueurs.add(new Joueur("Jean-Pierre", this));
+        joueurs.add(new Joueur("Jean-Luc", this));
 
         for (int i = 0; i < 10; i++) {
-            inter.afficherInfosTour();
-            for (Joueur currentPlayer : joueurs) {
-                jouerUnCoup(currentPlayer);
+            inter.afficherInfosTour(i);
+            for (idPlayer = 0; idPlayer<joueurs.size() ;idPlayer++) {
+                inter.afficherInfosJoueur(joueurs.get(idPlayer));
+                jouerUnCoup(joueurs.get(idPlayer));
             }
         }
     }
@@ -116,10 +117,10 @@ public class Monopoly {
     }
 
     public int[] jetDeDes() {
-        int[] des = null;
+        int[] des = new int[2];
         Random rand = new Random();
-        des[0] = rand.nextInt(7);
-        des[1] = rand.nextInt(7);
+        des[0] = rand.nextInt(6) + 1;
+        des[1] = rand.nextInt(6) + 1;
         return des;
     }
 
@@ -145,7 +146,7 @@ public class Monopoly {
             inter.afficherLancerDes(lance);
         } else {
             int oldId = j.getCarreau().getId();
-            lancerDesAvancer();
+            lancerDesAvancer(j);
             int newId = j.getCarreau().getId();
             if (newId < oldId) {
                 j.recevoirArgent(carreauDepart.getMontant());
@@ -154,20 +155,21 @@ public class Monopoly {
         }
     }
 
-    public void lancerDesAvancer() {
+    public void lancerDesAvancer(Joueur j) {
         int[] lancer;
         int distance = calculTotalDes(lancer = jetDeDes());
         if (isDouble(lancer)) {
-            if (joueurs.get(idJoueur).getNbDouble() < 2) {
-                idJoueur--;
-                joueurs.get(idJoueur).addNbDouble();
+            if (j.getNbDouble() < 2) {
+                idPlayer--;
+                j.addNbDouble();
             } else {
-                joueurs.get(idJoueur).allerEnPrison();
+                j.allerEnPrison();
             }
         }
         inter.afficherLancerDes(lancer);
-        Carreau position = carreaux.get(joueurs.get(idJoueur).getCarreau().getId() + distance);
-        joueurs.get(idJoueur).setPosition(position);
+        Carreau pos = j.getCarreau();
+        Carreau position = carreaux.get(pos.getId() + distance);
+        j.setPosition(position);
     }
 
     public void achatMaison(int nb, int prix) {

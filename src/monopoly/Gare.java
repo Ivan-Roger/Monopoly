@@ -15,18 +15,18 @@ public class Gare extends CarreauPropriete {
 
     @Override
     public void achatPropriete(Joueur j) {
-        if (this.prixAchat > this.proprietaire.getCash()) {
+        if (this.prixAchat > j.getCash()) {
             this.monopoly.inter.afficher("Vous ne possédez pas assez d'argent pour acheter cette gare");
             this.monopoly.inter.afficher("Il vous manque " + (this.prixAchat - j.getCash()) + " euros pour effectuer cette action");
         } else {
-            this.monopoly.inter.afficher("Nom : " + this.nomCarreau + "   " + "Groupe : gare ");
-            this.monopoly.inter.afficher("Coût de la gare : " + this.prixAchat);
+            this.monopoly.inter.afficherGare(this);
             this.monopoly.inter.afficher("Voulez-vous acheter cette gare ?");
             Boolean b = this.monopoly.inter.lireBoolean();
             if (b == true) {
                 this.setProprietaire(j);
-                j.addPropriete(this);
+                j.addGare(this);
                 j.payer(this.prixAchat);
+                this.monopoly.inter.afficher("Vous venez d'acheter la gare.");
             }
 
         }

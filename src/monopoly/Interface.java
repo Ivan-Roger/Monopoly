@@ -21,9 +21,10 @@ public class Interface {
     }
 
     public boolean lireBoolean() {
+        afficher("Oui / Non ? : ");
         Scanner sc = new Scanner(System.in);
-        Boolean b = sc.nextBoolean();
-        return b;
+        String st = sc.nextLine();
+        return st == "Oui";
     }
 
     public String lireString() {
@@ -40,41 +41,75 @@ public class Interface {
 
     
     public void afficherInfosJoueur(Joueur j) {
-        afficher("Nom :" + j.getNom());
-        afficher("Position :" + j.getPosition().getNomCarreau());
-        afficher("Cash :" + j.getCash());
+        afficher("");
+        afficher("--- Joueur suivant ---");
+        afficher("Nom : " + j.getNom());
+        afficher("Position : " + j.getPosition().getNomCarreau() + "(" + j.getPosition().getId() + ")");
+        afficher("Cash : " + j.getCash());
         
         afficher("Propriétés :");
-        afficher("Terrains :");
+        afficher("  Terrains :");
         for(ProprieteAConstruire p : j.getProprietes()) {
-            afficher(p.getGroupe().toString());
-            afficher(p.getNomCarreau());
-            afficher("Nombre de maisons:" + p.getNbMaisons());
-            afficher("Nombre d'hôtels:" + p.getNbMaisons());            
+            afficherPropriete(p);          
         }
         
-        afficher("Gares :");
+        afficher("  Gares :");
         for(Gare g : j.getGares()) {            
-            afficher(g.getNomCarreau());                        
+            afficher("  "+g.getNomCarreau());                        
         }
         
-        afficher("Compagnies :");
+        afficher("  Compagnies :");
         for(Compagnie c : j.getCompagnies()) {            
-            afficher(c.getNomCarreau());                        
+            afficher("  "+c.getNomCarreau());                        
+        }
+        
+        afficher("");
+    }
+
+    public void afficherInfosTour(int tour) {
+        afficher("---===--- Nouveau tour ---===---");
+        afficher("Tour n°" + tour);
+        afficher("");        
+    }
+    
+    public void afficherPropriete(ProprieteAConstruire p) {
+        afficher("Nom : " + p.getNomCarreau() + "(" + p.getId() + ") -  " + "Groupe : " + p.getGroupe().getCouleur());
+        if (p.getProprietaire() == null) {
+            afficher("Coût de la propriété : " + p.getPrixAchat() + "€");
+        }
+        if (p.getNbMaisons()>0) {
+            afficher("  Nombre de maisons: " + p.getNbMaisons());
+        }
+        if (p.getNbHotels()>0) {
+            afficher("  Nombre d'hôtels: " + p.getNbMaisons());
         }
     }
 
-    void afficherInfosTour(Joueur j, int jet) {
-        afficher("Nom :" + j.getNom());
-        afficher("Total des dès :" + jet);
-        afficher("Position :" + j.getPosition());
-        
-    }
-
-    void afficherLancerDes(int[] lancer) {
+    public void afficherLancerDes(int[] lancer) {
         afficher("Lancer de dés :");
         for (int i : lancer) {
             afficher(i+"/6");
         }
+    }
+
+    public void afficherCompagnie(Compagnie c) {
+        afficher("Nom : " + c.getNomCarreau() + "(" + c.getId() + ")");
+        afficher("Coût de la compagnie : " + c.getPrixAchat());
+    }
+
+    public void afficherCarreauArgent(CarreauArgent c) {
+        afficher("Nom : " + c.getNomCarreau() + "(" + c.getId() + ")");
+        if (c.getMontant()>0) {
+            afficher("Vous gagnez " + c.getMontant() + "€");
+        } else if (c.getMontant()<0) {
+            afficher("Vous perdez " + (1-c.getMontant()) + "€");
+        } else {
+            afficher("Bonne balade");
+        }
+    }
+
+    public void afficherGare(Gare g) {
+        this.monopoly.inter.afficher("Nom : " + g.getNomCarreau() + "(" + g.getId() + ")");
+        this.monopoly.inter.afficher("Coût de la gare : " + g.getPrixAchat());
     }
 }

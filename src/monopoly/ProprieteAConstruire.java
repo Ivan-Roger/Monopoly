@@ -16,18 +16,18 @@ public class ProprieteAConstruire extends CarreauPropriete {
     @Override
     public void achatPropriete(Joueur joueur) {
 
-        if (this.prixAchat > this.proprietaire.getCash()) {
+        if (this.prixAchat > joueur.getCash()) {
             this.monopoly.inter.afficher("Vous ne possédez pas assez d'argent pour acheter cette propriété");
             this.monopoly.inter.afficher("Il vous manque " + (this.prixAchat - joueur.getCash()) + " euros pour effectuer cette action");
         } else {
-            this.monopoly.inter.afficher("Nom : " + this.nomCarreau + "   " + "Groupe : " + this.getGroupe());
-            this.monopoly.inter.afficher("Coût de la propriété : " + this.prixAchat);
+            this.monopoly.inter.afficherPropriete(this);
             this.monopoly.inter.afficher("Voulez-vous acheter cette propriété ?");
             Boolean b = this.monopoly.inter.lireBoolean();
             if (b == true) {
-            this.setProprietaire(joueur);
-            joueur.addPropriete(this);
-            joueur.payer(this.prixAchat);
+                this.setProprietaire(joueur);
+                joueur.addPropriete(this);
+                joueur.payer(this.prixAchat);
+                this.monopoly.inter.afficher("Vous venez d'acheter le terrain.");
             }
 
         }
@@ -40,15 +40,7 @@ public class ProprieteAConstruire extends CarreauPropriete {
         } else {
             return this.loyers[5];
         }
-        
-    }
 
-    public void setNbMaisons(int nb) {
-        this.nbMaisons = nb;
-    }
-
-    public void setHotel(int hot) {
-        this.nbHotels = hot;
     }
 
     public int getNbMaisons() {
