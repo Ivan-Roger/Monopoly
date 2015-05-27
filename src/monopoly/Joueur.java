@@ -17,10 +17,10 @@ public class Joueur {
 
     /* Constructeur */
     // Changer le carreau de départ, plus en paramètre mais direct dans constructeur
-    Joueur(String nom, Monopoly monopoly, Carreau c) {
+    Joueur(String nom, Monopoly monopoly) {
         nomJoueur = nom;
         this.monopoly = monopoly;
-        position = c;
+        position = monopoly.carreauDepart;
         proprietes = new ArrayList<>();
         gares = new ArrayList<>();
         compagnies = new ArrayList<>();
@@ -81,14 +81,14 @@ public class Joueur {
     
 
     /* Autres méthodes */
-    public void addPropriete(CarreauPropriete c) {
-        if (c.getClass().getSimpleName() == "Compagnie") {
-            compagnies.add((Compagnie) c);
-        } else if (c.getClass().getSimpleName() == "Gare"){
-            gares.add((Gare) c);
-        } else {
-            proprietes.add((ProprieteAConstruire)c);
-        }
+    public void addPropriete(ProprieteAConstruire c) {
+        proprietes.add(c);
+    }
+    public void addGare(Gare c) {
+        gares.add(c);
+    }
+    public void addCompagnie(Compagnie c) {
+        compagnies.add(c);
     }
     
     public void addNbDouble() {
@@ -100,8 +100,16 @@ public class Joueur {
         cash = cash + l;
     }
 
-    public void payer(int l) {
-        cash = cash - l;
+    public int payer(int l) {
+        int res;
+        if (cash-l<0) {
+            res=cash;
+            cash = 0;
+        } else {
+            res=l;
+            cash=cash-l;
+        }
+        return res;
     }
 
     /* Deplacement */
