@@ -43,6 +43,9 @@ public class Monopoly {
 
         for (int i = 0; i < 10; i++) {
             inter.afficherInfosTour(i);
+            for (Joueur j : joueurs) {
+                j.resetNbDouble();
+            }
             for (idPlayer = 0; idPlayer<joueurs.size() ;idPlayer++) {
                 inter.afficherInfosJoueur(joueurs.get(idPlayer));
                 jouerUnCoup(joueurs.get(idPlayer));
@@ -139,36 +142,49 @@ public class Monopoly {
 
     private void jouerUnCoup(Joueur j) {
         if (j.estEnPrison()) {
-            int lance[];
-            if (isDouble(lance = jetDeDes())) {
+            int[] lancer = jetDeDes();
+            inter.afficherLancerDes(lancer);
+            if (isDouble(lancer)) {
                 j.sortirPrison();
+                inter.afficher("Vous sortez de prison");
             }
-            inter.afficherLancerDes(lance);
         } else {
             int oldId = j.getCarreau().getId();
             lancerDesAvancer(j);
-            int newId = j.getCarreau().getId();
-            if (newId < oldId) {
-                j.recevoirArgent(carreauDepart.getMontant());
+            if (!j.estEnPrison()) {
+                int newId = j.getCarreau().getId();
+                if (newId < oldId) {
+                    j.recevoirArgent(carreauDepart.getMontant());
+                }
+                j.getCarreau().action(j);
             }
-            j.getCarreau().action(j);
         }
+        inter.afficher("Fin de votre tour ...");
+        inter.afficher("Vous finissez avec "+j.getCash()+"€");
+        inter.afficher("Appuyez sur une entrée pour continuer.");
+        inter.lireString();
     }
 
     public void lancerDesAvancer(Joueur j) {
         int[] lancer;
         int distance = calculTotalDes(lancer = jetDeDes());
+        inter.afficherLancerDes(lancer);
         if (isDouble(lancer)) {
             if (j.getNbDouble() < 2) {
                 idPlayer--;
                 j.addNbDouble();
             } else {
                 j.allerEnPrison();
+                inter.afficher("Vous avez fait 3 doubles ... Allez en Prison !");
             }
         }
-        inter.afficherLancerDes(lancer);
         Carreau pos = j.getCarreau();
-        Carreau position = carreaux.get(pos.getId() + distance);
+        Carreau position;
+        if (pos.getId() + distance > carreaux.size()) {
+            position = carreaux.get(pos.getId() + distance - carreaux.size());
+        } else {
+            position = carreaux.get(pos.getId() + distance);
+        }
         j.setPosition(position);
     }
 

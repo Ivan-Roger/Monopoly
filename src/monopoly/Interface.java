@@ -3,7 +3,7 @@ package monopoly;
 import java.util.Scanner;
 
 public class Interface {
-    
+
     /* Attributs */
     public Monopoly monopoly;
 
@@ -12,8 +12,7 @@ public class Interface {
         this.monopoly = monopoly;
     }
 
-    
-    /* Lecture */   
+    /* Lecture */
     public int lireInt() {
         Scanner sc = new Scanner(System.in);
         int nb = sc.nextInt();
@@ -21,10 +20,13 @@ public class Interface {
     }
 
     public boolean lireBoolean() {
-        afficher("Oui / Non ? : ");
+        String st = "";
         Scanner sc = new Scanner(System.in);
-        String st = sc.nextLine();
-        return st == "Oui";
+        while (!"Oui".equals(st) && !"Non".equals(st)) {
+            afficher("Oui / Non ? : ");
+            st = sc.nextLine();
+        }
+        return "Oui".equals(st);
     }
 
     public String lireString() {
@@ -32,55 +34,53 @@ public class Interface {
         String st = sc.nextLine();
         return st;
     }
-    
-    
+
     /* Affichage */
     public void afficher(String message) {
         System.out.println(message);
     }
 
-    
     public void afficherInfosJoueur(Joueur j) {
         afficher("");
         afficher("--- Joueur suivant ---");
         afficher("Nom : " + j.getNom());
         afficher("Position : " + j.getPosition().getNomCarreau() + "(" + j.getPosition().getId() + ")");
-        afficher("Cash : " + j.getCash());
-        
+        afficher("Cash : " + j.getCash() +"€");
+
         afficher("Propriétés :");
         afficher("  Terrains :");
-        for(ProprieteAConstruire p : j.getProprietes()) {
-            afficherPropriete(p);          
+        for (ProprieteAConstruire p : j.getProprietes()) {
+            afficherPropriete(p);
         }
-        
+
         afficher("  Gares :");
-        for(Gare g : j.getGares()) {            
-            afficher("  "+g.getNomCarreau());                        
+        for (Gare g : j.getGares()) {
+            afficher("  " + g.getNomCarreau());
         }
-        
+
         afficher("  Compagnies :");
-        for(Compagnie c : j.getCompagnies()) {            
-            afficher("  "+c.getNomCarreau());                        
+        for (Compagnie c : j.getCompagnies()) {
+            afficher("  " + c.getNomCarreau());
         }
-        
+
         afficher("");
     }
 
     public void afficherInfosTour(int tour) {
         afficher("---===--- Nouveau tour ---===---");
         afficher("Tour n°" + tour);
-        afficher("");        
+        afficher("");
     }
-    
+
     public void afficherPropriete(ProprieteAConstruire p) {
         afficher("Nom : " + p.getNomCarreau() + "(" + p.getId() + ") -  " + "Groupe : " + p.getGroupe().getCouleur());
         if (p.getProprietaire() == null) {
             afficher("Coût de la propriété : " + p.getPrixAchat() + "€");
         }
-        if (p.getNbMaisons()>0) {
+        if (p.getNbMaisons() > 0) {
             afficher("  Nombre de maisons: " + p.getNbMaisons());
         }
-        if (p.getNbHotels()>0) {
+        if (p.getNbHotels() > 0) {
             afficher("  Nombre d'hôtels: " + p.getNbMaisons());
         }
     }
@@ -88,21 +88,21 @@ public class Interface {
     public void afficherLancerDes(int[] lancer) {
         afficher("Lancer de dés :");
         for (int i : lancer) {
-            afficher(i+"/6");
+            afficher(i + "/6");
         }
     }
 
     public void afficherCompagnie(Compagnie c) {
         afficher("Nom : " + c.getNomCarreau() + "(" + c.getId() + ")");
-        afficher("Coût de la compagnie : " + c.getPrixAchat());
+        afficher("Coût de la compagnie : " + c.getPrixAchat()+"€");
     }
 
     public void afficherCarreauArgent(CarreauArgent c) {
         afficher("Nom : " + c.getNomCarreau() + "(" + c.getId() + ")");
-        if (c.getMontant()>0) {
+        if (c.getMontant() > 0) {
             afficher("Vous gagnez " + c.getMontant() + "€");
-        } else if (c.getMontant()<0) {
-            afficher("Vous perdez " + (1-c.getMontant()) + "€");
+        } else if (c.getMontant() < 0) {
+            afficher("Vous perdez " + (c.getMontant()*-1) + "€");
         } else {
             afficher("Bonne balade");
         }
@@ -110,6 +110,6 @@ public class Interface {
 
     public void afficherGare(Gare g) {
         this.monopoly.inter.afficher("Nom : " + g.getNomCarreau() + "(" + g.getId() + ")");
-        this.monopoly.inter.afficher("Coût de la gare : " + g.getPrixAchat());
+        this.monopoly.inter.afficher("Coût de la gare : " + g.getPrixAchat()+"€");
     }
 }

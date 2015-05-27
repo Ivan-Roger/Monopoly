@@ -10,6 +10,7 @@ public class Gare extends CarreauPropriete {
 
     @Override
     public int calculLoyer() {
+        monopoly.inter.afficher("Debug : "+loyerBase + " - " + proprietaire.getNom());          // DEBUG !!!
         return loyerBase * this.proprietaire.getNbGares();
     }
 
@@ -17,28 +18,17 @@ public class Gare extends CarreauPropriete {
     public void achatPropriete(Joueur j) {
         if (this.prixAchat > j.getCash()) {
             this.monopoly.inter.afficher("Vous ne possédez pas assez d'argent pour acheter cette gare");
-            this.monopoly.inter.afficher("Il vous manque " + (this.prixAchat - j.getCash()) + " euros pour effectuer cette action");
+            this.monopoly.inter.afficher("Il vous manque " + (this.prixAchat - j.getCash()) + "€ pour effectuer cette action");
         } else {
             this.monopoly.inter.afficherGare(this);
             this.monopoly.inter.afficher("Voulez-vous acheter cette gare ?");
-            Boolean b = this.monopoly.inter.lireBoolean();
-            if (b == true) {
+            if (this.monopoly.inter.lireBoolean()) {
                 this.setProprietaire(j);
                 j.addGare(this);
                 j.payer(this.prixAchat);
                 this.monopoly.inter.afficher("Vous venez d'acheter la gare.");
             }
 
-        }
-    }
-
-    @Override
-    public void action(Joueur joueur) {
-        if (this.proprietaire == null) {
-            this.achatPropriete(joueur);
-        } else {
-            joueur.payer(this.calculLoyer());
-            this.proprietaire.recevoirArgent(this.calculLoyer());
         }
     }
 }

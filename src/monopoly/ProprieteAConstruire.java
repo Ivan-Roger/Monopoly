@@ -18,12 +18,11 @@ public class ProprieteAConstruire extends CarreauPropriete {
 
         if (this.prixAchat > joueur.getCash()) {
             this.monopoly.inter.afficher("Vous ne possédez pas assez d'argent pour acheter cette propriété");
-            this.monopoly.inter.afficher("Il vous manque " + (this.prixAchat - joueur.getCash()) + " euros pour effectuer cette action");
+            this.monopoly.inter.afficher("Il vous manque " + (this.prixAchat - joueur.getCash()) + "€ pour effectuer cette action");
         } else {
             this.monopoly.inter.afficherPropriete(this);
             this.monopoly.inter.afficher("Voulez-vous acheter cette propriété ?");
-            Boolean b = this.monopoly.inter.lireBoolean();
-            if (b == true) {
+            if (this.monopoly.inter.lireBoolean()) {
                 this.setProprietaire(joueur);
                 joueur.addPropriete(this);
                 joueur.payer(this.prixAchat);
@@ -53,15 +52,5 @@ public class ProprieteAConstruire extends CarreauPropriete {
 
     public Groupe getGroupe() {
         return this.groupePropriete;
-    }
-
-    @Override
-    public void action(Joueur joueur) {
-        if (this.proprietaire == null) {
-            this.achatPropriete(joueur);
-        } else {
-            joueur.payer(this.calculLoyer());
-            this.proprietaire.recevoirArgent(this.calculLoyer());
-        }
     }
 }

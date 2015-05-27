@@ -145,4 +145,8 @@ public class Joueur {
         return position;
     }
 
+    void resetNbDouble() {
+        this.nbDouble=0;
+    }
+
 }
