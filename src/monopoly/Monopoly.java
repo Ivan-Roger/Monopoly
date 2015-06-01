@@ -15,7 +15,7 @@ public class Monopoly {
     private ArrayList<Carreau> carreaux;
     private HashMap<CouleurPropriete, Groupe> groupes;
     private ArrayList<Joueur> joueurs;
-    private int idPlayer = -1;
+    private int idPlayer;
     public Interface inter;
     public CarreauArgent carreauDepart;
     public CarreauAction carreauPrison;
@@ -27,7 +27,7 @@ public class Monopoly {
         for (CouleurPropriete c : CouleurPropriete.values()) {
             groupes.put(c, new Groupe(c));
         }
-        
+
         buildGamePlateau(_dataFilename);
         carreauDepart = (CarreauArgent) carreaux.get(1);
         carreauPrison = (CarreauArgent) carreaux.get(11);
@@ -41,9 +41,11 @@ public class Monopoly {
         joueurs.add(new Joueur("Jean-Paul", this));
         joueurs.add(new Joueur("Jean-Pierre", this));
         joueurs.add(new Joueur("Jean-Luc", this));
-
-        for (int i = 0; i < 10; i++) {
-            inter.afficherInfosTour(i);
+        
+        int turn = 0;
+        while (joueurs.size()>0) {
+            turn++;
+            inter.afficherInfosTour(turn);
             for (Joueur j : joueurs) {
                 j.resetNbDouble();
             }
@@ -141,28 +143,36 @@ public class Monopoly {
     }
 
     private void jouerUnCoup(Joueur j) {
-        if (j.estEnPrison()) {
-            int[] lancer = jetDeDes();
-            inter.afficherLancerDes(lancer);
-            if (isDouble(lancer)) {
-                j.sortirPrison();
-                inter.afficher("Vous sortez de prison");
-            }
+        inter.afficher("Voulez-vous abandonner ?");
+        if (inter.lireBoolean()) {
+            joueurs.remove(j);
+            inter.afficher("");
+            inter.afficher("Vous avez abandonné.");
         } else {
-            int oldId = j.getCarreau().getId();
-            lancerDesAvancer(j);
-            if (!j.estEnPrison()) {
-                int newId = j.getCarreau().getId();
-                if (newId < oldId) {
-                    j.recevoirArgent(carreauDepart.getMontant());
+            inter.afficher("");
+            if (j.estEnPrison()) {
+                int[] lancer = jetDeDes();
+                inter.afficherLancerDes(lancer);
+                if (isDouble(lancer)) {
+                    j.sortirPrison();
+                    inter.afficher("Vous sortez de prison");
                 }
-                j.getCarreau().action(j);
+            } else {
+                int oldId = j.getCarreau().getId();
+                lancerDesAvancer(j);
+                if (!j.estEnPrison()) {
+                    int newId = j.getCarreau().getId();
+                    if (newId < oldId) {
+                        j.recevoirArgent(carreauDepart.getMontant());
+                    }
+                    j.getCarreau().action(j);
+                }
             }
+            inter.afficher("Fin de votre tour ...");
+            inter.afficher("Vous finissez avec " + j.getCash() + "€");
+            inter.afficher("Appuyez sur entrée pour continuer.");
+            inter.lireString();
         }
-        inter.afficher("Fin de votre tour ...");
-        inter.afficher("Vous finissez avec " + j.getCash() + "€");
-        inter.afficher("Appuyez sur entrée pour continuer.");
-        inter.lireString();
     }
 
     public void lancerDesAvancer(Joueur j) {
@@ -181,7 +191,7 @@ public class Monopoly {
         if (!j.estEnPrison()) {
             Carreau pos = j.getCarreau();
             if (pos.getId() + distance >= carreaux.size()) {
-                j.setPosition(carreaux.get(pos.getId() + distance - (carreaux.size()-1)));
+                j.setPosition(carreaux.get(pos.getId() + distance - (carreaux.size() - 1)));
             } else {
                 j.setPosition(carreaux.get(pos.getId() + distance));
             }
