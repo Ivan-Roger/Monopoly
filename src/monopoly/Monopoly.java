@@ -20,14 +20,15 @@ public class Monopoly {
     public CarreauArgent carreauDepart;
     public CarreauAction carreauPrison;
 
-    public Monopoly(String dataFilename) {
+    public Monopoly(String _dataFilename) {
         carreaux = new ArrayList<Carreau>();
         carreaux.add(null);
         groupes = new HashMap<CouleurPropriete, Groupe>();
         for (CouleurPropriete c : CouleurPropriete.values()) {
             groupes.put(c, new Groupe(c));
         }
-        buildGamePlateau(dataFilename);
+        
+        buildGamePlateau(_dataFilename);
         carreauDepart = (CarreauArgent) carreaux.get(1);
         carreauPrison = (CarreauArgent) carreaux.get(11);
         inter = new Interface(this);

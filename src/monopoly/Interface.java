@@ -73,7 +73,7 @@ public class Interface {
     }
 
     public void afficherPropriete(ProprieteAConstruire p) {
-        afficher("Nom : " + p.getNomCarreau() + "(" + p.getId() + ") -  " + "Groupe : " + p.getGroupe().getCouleur());
+        afficher("Nom : " + p.getGroupe().getCouleur() + p.getNomCarreau() + ((char)27+"[0m") + "(" + p.getId() + ") -  " + "Groupe : " + p.getGroupe().getCouleur().name());
         if (p.getProprietaire() == null) {
             afficher("Coût de la propriété : " + p.getPrixAchat() + "€");
         }
@@ -94,7 +94,9 @@ public class Interface {
 
     public void afficherCompagnie(Compagnie c) {
         afficher("Nom : " + c.getNomCarreau() + "(" + c.getId() + ")");
-        afficher("Coût de la compagnie : " + c.getPrixAchat()+"€");
+        if (c.getProprietaire() == null) {
+            afficher("Coût de la compagnie : " + c.getPrixAchat()+"€");   
+        }
     }
 
     public void afficherCarreauArgent(CarreauArgent c) {
@@ -109,7 +111,9 @@ public class Interface {
     }
 
     public void afficherGare(Gare g) {
-        this.monopoly.inter.afficher("Nom : " + g.getNomCarreau() + "(" + g.getId() + ")");
-        this.monopoly.inter.afficher("Coût de la gare : " + g.getPrixAchat()+"€");
+        afficher("Nom : " + g.getNomCarreau() + "(" + g.getId() + ")");
+        if (g.getProprietaire() == null) {
+            afficher("Coût de la gare : " + g.getPrixAchat()+"€");
+        }
     }
 }
