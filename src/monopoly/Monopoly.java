@@ -43,7 +43,7 @@ public class Monopoly {
 //        joueurs.add(new Joueur("Jean-Luc", this));
 
         int turn = 0;
-        while (joueurs.size() > 0) {
+        while (joueurs.size() > 1) {
             turn++;
             inter.afficherInfosTour(turn);
             for (Joueur j : joueurs) {
@@ -54,6 +54,7 @@ public class Monopoly {
                 jouerUnCoup(joueurs.get(idPlayer));
             }
         }
+        inter.afficher("Le joueur "+joueurs.get(0).getNom()+" a gagné !");
     }
 
     public void addJoueur(Joueur j) {
@@ -148,16 +149,25 @@ public class Monopoly {
             inter.afficher("Vous etes en prison");
             int[] lancer = jetDeDes();
             inter.afficherLancerDes(lancer);
-            if (isDouble(lancer)) {
+            if (isDouble(lancer) ) {
                 j.sortirPrison();
                 inter.afficher("Vous sortez de prison");
+            } else {
+                if (j.getTempsPrison()>=3) {
+                    if (j.getCash()>=50) {
+                        j.payer(50);
+                        inter.afficher("Vous avez payez votre caution de 50€");
+                    } else {
+                        inter.afficher("Vous ne pouvez pas payer votre caution (50€)");
+                    }
+                }
             }
         } else {
             int oldId = j.getCarreau().getId();
             lancerDesAvancer(j);
             if (!j.estEnPrison()) {
                 int newId = j.getCarreau().getId();
-                if (newId < oldId) {
+                if (newId < oldId && newId!=1) {
                     j.recevoirArgent(carreauDepart.getMontant());
                 }
                 j.getCarreau().action(j);
@@ -193,18 +203,6 @@ public class Monopoly {
                 j.setPosition(carreaux.get(pos.getId() + distance));
             }
         }
-    }
-
-    public void achatMaison(int nb, int prix) {
-        throw new UnsupportedOperationException();
-    }
-
-    public void achatHotel(int prix) {
-        throw new UnsupportedOperationException();
-    }
-
-    public boolean verifieAchat(int nb, Joueur j) {
-        throw new UnsupportedOperationException();
     }
 
     public int getNbMaisons() {

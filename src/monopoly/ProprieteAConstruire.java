@@ -6,6 +6,8 @@ public class ProprieteAConstruire extends CarreauPropriete {
     private int nbHotels = 0;
     private int[] loyers;
     private Groupe groupePropriete;
+    private final int nbMaisonsMax = 3;
+    private final int nbHotelMax = 1;
 
     public ProprieteAConstruire(int numero, String nomCarreau, Monopoly monopoly, int prixAchat, Groupe g, int[] loyers) {
         super(numero, nomCarreau, monopoly, prixAchat);
@@ -26,7 +28,7 @@ public class ProprieteAConstruire extends CarreauPropriete {
         if (this.nbHotels < 1) {
             return this.loyers[this.nbMaisons];
         } else {
-            return this.loyers[5];
+            return this.loyers[nbMaisonsMax+nbHotels];
         }
 
     }

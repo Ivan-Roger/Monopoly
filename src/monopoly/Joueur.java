@@ -12,7 +12,7 @@ public class Joueur {
     private ArrayList<Compagnie> compagnies;
     private Carreau position;
     private Monopoly monopoly;
-    private boolean estEnPrison;
+    private int tempsPrison = -1;
     private int nbDouble;
     private boolean abandonne = false;
 
@@ -45,7 +45,11 @@ public class Joueur {
     }
     
     public boolean estEnPrison() {
-        return estEnPrison;
+        return tempsPrison>-1;
+    }
+    
+    public int getTempsPrison() {
+        return tempsPrison;
     }
 
     public void abandonner() {
@@ -130,12 +134,12 @@ public class Joueur {
     }
 
     public void allerEnPrison() {
-        estEnPrison = true;
+        tempsPrison = 0;
         setPosition(monopoly.carreauPrison);
     }
     
     public void sortirPrison() {
-        estEnPrison = false;
+        tempsPrison = -1;
     }
             
     public void setPosition(Carreau c) {

@@ -18,7 +18,7 @@ public class Gare extends CarreauPropriete {
     public void achatPropriete(Joueur j) {
         this.setProprietaire(j);
         j.addGare(this);
-        j.payer(this.prixAchat);
+        j.payer(prixAchat);
         this.monopoly.inter.afficher("Vous venez d'acheter la gare.");
     }
 }

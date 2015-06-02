@@ -8,6 +8,7 @@ public class CarreauMouvement extends CarreauAction {
 
     @Override
     public void action(Joueur j) {
+        this.monopoly.inter.afficher("vous tombez sur la case \"Allez en Prison\" ...");
         j.allerEnPrison();
     }
 }
