@@ -1,9 +1,11 @@
 package monopoly;
 
 public class CarreauTirage extends CarreauAction {
-
-    public CarreauTirage(int numero, String nomCarreau, Monopoly monopoly) {
+    private String type;
+    
+    public CarreauTirage(int numero, String nomCarreau, Monopoly monopoly, String type) {
         super(numero, nomCarreau, monopoly);
+        this.type = type;
     }
 
     @Override

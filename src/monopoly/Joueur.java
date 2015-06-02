@@ -140,6 +140,7 @@ public class Joueur {
             res=l;
             cash=cash-l;
         }
+        System.out.println("Debug : payer "+res); // DEBUG !!!
         return res;
     }
 

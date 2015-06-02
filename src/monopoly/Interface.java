@@ -1,5 +1,6 @@
 package monopoly;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Interface {
@@ -15,10 +16,15 @@ public class Interface {
     /* Lecture */
     public int lireInt(int min, int max) {
         Scanner sc = new Scanner(System.in);
-        int nb = min-1;
-        while (nb<min || nb>max) {
-            System.out.println("Saisir un entier entre "+min+" et "+max+" : ");
-            nb = sc.nextInt();
+        int nb = min - 1;
+        while (nb < min || nb > max) {
+            System.out.println("Saisir un entier entre " + min + " et " + max + " : ");
+            try {
+                nb = sc.nextInt();
+            } catch (InputMismatchException e) {
+                monopoly.inter.afficher("Veuillez saisir un entier");
+                sc = new Scanner(System.in);
+            }
         }
         return nb;
     }
@@ -49,7 +55,7 @@ public class Interface {
         afficher("--- Joueur suivant ---");
         afficher("Nom : " + j.getNom());
         afficher("Position : " + j.getPosition().getNomCarreau() + "(" + j.getPosition().getId() + ")");
-        afficher("Cash : " + j.getCash() +"€");
+        afficher("Cash : " + j.getCash() + "€");
 
         afficher("Propriétés :");
         afficher("  Terrains :");
@@ -77,7 +83,7 @@ public class Interface {
     }
 
     public void afficherPropriete(ProprieteAConstruire p) {
-        afficher("Nom : " + p.getGroupe().getCouleur() + p.getNomCarreau() + ((char)27+"[0m") + "(" + p.getId() + ") -  " + "Groupe : " + p.getGroupe().getCouleur().name());
+        afficher("Nom : " + p.getGroupe().getCouleur() + p.getNomCarreau() + ((char) 27 + "[0m") + "(" + p.getId() + ") -  " + "Groupe : " + p.getGroupe().getCouleur().name());
         if (p.getProprietaire() == null) {
             afficher("Coût de la propriété : " + p.getPrixAchat() + "€");
         }
@@ -99,7 +105,7 @@ public class Interface {
     public void afficherCompagnie(Compagnie c) {
         afficher("Nom : " + c.getNomCarreau() + "(" + c.getId() + ")");
         if (c.getProprietaire() == null) {
-            afficher("Coût de la compagnie : " + c.getPrixAchat()+"€");   
+            afficher("Coût de la compagnie : " + c.getPrixAchat() + "€");
         }
     }
 
@@ -108,7 +114,7 @@ public class Interface {
         if (c.getMontant() > 0) {
             afficher("Vous gagnez " + c.getMontant() + "€");
         } else if (c.getMontant() < 0) {
-            afficher("Vous perdez " + (c.getMontant()*-1) + "€");
+            afficher("Vous perdez " + (c.getMontant() * -1) + "€");
         } else {
             afficher("Bonne balade");
         }
@@ -117,7 +123,7 @@ public class Interface {
     public void afficherGare(Gare g) {
         afficher("Nom : " + g.getNomCarreau() + "(" + g.getId() + ")");
         if (g.getProprietaire() == null) {
-            afficher("Coût de la gare : " + g.getPrixAchat()+"€");
+            afficher("Coût de la gare : " + g.getPrixAchat() + "€");
         }
     }
 }

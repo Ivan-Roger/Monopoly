@@ -90,7 +90,7 @@ public class Monopoly {
                     Compagnie carreau = new Compagnie(id, data.get(i)[2], this, new Integer(data.get(i)[3]));
                     carreaux.add(id, carreau);
                 } else if (caseType.compareTo("CT") == 0) {
-                    CarreauTirage carreau = new CarreauTirage(id, data.get(i)[2], this);
+                    CarreauTirage carreau = new CarreauTirage(id, data.get(i)[2], this, data.get(i)[2]);
                     carreaux.add(id, carreau);
                 } else if (caseType.compareTo("CA") == 0) {
                     CarreauArgent carreau = new CarreauArgent(id, data.get(i)[2], this, new Integer(data.get(i)[3]));
