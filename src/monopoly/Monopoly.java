@@ -147,6 +147,7 @@ public class Monopoly {
         inter.afficher("");
         if (j.estEnPrison()) {
             inter.afficher("Vous etes en prison");
+            j.addTempsPrison();
             int[] lancer = jetDeDes();
             inter.afficherLancerDes(lancer);
             if (isDouble(lancer) ) {

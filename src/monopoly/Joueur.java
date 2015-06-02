@@ -44,6 +44,22 @@ public class Joueur {
         return nbDouble;
     }
     
+    public int getNbMaisons() {
+        int res=0;
+        for (ProprieteAConstruire p : proprietes) {
+            res+=p.getNbMaisons();
+        }
+        return res;
+    }
+    
+    public int getNbHotels() {
+        int res=0;
+        for (ProprieteAConstruire p : proprietes) {
+            res+=p.getNbHotels();
+        }
+        return res;
+    }
+    
     public boolean estEnPrison() {
         return tempsPrison>-1;
     }
@@ -128,14 +144,14 @@ public class Joueur {
     }
 
     /* Deplacement */
-    // Voir comment changer la position par rapport au numéro du carreau
-    public Carreau avancer(int jet) {
-        throw new UnsupportedOperationException();
-    }
 
     public void allerEnPrison() {
         tempsPrison = 0;
         setPosition(monopoly.carreauPrison);
+    }
+    
+    public void addTempsPrison() {
+        tempsPrison++;
     }
     
     public void sortirPrison() {
