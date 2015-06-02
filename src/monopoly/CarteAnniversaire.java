@@ -10,22 +10,21 @@ package monopoly;
  *
  * @author germamax
  */
-public class CarteArgent extends Carte{
-    private int argent;
+public class CarteAnniversaire extends Carte{
 
-    public CarteArgent(int argent, String description, int id, Monopoly monopoly) {
+    public CarteAnniversaire(String description, int id, Monopoly monopoly) {
         super(description, id, monopoly);
-        this.argent = argent;
     }
 
-    
+
+       
+       
     @Override
     public void action(Joueur j) {
-       if ( argent < 0) {
-           j.payer(argent);
-       } else {
-           j.recevoirArgent(argent);
-       }
+        for (Joueur payeur : super.monopoly.getJoueurs()) {
+            if (j != payeur) {
+                j.recevoirArgent(payeur.payer(10));
+            } 
+        }
     }
-    
 }
