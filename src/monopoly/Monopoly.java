@@ -1,9 +1,12 @@
 package monopoly;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
@@ -16,11 +19,12 @@ public class Monopoly {
     private HashMap<CouleurPropriete, Groupe> groupes;
     private ArrayList<Joueur> joueurs;
     private int idPlayer;
+    private HashMap<String,ArrayList<Carte>> cartes;
     public Interface inter;
     public CarreauArgent carreauDepart;
     public CarreauAction carreauPrison;
 
-    public Monopoly(String _dataFilename) {
+    public Monopoly(String dataFilename) {
         carreaux = new ArrayList<Carreau>();
         carreaux.add(null);
         groupes = new HashMap<CouleurPropriete, Groupe>();
@@ -28,11 +32,15 @@ public class Monopoly {
             groupes.put(c, new Groupe(c));
         }
 
-        buildGamePlateau(_dataFilename);
+        buildGamePlateau(this.getClass().getResourceAsStream(dataFilename));
         carreauDepart = (CarreauArgent) carreaux.get(1);
         carreauPrison = (CarreauArgent) carreaux.get(11);
         inter = new Interface(this);
         joueurs = new ArrayList<Joueur>();
+        cartes = new HashMap<String,ArrayList<Carte>>();
+        cartes.put("Chance", new ArrayList<Carte>());
+        buildCartes();
+        cartes.put("Caisse de Communauté", new ArrayList<Carte>());
 
         joueurs.add(new Joueur("Jean-Marc", this));
         joueurs.add(new Joueur("Jean-Louis", this));
@@ -65,9 +73,9 @@ public class Monopoly {
         return carreaux.get(id);
     }
 
-    private void buildGamePlateau(String dataFilename) {
+    private void buildGamePlateau(InputStream dataFile) {
         try {
-            ArrayList<String[]> data = readDataFile(dataFilename, ",");
+            ArrayList<String[]> data = readDataFile(dataFile, ",");
 
             //TODO: create cases instead of displaying
             for (int i = 0; i < data.size(); ++i) {
@@ -110,10 +118,10 @@ public class Monopoly {
         }
     }
 
-    private ArrayList<String[]> readDataFile(String filename, String token) throws FileNotFoundException, IOException {
+    private ArrayList<String[]> readDataFile(InputStream file, String token) throws FileNotFoundException, IOException {
         ArrayList<String[]> data = new ArrayList<String[]>();
 
-        BufferedReader reader = new BufferedReader(new FileReader(filename));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(file));
         String line = null;
         while ((line = reader.readLine()) != null) {
             data.add(line.split(token));
@@ -216,6 +224,10 @@ public class Monopoly {
 
     public void retirerJoueur(Joueur j) {
         joueurs.remove(j);
+    }
+
+    private void buildCartes() {
+        
     }
 
 }
