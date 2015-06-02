@@ -13,9 +13,13 @@ public class Interface {
     }
 
     /* Lecture */
-    public int lireInt() {
+    public int lireInt(int min, int max) {
         Scanner sc = new Scanner(System.in);
-        int nb = sc.nextInt();
+        int nb = min-1;
+        while (nb<min || nb>max) {
+            System.out.println("Saisir un entier entre "+min+" et "+max+" : ");
+            nb = sc.nextInt();
+        }
         return nb;
     }
 

@@ -14,6 +14,7 @@ public class Joueur {
     private Monopoly monopoly;
     private boolean estEnPrison;
     private int nbDouble;
+    private boolean abandonne = false;
 
     /* Constructeur */
     // Changer le carreau de départ, plus en paramètre mais direct dans constructeur
@@ -47,6 +48,16 @@ public class Joueur {
         return estEnPrison;
     }
 
+    public void abandonner() {
+        monopoly.retirerJoueur(this);
+        this.monopoly.inter.afficher("Vous avez abandonné");
+        abandonne = true;
+    }
+    
+    public boolean abandonne() {
+        return abandonne;
+    }
+    
     public int getNbGares() {
         int i = 0;
         for (CarreauPropriete c : proprietes) {
