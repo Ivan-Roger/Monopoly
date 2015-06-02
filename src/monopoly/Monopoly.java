@@ -139,7 +139,7 @@ public class Monopoly {
     }
 
     public ArrayList<Joueur> getJoueurs() {
-        throw new UnsupportedOperationException();
+        return joueurs;
     }
 
     private void jouerUnCoup(Joueur j) {

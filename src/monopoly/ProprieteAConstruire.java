@@ -15,21 +15,10 @@ public class ProprieteAConstruire extends CarreauPropriete {
 
     @Override
     public void achatPropriete(Joueur joueur) {
-
-        if (this.prixAchat > joueur.getCash()) {
-            this.monopoly.inter.afficher("Vous ne possédez pas assez d'argent pour acheter cette propriété");
-            this.monopoly.inter.afficher("Il vous manque " + (this.prixAchat - joueur.getCash()) + "€ pour effectuer cette action");
-        } else {
-            this.monopoly.inter.afficherPropriete(this);
-            this.monopoly.inter.afficher("Voulez-vous acheter cette propriété ?");
-            if (this.monopoly.inter.lireBoolean()) {
-                this.setProprietaire(joueur);
-                joueur.addPropriete(this);
-                joueur.payer(this.prixAchat);
-                this.monopoly.inter.afficher("Vous venez d'acheter le terrain.");
-            }
-
-        }
+        this.setProprietaire(joueur);
+        joueur.addPropriete(this);
+        joueur.payer(this.prixAchat);
+        this.monopoly.inter.afficher("Vous venez d'acheter le terrain.");
     }
 
     @Override

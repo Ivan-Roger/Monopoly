@@ -22,11 +22,11 @@ public class Interface {
     public boolean lireBoolean() {
         String st = "";
         Scanner sc = new Scanner(System.in);
-        while (!"Oui".equals(st) && !"Non".equals(st)) {
+        while (!"oui".equals(st) && !"non".equals(st)) {
             afficher("Oui / Non ? : ");
-            st = sc.nextLine();
+            st = sc.nextLine().toLowerCase();
         }
-        return "Oui".equals(st);
+        return "oui".equals(st);
     }
 
     public String lireString() {
