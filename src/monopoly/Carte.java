@@ -21,6 +21,8 @@ public abstract class Carte {
         this.monopoly = monopoly;
     }
 
+
+
     
     public abstract void action(Joueur j);
     

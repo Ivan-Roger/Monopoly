@@ -15,10 +15,11 @@ public class CarteLiberePrison extends Carte {
         super(description, id, monopoly);
     }
 
+
+
     @Override
     public void action(Joueur j) {
-        
-        
+                
     }
 
     }

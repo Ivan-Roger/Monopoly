@@ -17,6 +17,7 @@ public class CarteArgent extends Carte{
         super(description, id, monopoly);
         this.argent = argent;
     }
+
     
     @Override
     public void action(Joueur j) {

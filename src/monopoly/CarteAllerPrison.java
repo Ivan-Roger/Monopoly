@@ -15,9 +15,10 @@ public class CarteAllerPrison extends Carte {
         super(description, id, monopoly);
     }
 
+
     @Override
     public void action(Joueur j) {
-        
+        j.allerEnPrison();
     }
 
     }

@@ -15,10 +15,11 @@ public class CarteReparation extends Carte {
         super(description, id, monopoly);
     }
 
+
     
     @Override
     public void action(Joueur j) {
-        //j.payer()
+        j.payer(j.getNbHotels()*115 + j.getNbMaisons()*40);
     }
     
     
