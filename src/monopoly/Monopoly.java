@@ -253,6 +253,7 @@ public class Monopoly {
                 } else {
                     id = "Caisse de Communauté";
                 }
+                System.out.println("DEBUG : cartes "+id+" n°"+s[2]);
                 switch (s[1]) {
                     case "CAP":
                         cartes.get(id).put(Integer.parseInt(s[2]),new CarteAllerPrison(s[3],Integer.parseInt(s[2]),this));
