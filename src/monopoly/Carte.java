@@ -16,7 +16,7 @@ public abstract class Carte {
     protected Monopoly monopoly;
 
     public Carte(String description, int id, Monopoly monopoly) {
-        this.description = description;
+        this.description = description.replace("\"", "");
         this.id = id;
         this.monopoly = monopoly;
     }

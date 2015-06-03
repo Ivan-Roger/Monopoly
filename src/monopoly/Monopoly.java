@@ -15,18 +15,18 @@ public class Monopoly {
 
     private int nbMaisons = 32;
     private int nbHotels = 12;
-    private ArrayList<Carreau> carreaux;
+    private HashMap<Integer,Carreau> carreaux;
     private HashMap<CouleurPropriete, Groupe> groupes;
     private ArrayList<Joueur> joueurs;
     private int idPlayer;
-    private HashMap<String, ArrayList<Carte>> cartes;
+    private int idCarte;
+    private HashMap<String, HashMap<Integer,Carte>> cartes;
     public Interface inter;
     public CarreauArgent carreauDepart;
     public CarreauAction carreauPrison;
 
     public Monopoly(String carreauxPath, String cartesPath) {
-        carreaux = new ArrayList<Carreau>();
-        carreaux.add(null);
+        carreaux = new HashMap<Integer,Carreau>();
         groupes = new HashMap<CouleurPropriete, Groupe>();
         for (CouleurPropriete c : CouleurPropriete.values()) {
             groupes.put(c, new Groupe(c));
@@ -37,9 +37,9 @@ public class Monopoly {
         carreauPrison = (CarreauArgent) carreaux.get(11);
         inter = new Interface(this);
         joueurs = new ArrayList<Joueur>();
-        cartes = new HashMap<String, ArrayList<Carte>>();
-        cartes.put("Chance", new ArrayList<Carte>());
-        cartes.put("Caisse de Communauté", new ArrayList<Carte>());
+        cartes = new HashMap<String, HashMap<Integer,Carte>>();
+        cartes.put("Chance", new HashMap<Integer,Carte>());
+        cartes.put("Caisse de Communauté", new HashMap<Integer,Carte>());
         buildCartes(this.getClass().getResourceAsStream(cartesPath));
 
         joueurs.add(new Joueur("Jean-Marc", this));
@@ -74,13 +74,14 @@ public class Monopoly {
     }
     
     public Carte getCarteSuivante(String type) {
-        Carte c = cartes.get(type).get(0);
+        idCarte = (idCarte>=cartes.get(type).size()-1 ? idCarte=0 : idCarte++);
+        Carte c = cartes.get(type).get(idCarte);
         cartes.remove(c);
         return c;
     }
     
     public void addCarteFin(String type, Carte c) {
-        cartes.get(type).add(c);        
+        cartes.get(type).put(cartes.get(type).size()-1,c);        
     }
     
     private void buildGamePlateau(InputStream dataFile) {
@@ -99,23 +100,23 @@ public class Monopoly {
                         loyers[k - 5] = new Integer(data.get(i)[k]);
                     }
                     ProprieteAConstruire carreau = new ProprieteAConstruire(id, data.get(i)[2], this, new Integer(data.get(i)[4]), groupes.get(CouleurPropriete.valueOf(data.get(i)[3])), loyers);
-                    carreaux.add(id, carreau);
+                    carreaux.put(id, carreau);
                     groupes.get(CouleurPropriete.valueOf(data.get(i)[3])).addPropriete(carreau);
                 } else if (caseType.compareTo("G") == 0) {
                     Gare carreau = new Gare(id, data.get(i)[2], this, new Integer(data.get(i)[3]));
-                    carreaux.add(id, carreau);
+                    carreaux.put(id, carreau);
                 } else if (caseType.compareTo("C") == 0) {
                     Compagnie carreau = new Compagnie(id, data.get(i)[2], this, new Integer(data.get(i)[3]));
-                    carreaux.add(id, carreau);
+                    carreaux.put(id, carreau);
                 } else if (caseType.compareTo("CT") == 0) {
                     CarreauTirage carreau = new CarreauTirage(id, data.get(i)[2], this, data.get(i)[2]);
-                    carreaux.add(id, carreau);
+                    carreaux.put(id, carreau);
                 } else if (caseType.compareTo("CA") == 0) {
                     CarreauArgent carreau = new CarreauArgent(id, data.get(i)[2], this, new Integer(data.get(i)[3]));
-                    carreaux.add(id, carreau);
+                    carreaux.put(id, carreau);
                 } else if (caseType.compareTo("CM") == 0) {
                     CarreauMouvement carreau = new CarreauMouvement(id, data.get(i)[2], this);
-                    carreaux.add(id, carreau);
+                    carreaux.put(id, carreau);
                 } else {
                     System.err.println("[buildGamePleateau()] : Invalid Data type (" + data.get(i)[0] + ") line " + i);
                 }
@@ -249,23 +250,25 @@ public class Monopoly {
                 }
                 switch (s[1]) {
                     case "CAP":
-                        cartes.get(id).add(new CarteAllerPrison(s[3],Integer.parseInt(s[2]),this));
+                        cartes.get(id).put(Integer.parseInt(s[2]),new CarteAllerPrison(s[3],Integer.parseInt(s[2]),this));
                         break;
                     case "CLP":
-                        cartes.get(id).add(new CarteLiberePrison(s[3],Integer.parseInt(s[2]),this));
+                        cartes.get(id).put(Integer.parseInt(s[2]),new CarteLiberePrison(s[3],Integer.parseInt(s[2]),this));
                         break;
                     case "CAN":
-                        cartes.get(id).add(new CarteAnniversaire(s[3],Integer.parseInt(s[2]),this));
+                        cartes.get(id).put(Integer.parseInt(s[2]),new CarteAnniversaire(s[3],Integer.parseInt(s[2]),this));
                         break;
                     case "CAR":
-                        cartes.get(id).add(new CarteArgent(Integer.parseInt(s[4]), s[3],Integer.parseInt(s[2]),this));
+                        cartes.get(id).put(Integer.parseInt(s[2]),new CarteArgent(Integer.parseInt(s[4]), s[3],Integer.parseInt(s[2]),this));
                         break;
                     case "CMO":
-                        cartes.get(id).add(new CarteMouvement(Integer.parseInt(s[5]),s[4],s[3],Integer.parseInt(s[2]),this));
+                        cartes.get(id).put(Integer.parseInt(s[2]),new CarteMouvement(Integer.parseInt(s[5]),s[4],s[3],Integer.parseInt(s[2]),this));
                         break;
                     case "CRE":
-                        cartes.get(id).add(new CarteReparation(s[3],Integer.parseInt(s[2]),this));
+                        cartes.get(id).put(Integer.parseInt(s[2]),new CarteReparation(s[3],Integer.parseInt(s[2]),this, Integer.parseInt(s[4]),Integer.parseInt(s[5])));
                         break;
+                    default :
+                        throw new Exception("buildCartes() - Invalid data type");
                 }
 
             }
