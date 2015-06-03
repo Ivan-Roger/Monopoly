@@ -11,16 +11,19 @@ package monopoly;
  */
 public class CarteReparation extends Carte {
 
-    public CarteReparation(String description, int id, Monopoly monopoly) {
+    private final int coutMaison;
+    private final int coutHotel;
+
+    public CarteReparation(String description, int id, Monopoly monopoly, int coutMaison, int coutHotel) {
         super(description, id, monopoly);
+        this.coutMaison = coutMaison;
+        this.coutHotel = coutHotel;
     }
 
 
-    
     @Override
     public void action(Joueur j) {
-        j.payer(j.getNbHotels()*115 + j.getNbMaisons()*40);
+        j.payer(j.getNbHotels() * this.coutHotel + j.getNbMaisons() * this.coutMaison);
     }
-    
-    
-    }
+
+}
