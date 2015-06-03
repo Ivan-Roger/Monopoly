@@ -19,12 +19,12 @@ public class Monopoly {
     private HashMap<CouleurPropriete, Groupe> groupes;
     private ArrayList<Joueur> joueurs;
     private int idPlayer;
-    private HashMap<String,ArrayList<Carte>> cartes;
+    private HashMap<String, ArrayList<Carte>> cartes;
     public Interface inter;
     public CarreauArgent carreauDepart;
     public CarreauAction carreauPrison;
 
-    public Monopoly(String dataFilename) {
+    public Monopoly(String carreauxPath, String cartesPath) {
         carreaux = new ArrayList<Carreau>();
         carreaux.add(null);
         groupes = new HashMap<CouleurPropriete, Groupe>();
@@ -32,14 +32,14 @@ public class Monopoly {
             groupes.put(c, new Groupe(c));
         }
 
-        buildGamePlateau(this.getClass().getResourceAsStream(dataFilename));
+        buildGamePlateau(this.getClass().getResourceAsStream(carreauxPath));
         carreauDepart = (CarreauArgent) carreaux.get(1);
         carreauPrison = (CarreauArgent) carreaux.get(11);
         inter = new Interface(this);
         joueurs = new ArrayList<Joueur>();
-        cartes = new HashMap<String,ArrayList<Carte>>();
+        cartes = new HashMap<String, ArrayList<Carte>>();
         cartes.put("Chance", new ArrayList<Carte>());
-        buildCartes();
+        buildCartes(this.getClass().getResourceAsStream(cartesPath));
         cartes.put("Caisse de Communauté", new ArrayList<Carte>());
 
         joueurs.add(new Joueur("Jean-Marc", this));
@@ -62,7 +62,7 @@ public class Monopoly {
                 jouerUnCoup(joueurs.get(idPlayer));
             }
         }
-        inter.afficher("Le joueur "+joueurs.get(0).getNom()+" a gagné !");
+        inter.afficher("Le joueur " + joueurs.get(0).getNom() + " a gagné !");
     }
 
     public void addJoueur(Joueur j) {
@@ -158,12 +158,12 @@ public class Monopoly {
             j.addTempsPrison();
             int[] lancer = jetDeDes();
             inter.afficherLancerDes(lancer);
-            if (isDouble(lancer) ) {
+            if (isDouble(lancer)) {
                 j.sortirPrison();
                 inter.afficher("Vous sortez de prison");
             } else {
-                if (j.getTempsPrison()>=3) {
-                    if (j.getCash()>=50) {
+                if (j.getTempsPrison() >= 3) {
+                    if (j.getCash() >= 50) {
                         j.payer(50);
                         inter.afficher("Vous avez payez votre caution de 50€");
                     } else {
@@ -176,7 +176,7 @@ public class Monopoly {
             lancerDesAvancer(j);
             if (!j.estEnPrison()) {
                 int newId = j.getCarreau().getId();
-                if (newId < oldId && newId!=1) {
+                if (newId < oldId && newId != 1) {
                     j.recevoirArgent(carreauDepart.getMontant());
                 }
                 j.getCarreau().action(j);
@@ -226,8 +226,26 @@ public class Monopoly {
         joueurs.remove(j);
     }
 
-    private void buildCartes() {
-        
+    private void buildCartes(InputStream dataFile) {
+        try {
+            ArrayList<String[]> data = readDataFile(dataFile, ",");
+
+            String id;
+            for (String[] s : data) {
+                if (s[0].equals("Ch")) {
+                    id = "Chance";
+                } else {
+                    id = "Caisse de Communauté";
+                }
+                switch (s[1]) {
+                    case "":
+                }
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }
