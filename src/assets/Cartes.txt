@@ -21,7 +21,7 @@ Cc,CLP,1,"Vous êtes libéré de prison. Cette carte peut être conservé jusqu'
 Cc,CAR,2,"Payez une amende de 10€.",-10
 Cc,CAN,3,"C'est votre anniversaire. Chaque joueur doit vous donner 10€."
 Cc,CAR,4,"Erreur de la banque en votre faveur. Recevez 200€.",200
-Cc,CMO,5,"Retournez à Belleville.",2
+Cc,CMO,5,"Retournez à Belleville.",-2
 Cc,CAR,6,"Payez la note du médecin : 50€.",-50
 Cc,CAR,7,"Les contributions vous remboursent la somme de 20€.",20
 Cc,CAR,8,"Payez l'hôpital 100€.",-100
