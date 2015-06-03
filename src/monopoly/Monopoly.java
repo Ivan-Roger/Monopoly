@@ -260,7 +260,7 @@ public class Monopoly {
                         cartes.get(id).put(Integer.parseInt(s[2]),new CarteAnniversaire(s[3],Integer.parseInt(s[2]),this));
                         break;
                     case "CAR":
-                        cartes.get(id).put(Integer.parseInt(s[2]),new CarteArgent(Integer.parseInt(s[4]), s[3],Integer.parseInt(s[2]),this));
+                        cartes.get(id).put(Integer.parseInt(s[2]),new CarteArgent(s[3],Integer.parseInt(s[2]),this,Integer.parseInt(s[4])));
                         break;
                     case "CMO":
                         cartes.get(id).put(Integer.parseInt(s[2]),new CarteMouvement(Integer.parseInt(s[5]),s[4],s[3],Integer.parseInt(s[2]),this));
