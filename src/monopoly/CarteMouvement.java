@@ -26,8 +26,9 @@ public class CarteMouvement extends Carte {
             if (j.getPosition().getId() + this.mouvement > 39) {
                 j.setPosition(super.monopoly.getCarreau(j.getPosition().getId() + this.mouvement - 39));
                 j.recevoirArgent(200);
+            } else {
+                j.setPosition(super.monopoly.getCarreau(j.getPosition().getId() + this.mouvement));
             }
-            j.setPosition(super.monopoly.getCarreau(j.getPosition().getId() + this.mouvement));
         } else {
             if (mouvement > 0 && j.getPosition().getId() > mouvement) {
                 j.setPosition(super.monopoly.getCarreau(mouvement));
