@@ -1,6 +1,7 @@
 package monopoly;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class Joueur {
 
@@ -10,6 +11,7 @@ public class Joueur {
     private ArrayList<ProprieteAConstruire> proprietes;
     private ArrayList<Gare> gares;
     private ArrayList<Compagnie> compagnies;
+    private LinkedList<CarteLiberePrison> liberation;
     private Carreau position;
     private Monopoly monopoly;
     private int tempsPrison = -1;
@@ -25,8 +27,21 @@ public class Joueur {
         proprietes = new ArrayList<>();
         gares = new ArrayList<>();
         compagnies = new ArrayList<>();
+        liberation = new LinkedList<CarteLiberePrison>();
     }
 
+    public void addCarteLiberation(CarteLiberePrison c) {
+        liberation.add(c);
+    }
+    
+    public boolean hasLiberation(){
+        return liberation.size()>0;
+    }
+    
+    public CarteLiberePrison removeCarteLiberation() {
+        return liberation.poll();
+    }
+    
     /* getters */
     public String getNom() {
         return nomJoueur;
@@ -133,6 +148,7 @@ public class Joueur {
 
     public int payer(int l) {
         int res;
+        System.out.print("DEBUG : joueur "+this.getNom()+" cash "+cash);
         if (cash-l<0) {
             res=cash;
             cash = 0;
@@ -140,7 +156,7 @@ public class Joueur {
             res=l;
             cash=cash-l;
         }
-        System.out.println("Debug : payer "+res); // DEBUG !!!
+        System.out.println(" payer "+l+" solde "+cash);
         return res;
     }
 

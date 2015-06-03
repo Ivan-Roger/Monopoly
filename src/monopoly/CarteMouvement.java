@@ -14,8 +14,8 @@ public class CarteMouvement extends Carte {
     private int mouvement;
     private final String typeMouv;
 
-    public CarteMouvement(int mouvement, String typeMouv, String description, int id, Monopoly monopoly) {
-        super(description, id, monopoly);
+    public CarteMouvement(int mouvement, String typeMouv, String type, String description, int id, Monopoly monopoly) {
+        super(type, description, id, monopoly);
         this.mouvement = mouvement;
         this.typeMouv = typeMouv;
     }

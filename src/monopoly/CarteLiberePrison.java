@@ -11,8 +11,8 @@ package monopoly;
  */
 public class CarteLiberePrison extends Carte {
 
-    public CarteLiberePrison(String description, int id, Monopoly monopoly) {
-        super(description, id, monopoly);
+    public CarteLiberePrison(String type, String description, int id, Monopoly monopoly) {
+        super(type, description, id, monopoly);
     }
 
 

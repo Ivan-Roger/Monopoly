@@ -14,8 +14,8 @@ public class CarteReparation extends Carte {
     private final int coutMaison;
     private final int coutHotel;
 
-    public CarteReparation(String description, int id, Monopoly monopoly, int coutMaison, int coutHotel) {
-        super(description, id, monopoly);
+    public CarteReparation(String type, String description, int id, Monopoly monopoly, int coutMaison, int coutHotel) {
+        super(type, description, id, monopoly);
         this.coutMaison = coutMaison;
         this.coutHotel = coutHotel;
     }

@@ -14,15 +14,25 @@ public abstract class Carte {
     private String description;
     private int id;
     protected Monopoly monopoly;
+    private String type;
 
-    public Carte(String description, int id, Monopoly monopoly) {
+    public Carte(String type, String description, int id, Monopoly monopoly) {
         this.description = description.replace("\"", "");
         this.id = id;
         this.monopoly = monopoly;
     }
 
+    public String getType() {
+        return type;
+    }
 
-
+    public int getId() {
+        return id;
+    }
+    
+    public String getDesc() {
+        return description;
+    }
     
     public abstract void action(Joueur j);
     

@@ -2,18 +2,18 @@ Ch,CLP,1,"Vous êtes libéré de prison. Cette carte peut être conservé jusqu'
 Ch,CMO,2,"Reculez de trois cases.",relatif,-3
 Ch,CRE,3,"Vous êtes imposé pour les réparations de voirie à raison de : 40€ par maison et 115€ par hôtel.",40,115
 Ch,CAR,4,"Amende pour excès de vitesse : 15€.",-15
-Ch,CRE,5,"Faites des réparations dans toutes vos maisons : verser pour chaque maison 25€ et pour chaque hôtel 100€.",25,100
+Ch,CRE,5,"Faites des réparations dans toutes vos maisons : versez pour chaque maison 25€ et pour chaque hôtel 100€.",25,100
 Ch,CAR,6,"Amende pour ivresse : 20€.",-20
 Ch,CMO,7,"Avancez jusqu'à la case départ",absolu,1
 Ch,CAP,8,"Allez en prison. Avancez tout droit en prison. Ne passez pas par la case Départ. Ne recevez pas 200€."
 Ch,CMO,9,"Rendez-vous sur l'avenue Henri-Martin. Si vous passez par la case Départ recevez 200€",absolu,25
-Ch,CMO,10,"Allez à la gare de Lyon. Si vous passez par la case Départ, recevez 200€",16
+Ch,CMO,10,"Allez à la gare de Lyon. Si vous passez par la case Départ recevez 200€",absolu,16
 Ch,CAR,11,"Payez pour frais de scolarité 150€.",-150
-Ch,CAR,12,"Vous avez gagné le prix de mots-croisés. Recevez 100€.",150
+Ch,CAR,12,"Vous avez gagné le prix de mots-croisés. Recevez 100€.",100
 Ch,CAR,13,"La banque vous verse un dividende de 50€.",50
 Ch,CMO,14,"Rendez-vous à la Rue de la Paix",absolu,39
 Ch,CAR,15,"Votre immeuble et votre prêt rapportent. Vous devez toucher 150€.",150
-Ch,CMO,16,"Accédez au Boulevard de la Villette. Si vous passez par la case Départ, recevez 200€",absolu,12
+Ch,CMO,16,"Accédez au Boulevard de la Villette. Si vous passez par la case Départ recevez 200€",absolu,12
 Cc,CLP,1,"Vous êtes libéré de prison. Cette carte peut être conservé jusqu'à ce qu'elle soit utilisée."
 Cc,CAR,2,"Payez une amende de 10€.",-10
 Cc,CAN,3,"C'est votre anniversaire. Chaque joueur doit vous donner 10€."
@@ -30,5 +30,3 @@ Cc,CMO,13,"Avancez jusqu'à la case départ",absolu,1
 Cc,CAR,14,"Recevez votre intérêt sur l'emprunt à 7% : 25€.",25
 Cc,CAR,15,"Recevez votre revenu annuel : 100€.",100
 Cc,CAR,16,"Vous avez gagné le deuxième prix de beauté : recevez 10€.",10
-
-

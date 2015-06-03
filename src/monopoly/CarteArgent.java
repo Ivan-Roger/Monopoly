@@ -13,19 +13,15 @@ package monopoly;
 public class CarteArgent extends Carte{
     private int argent;
 
-    public CarteArgent(String description, int id, Monopoly monopoly, int argent) {
-        super(description, id, monopoly);
+    public CarteArgent(String type, String description, int id, Monopoly monopoly, int argent) {
+        super(type, description, id, monopoly);
         this.argent = argent;
     }
 
     
     @Override
     public void action(Joueur j) {
-       if ( argent < 0) {
-           j.payer(argent);
-       } else {
-           j.recevoirArgent(argent);
-       }
+       j.recevoirArgent(argent);
     }
     
 }

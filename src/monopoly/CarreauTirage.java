@@ -12,12 +12,15 @@ public class CarreauTirage extends CarreauAction {
     public void action(Joueur j) {
         //communauté  3 - 18 - 34
         //chance      8 - 23 - 37
-        super.monopoly.inter.afficher("Carreau Tirage - Pas encore fonctinnel");
+        super.monopoly.inter.afficher("Vous tirez une carte "+type);
+        Carte c = monopoly.getCarteSuivante(type);
+        monopoly.inter.afficher("Carte : "+c.getDesc());
+        c.action(j);
         
-        if (this.getId() == 8 || this.getId() == 23 || this.getId() == 37) {
-            
+        if(!(c instanceof CarteLiberePrison)) {
+            monopoly.addCarteFin(type, c);
         } else {
-            
+            j.addCarteLiberation((CarteLiberePrison) c);
         }
     }
     

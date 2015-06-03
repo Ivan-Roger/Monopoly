@@ -1,32 +1,32 @@
 package monopoly;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Random;
 
 public class Monopoly {
 
     private int nbMaisons = 32;
     private int nbHotels = 12;
-    private HashMap<Integer,Carreau> carreaux;
+    private HashMap<Integer, Carreau> carreaux;
     private HashMap<CouleurPropriete, Groupe> groupes;
     private ArrayList<Joueur> joueurs;
     private int idPlayer;
-    private int idCarte;
-    private HashMap<String, HashMap<Integer,Carte>> cartes;
+    private HashMap<String, LinkedList<Carte>> cartes;
     public Interface inter;
     public CarreauArgent carreauDepart;
     public CarreauAction carreauPrison;
 
     public Monopoly(String carreauxPath, String cartesPath) {
-        carreaux = new HashMap<Integer,Carreau>();
+        carreaux = new HashMap<Integer, Carreau>();
         groupes = new HashMap<CouleurPropriete, Groupe>();
         for (CouleurPropriete c : CouleurPropriete.values()) {
             groupes.put(c, new Groupe(c));
@@ -37,9 +37,9 @@ public class Monopoly {
         carreauPrison = (CarreauArgent) carreaux.get(11);
         inter = new Interface(this);
         joueurs = new ArrayList<Joueur>();
-        cartes = new HashMap<String, HashMap<Integer,Carte>>();
-        cartes.put("Chance", new HashMap<Integer,Carte>());
-        cartes.put("Caisse de Communauté", new HashMap<Integer,Carte>());
+        cartes = new HashMap<String, LinkedList<Carte>>();
+        cartes.put("Chance", new LinkedList<Carte>());
+        cartes.put("Caisse de Communauté", new LinkedList<Carte>());
         buildCartes(this.getClass().getResourceAsStream(cartesPath));
 
         joueurs.add(new Joueur("Jean-Marc", this));
@@ -72,18 +72,15 @@ public class Monopoly {
     public Carreau getCarreau(int id) {
         return carreaux.get(id);
     }
-    
+
     public Carte getCarteSuivante(String type) {
-        idCarte = (idCarte>=cartes.get(type).size()-1 ? idCarte=0 : idCarte++);
-        Carte c = cartes.get(type).get(idCarte);
-        cartes.remove(c);
-        return c;
+        return cartes.get(type).poll();
     }
-    
+
     public void addCarteFin(String type, Carte c) {
-        cartes.get(type).put(cartes.get(type).size()-1,c);        
+        cartes.get(type).add(c);
     }
-    
+
     private void buildGamePlateau(InputStream dataFile) {
         try {
             ArrayList<String[]> data = readDataFile(dataFile, ",");
@@ -169,7 +166,12 @@ public class Monopoly {
             j.addTempsPrison();
             int[] lancer = jetDeDes();
             inter.afficherLancerDes(lancer);
-            if (isDouble(lancer)) {
+            if (j.hasLiberation()) {
+                inter.afficher("Vous utilisez votre carte de liberation. Bonne route !");
+                Carte c = j.removeCarteLiberation();
+                
+                cartes.get(c.getType()).push(c);
+            } else if (isDouble(lancer)) {
                 j.sortirPrison();
                 inter.afficher("Vous sortez de prison");
             } else {
@@ -189,6 +191,7 @@ public class Monopoly {
             if (!j.estEnPrison()) {
                 int newId = j.getCarreau().getId();
                 if (newId < oldId && newId != 1) {
+                    inter.afficher("Vous passez par la case Départ, recevez 200€.");
                     j.recevoirArgent(carreauDepart.getMontant());
                 }
                 j.getCarreau().action(j);
@@ -218,8 +221,8 @@ public class Monopoly {
         }
         if (!j.estEnPrison()) {
             Carreau pos = j.getCarreau();
-            if (pos.getId() + distance >= carreaux.size()) {
-                j.setPosition(carreaux.get(pos.getId() + distance - (carreaux.size() - 1)));
+            if (pos.getId() + distance > carreaux.size()) {
+                j.setPosition(carreaux.get(pos.getId() + distance - carreaux.size()));
             } else {
                 j.setPosition(carreaux.get(pos.getId() + distance));
             }
@@ -229,7 +232,7 @@ public class Monopoly {
     public int getTaillePlateau() {
         return carreaux.size();
     }
-    
+
     public int getNbMaisons() {
         return this.nbMaisons;
     }
@@ -253,30 +256,37 @@ public class Monopoly {
                 } else {
                     id = "Caisse de Communauté";
                 }
-                System.out.println("DEBUG : cartes "+id+" n°"+s[2]);
                 switch (s[1]) {
                     case "CAP":
-                        cartes.get(id).put(Integer.parseInt(s[2]),new CarteAllerPrison(s[3],Integer.parseInt(s[2]),this));
+                        cartes.get(id).push(new CarteAllerPrison(id, s[3], Integer.parseInt(s[2]), this));
                         break;
                     case "CLP":
-                        cartes.get(id).put(Integer.parseInt(s[2]),new CarteLiberePrison(s[3],Integer.parseInt(s[2]),this));
+                        cartes.get(id).push(new CarteLiberePrison(id, s[3], Integer.parseInt(s[2]), this));
                         break;
                     case "CAN":
-                        cartes.get(id).put(Integer.parseInt(s[2]),new CarteAnniversaire(s[3],Integer.parseInt(s[2]),this));
+                        cartes.get(id).push(new CarteAnniversaire(id, s[3], Integer.parseInt(s[2]), this));
                         break;
                     case "CAR":
-                        cartes.get(id).put(Integer.parseInt(s[2]),new CarteArgent(s[3],Integer.parseInt(s[2]),this,Integer.parseInt(s[4])));
+                        cartes.get(id).push(new CarteArgent(id, s[3], Integer.parseInt(s[2]), this, Integer.parseInt(s[4])));
                         break;
                     case "CMO":
-                        cartes.get(id).put(Integer.parseInt(s[2]),new CarteMouvement(Integer.parseInt(s[5]),s[4],s[3],Integer.parseInt(s[2]),this));
+                        cartes.get(id).push(new CarteMouvement(Integer.parseInt(s[5]), s[4], id, s[3], Integer.parseInt(s[2]), this));
                         break;
                     case "CRE":
-                        cartes.get(id).put(Integer.parseInt(s[2]),new CarteReparation(s[3],Integer.parseInt(s[2]),this, Integer.parseInt(s[4]),Integer.parseInt(s[5])));
+                        cartes.get(id).push(new CarteReparation(id, s[3], Integer.parseInt(s[2]), this, Integer.parseInt(s[4]), Integer.parseInt(s[5])));
                         break;
-                    default :
+                    default:
                         throw new Exception("buildCartes() - Invalid data type");
                 }
 
+            }
+            for (String type : cartes.keySet()) {
+                Collections.sort(cartes.get(type), new Comparator<Carte>() {
+                    @Override
+                    public int compare(Carte c1, Carte c2) {
+                        return Integer.compare(c1.getId(),c2.getId());
+                    }
+                });
             }
 
         } catch (Exception e) {
