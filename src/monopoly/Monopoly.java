@@ -264,7 +264,7 @@ public class Monopoly {
                         cartes.get(id).add(new CarteMouvement(Integer.parseInt(s[5]),s[4],s[3],Integer.parseInt(s[2]),this));
                         break;
                     case "CRE":
-                        cartes.get(id).add(new CarteReparation(s[3],Integer.parseInt(s[2]),this));
+                        cartes.get(id).add(new CarteReparation(s[3],Integer.parseInt(s[2]),this, Integer.parseInt(s[4]),Integer.parseInt(s[5])));
                         break;
                 }
 
