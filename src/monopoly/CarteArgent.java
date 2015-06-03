@@ -13,7 +13,7 @@ package monopoly;
 public class CarteArgent extends Carte{
     private int argent;
 
-    public CarteArgent(int argent, String description, int id, Monopoly monopoly) {
+    public CarteArgent(String description, int id, Monopoly monopoly, int argent) {
         super(description, id, monopoly);
         this.argent = argent;
     }
