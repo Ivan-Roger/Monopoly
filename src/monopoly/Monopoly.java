@@ -226,6 +226,10 @@ public class Monopoly {
         }
     }
 
+    public int getTaillePlateau() {
+        return carreaux.size();
+    }
+    
     public int getNbMaisons() {
         return this.nbMaisons;
     }

@@ -23,8 +23,8 @@ public class CarteMouvement extends Carte {
     @Override
     public void action(Joueur j) {
         if (typeMouv == "relatif") {
-            if (j.getPosition().getId() + this.mouvement > 39) {
-                j.setPosition(super.monopoly.getCarreau(j.getPosition().getId() + this.mouvement - 39));
+            if (j.getPosition().getId() + this.mouvement > monopoly.getTaillePlateau()) {
+                j.setPosition(monopoly.getCarreau(j.getPosition().getId() + this.mouvement - monopoly.getTaillePlateau()));
                 j.recevoirArgent(200);
             } else {
                 j.setPosition(super.monopoly.getCarreau(j.getPosition().getId() + this.mouvement));
