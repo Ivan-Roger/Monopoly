@@ -176,7 +176,8 @@ public class Monopoly {
                 if (j.getTempsPrison() >= 3) {
                     if (j.getCash() >= 50) {
                         j.payer(50);
-                        inter.afficher("Vous avez payez votre caution de 50€");
+                        inter.afficher("Vous avez payé votre caution de 50€");
+                        j.sortirPrison();
                     } else {
                         inter.afficher("Vous ne pouvez pas payer votre caution (50€)");
                     }
