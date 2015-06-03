@@ -39,8 +39,8 @@ public class Monopoly {
         joueurs = new ArrayList<Joueur>();
         cartes = new HashMap<String, ArrayList<Carte>>();
         cartes.put("Chance", new ArrayList<Carte>());
-        buildCartes(this.getClass().getResourceAsStream(cartesPath));
         cartes.put("Caisse de Communauté", new ArrayList<Carte>());
+        buildCartes(this.getClass().getResourceAsStream(cartesPath));
 
         joueurs.add(new Joueur("Jean-Marc", this));
         joueurs.add(new Joueur("Jean-Louis", this));
@@ -72,7 +72,17 @@ public class Monopoly {
     public Carreau getCarreau(int id) {
         return carreaux.get(id);
     }
-
+    
+    public Carte getCarteSuivante(String type) {
+        Carte c = cartes.get(type).get(0);
+        cartes.remove(c);
+        return c;
+    }
+    
+    public void addCarteFin(String type, Carte c) {
+        cartes.get(type).add(c);        
+    }
+    
     private void buildGamePlateau(InputStream dataFile) {
         try {
             ArrayList<String[]> data = readDataFile(dataFile, ",");
@@ -238,7 +248,24 @@ public class Monopoly {
                     id = "Caisse de Communauté";
                 }
                 switch (s[1]) {
-                    case "":
+                    case "CAP":
+                        cartes.get(id).add(new CarteAllerPrison(s[3],Integer.parseInt(s[2]),this));
+                        break;
+                    case "CLP":
+                        cartes.get(id).add(new CarteLiberePrison(s[3],Integer.parseInt(s[2]),this));
+                        break;
+                    case "CAN":
+                        cartes.get(id).add(new CarteAnniversaire(s[3],Integer.parseInt(s[2]),this));
+                        break;
+                    case "CAR":
+                        cartes.get(id).add(new CarteArgent(Integer.parseInt(s[4]), s[3],Integer.parseInt(s[2]),this));
+                        break;
+                    case "CMO":
+                        cartes.get(id).add(new CarteMouvement(Integer.parseInt(s[5]),s[4],s[3],Integer.parseInt(s[2]),this));
+                        break;
+                    case "CRE":
+                        cartes.get(id).add(new CarteReparation(s[3],Integer.parseInt(s[2]),this));
+                        break;
                 }
 
             }
