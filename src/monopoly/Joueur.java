@@ -148,7 +148,6 @@ public class Joueur {
 
     public int payer(int l) {
         int res;
-        System.out.print("DEBUG : joueur "+this.getNom()+" cash "+cash);
         if (cash-l<0) {
             res=cash;
             cash = 0;
@@ -156,7 +155,6 @@ public class Joueur {
             res=l;
             cash=cash-l;
         }
-        System.out.println(" payer "+l+" solde "+cash);
         return res;
     }
 
