@@ -1,23 +1,23 @@
 # Monopoly #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+Projet Monopoly - IUT2 de Grenoble (UPMF)
 
-### What is this repository for? ###
+### Textuel ###
 
-* Quick summary
-* Version
+* Achat de maison et d'hotels
+* Ajout d'un menu de gestion de scenario :
+	* Choix du tir de dés
+	* Teleportation
+	* Choix de la carte
 
-### How do I get set up? ###
+### IHM ###
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+* Creation des composants graphiques
+* Initialisation du contenu
+* Gestion des evenements (clics)
+* Mise en page
 
-### Contribution guidelines ###
+Ameiliorations :
 
-* Writing tests
-* Code review
-* Other guidelines
+* Affichage dynamique sur le plateau
+* Menu de gestion en IHM
