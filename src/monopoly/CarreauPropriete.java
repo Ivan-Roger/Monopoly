@@ -32,6 +32,15 @@ public abstract class CarreauPropriete extends Carreau {
             if (this.prixAchat > joueur.getCash()) {
                 this.monopoly.inter.afficher("Vous ne possédez pas assez d'argent pour acheter.");
                 this.monopoly.inter.afficher("Il vous manque " + (this.prixAchat - joueur.getCash()) + "€");
+                this.monopoly.inter.afficher("  1) Abandonner");
+                this.monopoly.inter.afficher("  2) Terminer votre tour");
+                switch (this.monopoly.inter.lireInt(1, 2)) {
+                    case 1:
+                        joueur.abandonner();
+                        break;
+                    default:
+                        break;
+                }
             } else {
                 if (this instanceof Gare) {
                     this.monopoly.inter.afficherGare((Gare) this);
