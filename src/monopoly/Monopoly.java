@@ -166,10 +166,9 @@ public class Monopoly {
             j.addTempsPrison();
             int[] lancer = jetDeDes();
             inter.afficherLancerDes(lancer);
-            if (j.getNbLiberation()>0) {
+            if (j.getNbLiberation() > 0) {
                 inter.afficher("Vous utilisez votre carte de liberation. Bonne route !");
                 Carte c = j.removeCarteLiberation();
-                
                 cartes.get(c.getType()).push(c);
             } else if (isDouble(lancer)) {
                 j.sortirPrison();
@@ -184,6 +183,16 @@ public class Monopoly {
                         inter.afficher("Vous ne pouvez pas payer votre caution (50€)");
                     }
                 }
+            }
+
+            this.inter.afficher("  1) Abandonner");
+            this.inter.afficher("  2) Terminer votre tour");
+            switch (this.inter.lireInt(1, 2)) {
+                case 1:
+                    j.abandonner();
+                    break;
+                default:
+                    break;
             }
         } else {
             int oldId = j.getCarreau().getId();
@@ -284,7 +293,7 @@ public class Monopoly {
                 Collections.sort(cartes.get(type), new Comparator<Carte>() {
                     @Override
                     public int compare(Carte c1, Carte c2) {
-                        return Integer.compare(c1.getId(),c2.getId());
+                        return Integer.compare(c1.getId(), c2.getId());
                     }
                 });
             }

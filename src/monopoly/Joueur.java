@@ -1,6 +1,8 @@
 package monopoly;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 
 public class Joueur {
@@ -114,6 +116,14 @@ public class Joueur {
     }
 
     public ArrayList<ProprieteAConstruire> getProprietes() {
+        Collections.sort(proprietes, new Comparator<ProprieteAConstruire>() {
+
+            @Override
+            public int compare(ProprieteAConstruire o1, ProprieteAConstruire o2) {
+                return o1.getGroupe().getCouleur().compareTo(o2.getGroupe().getCouleur());
+            }
+        
+    });
         return proprietes;
     }
 
