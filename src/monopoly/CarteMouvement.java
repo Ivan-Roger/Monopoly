@@ -22,22 +22,22 @@ public class CarteMouvement extends Carte {
 
     @Override
     public void action(Joueur j) {
-        if (typeMouv == "relatif") {
+        if ("relatif".equals(typeMouv)) {
             if (j.getPosition().getId() + this.mouvement > monopoly.getTaillePlateau()) {
                 j.setPosition(monopoly.getCarreau(j.getPosition().getId() + this.mouvement - monopoly.getTaillePlateau()));
                 j.recevoirArgent(200);
             } else {
-                j.setPosition(super.monopoly.getCarreau(j.getPosition().getId() + this.mouvement));
+                j.setPosition(monopoly.getCarreau(j.getPosition().getId() + this.mouvement));
             }
         } else {
             if (mouvement > 0 && j.getPosition().getId() > mouvement) {
-                j.setPosition(super.monopoly.getCarreau(mouvement));
+                j.setPosition(monopoly.getCarreau(mouvement));
                 j.recevoirArgent(200);
             } else if (mouvement > 0 && j.getPosition().getId() < mouvement) {
-                j.setPosition(super.monopoly.getCarreau(mouvement));
+                j.setPosition(monopoly.getCarreau(mouvement));
             } else {
                 mouvement = mouvement * -1;
-                j.setPosition(super.monopoly.getCarreau(mouvement));
+                j.setPosition(monopoly.getCarreau(mouvement));
             }
         }
 
