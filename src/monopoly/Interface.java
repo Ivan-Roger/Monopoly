@@ -56,7 +56,8 @@ public class Interface {
         afficher("Nom : " + j.getNom());
         afficher("Position : " + j.getPosition().getNomCarreau() + "(" + j.getPosition().getId() + ")");
         afficher("Cash : " + j.getCash() + "€");
-
+        afficher("Carte de Liberation : "+j.getNbLiberation());
+        
         afficher("Propriétés :");
         afficher("  Terrains :");
         for (ProprieteAConstruire p : j.getProprietes()) {

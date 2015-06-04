@@ -166,7 +166,7 @@ public class Monopoly {
             j.addTempsPrison();
             int[] lancer = jetDeDes();
             inter.afficherLancerDes(lancer);
-            if (j.hasLiberation()) {
+            if (j.getNbLiberation()>0) {
                 inter.afficher("Vous utilisez votre carte de liberation. Bonne route !");
                 Carte c = j.removeCarteLiberation();
                 

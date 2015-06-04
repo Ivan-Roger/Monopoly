@@ -34,8 +34,8 @@ public class Joueur {
         liberation.add(c);
     }
     
-    public boolean hasLiberation(){
-        return liberation.size()>0;
+    public int getNbLiberation(){
+        return liberation.size();
     }
     
     public CarteLiberePrison removeCarteLiberation() {
