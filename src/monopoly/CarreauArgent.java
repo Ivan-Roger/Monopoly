@@ -17,5 +17,14 @@ public class CarreauArgent extends CarreauAction {
     public void action(Joueur j) {
         monopoly.inter.afficherCarreauArgent(this);
         j.recevoirArgent(montant);
+        this.monopoly.inter.afficher("  1) Abandonner");
+        this.monopoly.inter.afficher("  2) Terminer votre tour");
+        switch (this.monopoly.inter.lireInt(1, 2)) {
+            case 1:
+                j.abandonner();
+                break;
+            default:
+                break;
+        }
     }
 }
