@@ -20,6 +20,7 @@ public abstract class Carte {
         this.description = description.replace("\"", "");
         this.id = id;
         this.monopoly = monopoly;
+        this.type=type;
     }
 
     public String getType() {
