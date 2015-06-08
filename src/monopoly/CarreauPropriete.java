@@ -76,15 +76,15 @@ public abstract class CarreauPropriete extends Carreau {
             }
         } else {
             if (this.proprietaire != joueur) {
-                int var = joueur.payer(this.calculLoyer());
+              
                 this.monopoly.inter.afficher("  1) Abandonner");
-                this.monopoly.inter.afficher("  2) Vous payez " + var + "€ a " + proprietaire.getNom());
+                this.monopoly.inter.afficher("  2) Vous payez " + this.calculLoyer() + "€ a " + proprietaire.getNom());
                 switch (this.monopoly.inter.lireInt(1, 2)) {
                     case 1:
                         joueur.abandonner();
                         break;
                     default:
-                        this.proprietaire.recevoirArgent(joueur.payer(var));
+                        this.proprietaire.recevoirArgent(joueur.payer(this.calculLoyer()));
                         break;
 
                 }

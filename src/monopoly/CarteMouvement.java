@@ -20,6 +20,16 @@ public class CarteMouvement extends Carte {
         this.typeMouv = typeMouv;
     }
 
+    /**
+     * Si le type de mouvement est relatif 
+     *      Si le mouvement fait passer le joueur par la case départ alors lui donner 200€ et le positionner
+     *      Sinon le positionner
+     * Sinon (le mouvement est absolue) 
+     *      Si le mouvement le fait avancer et le fait passer par la case départ alors lui donner 200€ et le positionner
+     *      Sinon Si le mouvement le fait avancer sans le faire passer par la case départ et le positionner
+     *      Sinon faire reculer le joueur
+     *
+     */
     @Override
     public void action(Joueur j) {
         if ("relatif".equals(typeMouv)) {

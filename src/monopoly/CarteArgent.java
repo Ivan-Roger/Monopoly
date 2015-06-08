@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package monopoly;
 
 /**
  *
  * @author germamax
  */
-public class CarteArgent extends Carte{
+public class CarteArgent extends Carte {
+
     private int argent;
 
     public CarteArgent(String type, String description, int id, Monopoly monopoly, int argent) {
@@ -18,10 +18,15 @@ public class CarteArgent extends Carte{
         this.argent = argent;
     }
 
-    
+    //Si l'attribut argent est négatif alors le joueur doit payer sinon il reçoit l'argent
     @Override
     public void action(Joueur j) {
-       j.recevoirArgent(argent);
+        if (argent < 0) {
+            j.payer(argent * -1);
+        } else {
+            j.recevoirArgent(argent);
+        }
+
     }
-    
+
 }
