@@ -7,13 +7,10 @@ package monopoly;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.Menu;
-import java.awt.MenuBar;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.util.ArrayList;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
@@ -31,15 +28,17 @@ import javax.swing.SwingConstants;
  * @author rogeri
  */
 public class InterfaceDemo extends JFrame {
+
     private Joueur joueur;
     private Monopoly monopoly;
-    private JLabel nomJoueur;
+    private JLabel infoDeplacement;
     private JComboBox listeCarreaux;
     private JComboBox listeCartes;
     private JButton validTele;
     private JButton validDice;
     private JButton validCard;
     private JCheckBoxMenuItem suspend;
+    private boolean deplacementOver = false;
 
     public InterfaceDemo(Monopoly m) {
         super("Demo Monopoly");
@@ -64,14 +63,15 @@ public class InterfaceDemo extends JFrame {
         JPanel telePanel = new JPanel();
         telePanel.setLayout(new BoxLayout(telePanel, BoxLayout.PAGE_AXIS));
         telePanel.add(new JLabel("Téléportation", SwingConstants.CENTER));
-        nomJoueur = new JLabel("");
-        telePanel.add(nomJoueur);
+        infoDeplacement = new JLabel("");
+        telePanel.add(infoDeplacement);
         listeCarreaux = new JComboBox();
         for (Integer i : monopoly.getCarreaux().keySet()) {
             listeCarreaux.addItem(monopoly.getCarreaux().get(i));
         }
         telePanel.add(listeCarreaux);
         validTele = new JButton("Valider");
+        validTele.setEnabled(false);
         telePanel.add(validTele);
         controles.add(telePanel);
 
@@ -96,26 +96,24 @@ public class InterfaceDemo extends JFrame {
         return content;
     }
 
-    public void setJoueur(Joueur j) {
-        joueur = j;
-        nomJoueur.setText(j.getNom());
-    }
-
     private void initListeners() {
         this.validTele.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                joueur.setPosition((Carreau)listeCarreaux.getSelectedItem());
+                joueur.setPosition((Carreau) listeCarreaux.getSelectedItem());
+                deplacementOver = true;
             }
-        
+
         });
         this.suspend.addItemListener(new ItemListener() {
 
             @Override
             public void itemStateChanged(ItemEvent e) {
                 if (e.getStateChange() == ItemEvent.SELECTED) {
-                    
+                    monopoly.setModeDemo(true);
+                } else {
+                    monopoly.setModeDemo(false);
                 }
             }
         });
@@ -123,19 +121,27 @@ public class InterfaceDemo extends JFrame {
 
     private JMenuBar initMenuBar() {
         JMenuBar menu = new JMenuBar();
-        
+
         JMenu jeu = new JMenu("Jeu");
-        suspend = new JCheckBoxMenuItem();
+        suspend = new JCheckBoxMenuItem("Suspendre");
         jeu.add(suspend);
-        
+        menu.add(jeu);
+
         return menu;
     }
 
-    public void ask(String action) {
-        switch (action) {
-            case "Deplacement":
-                
-                break;
+    public void wait(Joueur j) {
+        joueur = j;
+        infoDeplacement.setText("> " + j.getNom() + " <");
+        listeCarreaux.setSelectedItem(j.getCarreau());
+        validTele.setEnabled(true);
+        while (!deplacementOver) {
+            try {
+                this.wait();
+            } catch (Exception e) {
+            }
         }
+        deplacementOver = false;
+        validTele.setEnabled(false);
     }
 }

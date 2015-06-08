@@ -47,8 +47,8 @@ public class Monopoly {
         cartes.put("Caisse de Communauté", new LinkedList<Carte>());
         buildCartes(this.getClass().getResourceAsStream(cartesPath));
 
-        joueurs.add(new Joueur("Jean-Marc", this));
-        joueurs.add(new Joueur("Jean-Louis", this));
+        joueurs.add(new Joueur("Marc", this));
+        joueurs.add(new Joueur("Louis", this));
 //        joueurs.add(new Joueur("Jean-Scott", this));
 //        joueurs.add(new Joueur("Jean-Charles", this));
 //        joueurs.add(new Joueur("Jean-Paul", this));
@@ -70,6 +70,7 @@ public class Monopoly {
             }
         }
         inter.afficher("Le joueur " + joueurs.get(0).getNom() + " a gagné !");
+        System.exit(0);
     }
 
     public void addJoueur(Joueur j) {
@@ -218,7 +219,8 @@ public class Monopoly {
             if (!modeDemo) {
                 lancerDesAvancer(j);
             } else {
-                demo.ask("Deplacement");
+                inter.afficher("Choix de la position.");
+                demo.wait(j);
             }
             if (!j.estEnPrison()) {
                 int newId = j.getCarreau().getId();

@@ -51,7 +51,6 @@ public class Interface {
     }
 
     public void afficherInfosJoueur(Joueur j) {
-        monopoly.demo.setJoueur(j);
         afficher("");
         afficher("--- Joueur suivant ---");
         afficher("Nom : " + j.getNom());
@@ -114,9 +113,9 @@ public class Interface {
     public void afficherCarreauArgent(CarreauArgent c) {
         afficher("Nom : " + c.getNomCarreau() + "(" + c.getId() + ")");
         if (c.getMontant() > 0) {
-            afficher("Vous gagnez " + c.getMontant() + "€");
+            afficher("Vous pouvez recevoir " + c.getMontant() + "€");
         } else if (c.getMontant() < 0) {
-            afficher("Vous perdez " + (c.getMontant() * -1) + "€");
+            afficher("Vous devez payer " + (c.getMontant() * -1) + "€");
         } else {
             afficher("Bonne balade");
         }
