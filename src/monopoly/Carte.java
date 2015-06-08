@@ -37,5 +37,9 @@ public abstract class Carte {
     
     public abstract void action(Joueur j);
     
+    @Override
+    public String toString() {
+        return getType()+" : #"+getId()+" - "+getDesc();
+    }
     
 }

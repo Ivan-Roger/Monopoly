@@ -61,7 +61,7 @@ public class ProprieteAConstruire extends CarreauPropriete {
         if ( ((nbMaisons < nbMaisonsMax) && (p.getCash() < groupePropriete.getPrixAchatMaison()) ) || ( (nbMaisons == nbMaisonsMax) && (p.getCash() < groupePropriete.getPrixAchatHotel()) ) ) {
             peutConstruire[2] = false;  // le joueur possède assez d'argent ou non pour construire une maison ou un hôtel
         }
-        if ()   
+        // if ()   
             
             
             

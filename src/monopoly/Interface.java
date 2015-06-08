@@ -51,6 +51,7 @@ public class Interface {
     }
 
     public void afficherInfosJoueur(Joueur j) {
+        monopoly.demo.setJoueur(j);
         afficher("");
         afficher("--- Joueur suivant ---");
         afficher("Nom : " + j.getNom());

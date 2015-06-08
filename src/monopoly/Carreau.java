@@ -21,4 +21,9 @@ public abstract class Carreau {
     public String getNomCarreau() {
         return nomCarreau;
     }
+    
+    @Override
+   public String toString() {
+       return "#"+getId()+" - "+getNomCarreau();
+   }
 }

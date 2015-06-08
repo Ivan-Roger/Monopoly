@@ -11,6 +11,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Random;
+import java.util.logging.Logger;
 
 public class Monopoly {
 
@@ -26,6 +27,8 @@ public class Monopoly {
     public Interface inter;
     public CarreauArgent carreauDepart;
     public CarreauAction carreauPrison;
+    public InterfaceDemo demo;
+    public boolean modeDemo = false;
 
     public Monopoly(String carreauxPath, String cartesPath) {
         carreaux = new HashMap<Integer, Carreau>();
@@ -52,6 +55,8 @@ public class Monopoly {
 //        joueurs.add(new Joueur("Jean-Pierre", this));
 //        joueurs.add(new Joueur("Jean-Luc", this));
 
+        demo = new InterfaceDemo(this);
+        
         int turn = 0;
         while (joueurs.size() > 1) {
             turn++;
@@ -69,6 +74,14 @@ public class Monopoly {
 
     public void addJoueur(Joueur j) {
         joueurs.add(j);
+    }
+
+    public HashMap<Integer, Carreau> getCarreaux() {
+        return carreaux;
+    }
+
+    public HashMap<String, LinkedList<Carte>> getCartes() {
+        return cartes;
     }
 
     public Carreau getCarreau(int id) {
@@ -153,6 +166,10 @@ public class Monopoly {
         return des[0] + des[1];
     }
 
+    public void setModeDemo(boolean modeDemo) {
+        this.modeDemo = modeDemo;
+    }
+
     public boolean isDouble(int[] des) {
         return des[0] == des[1];
     }
@@ -198,7 +215,11 @@ public class Monopoly {
             }
         } else {
             int oldId = j.getCarreau().getId();
-            lancerDesAvancer(j);
+            if (!modeDemo) {
+                lancerDesAvancer(j);
+            } else {
+                demo.ask("Deplacement");
+            }
             if (!j.estEnPrison()) {
                 int newId = j.getCarreau().getId();
                 if (newId < oldId && newId != 1) {

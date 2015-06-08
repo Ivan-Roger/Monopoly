@@ -186,22 +186,12 @@ public class Joueur {
     public void setPosition(Carreau c) {
         position = c;
     }
-    
-    
-    /* Affichage */
-    public void afficherInfosJoueur(Joueur j) {
-        throw new UnsupportedOperationException();
-    }
-
-    public void afficher() {
-        throw new UnsupportedOperationException();
-    }
 
     public Carreau getCarreau() {
         return position;
     }
 
-    void resetNbDouble() {
+    public void resetNbDouble() {
         this.nbDouble=0;
     }
 
