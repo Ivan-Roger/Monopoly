@@ -46,6 +46,7 @@ public class Monopoly {
         cartes.put("Chance", new LinkedList<Carte>());
         cartes.put("Caisse de Communauté", new LinkedList<Carte>());
         buildCartes(this.getClass().getResourceAsStream(cartesPath));
+        melangerCartes();
 
         joueurs.add(new Joueur("Marc", this));
         joueurs.add(new Joueur("Louis", this));
@@ -55,8 +56,12 @@ public class Monopoly {
 //        joueurs.add(new Joueur("Jean-Pierre", this));
 //        joueurs.add(new Joueur("Jean-Luc", this));
 
-        demo = new InterfaceDemo(this);
-        
+        inter.afficher("Mode demo ?");
+        if (inter.lireBoolean()) {
+            demo = new InterfaceDemo(this);
+            setModeDemo(true);
+        }
+
         int turn = 0;
         while (joueurs.size() > 1) {
             turn++;
@@ -65,8 +70,13 @@ public class Monopoly {
                 j.resetNbDouble();
             }
             for (idPlayer = 0; idPlayer < joueurs.size(); idPlayer++) {
-                inter.afficherInfosJoueur(joueurs.get(idPlayer));
-                jouerUnCoup(joueurs.get(idPlayer));
+                Joueur j = joueurs.get(idPlayer);
+                inter.afficherInfosJoueur(j);
+                jouerUnCoup(j);
+                if (j.getCash() <= 0) {
+                    joueurs.remove(j);
+                    inter.afficher("Vous avez 0€. Vous avez perdu !");
+                }
             }
         }
         inter.afficher("Le joueur " + joueurs.get(0).getNom() + " a gagné !");
@@ -90,7 +100,11 @@ public class Monopoly {
     }
 
     public Carte getCarteSuivante(String type) {
-        return cartes.get(type).poll();
+        if (modeDemo) {
+            return demo.getCarte(type);
+        } else {
+            return cartes.get(type).poll();
+        }
     }
 
     public void addCarteFin(String type, Carte c) {
@@ -156,11 +170,15 @@ public class Monopoly {
     }
 
     public int[] jetDeDes() {
-        int[] des = new int[2];
-        Random rand = new Random();
-        des[0] = rand.nextInt(6) + 1;
-        des[1] = rand.nextInt(6) + 1;
-        return des;
+        if (modeDemo) {
+            return demo.getDes();
+        } else {
+            int[] des = new int[2];
+            Random rand = new Random();
+            des[0] = rand.nextInt(6) + 1;
+            des[1] = rand.nextInt(6) + 1;
+            return des;
+        }
     }
 
     public int calculTotalDes(int[] des) {
@@ -186,11 +204,13 @@ public class Monopoly {
             j.addTempsPrison();
             int[] lancer = jetDeDes();
             inter.afficherLancerDes(lancer);
-            if (j.getNbLiberation() > 0) {
+            if (isDouble(lancer)) {
+                j.sortirPrison();
+                inter.afficher("Vous sortez de prison");
+            } else if (j.getNbLiberation() > 0) {
                 inter.afficher("Vous utilisez votre carte de liberation. Bonne route !");
                 Carte c = j.removeCarteLiberation();
                 cartes.get(c.getType()).push(c);
-            } else if (isDouble(lancer)) {
                 j.sortirPrison();
                 inter.afficher("Vous sortez de prison");
             } else {
@@ -220,7 +240,7 @@ public class Monopoly {
                 lancerDesAvancer(j);
             } else {
                 inter.afficher("Choix de la position.");
-                demo.wait(j);
+                demo.deplacement(j);
             }
             if (!j.estEnPrison()) {
                 int newId = j.getCarreau().getId();
@@ -274,7 +294,7 @@ public class Monopoly {
     public int getNbHotels() {
         return nbHotels;
     }
-    
+
     public int getNbMaisonsRestantes() {
         return nbMaisons - nbMaisonsConstruites;
     }
@@ -333,6 +353,18 @@ public class Monopoly {
 
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void melangerCartes() {
+        for (String type : cartes.keySet()) {
+            Collections.sort(cartes.get(type), new Comparator<Carte>() {
+                @Override
+                public int compare(Carte c1, Carte c2) {
+                    Random rand = new Random();
+                    return (rand.nextInt(10)+1)-5;
+                }
+            });
         }
     }
 

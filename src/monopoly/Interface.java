@@ -56,8 +56,8 @@ public class Interface {
         afficher("Nom : " + j.getNom());
         afficher("Position : " + j.getPosition().getNomCarreau() + "(" + j.getPosition().getId() + ")");
         afficher("Cash : " + j.getCash() + "€");
-        afficher("Carte de Liberation : "+j.getNbLiberation());
-        
+        afficher("Carte de Liberation : " + j.getNbLiberation());
+
         afficher("Propriétés :");
         afficher("  Terrains :");
         for (ProprieteAConstruire p : j.getProprietes()) {
@@ -81,6 +81,17 @@ public class Interface {
         afficher("---===--- Nouveau tour ---===---");
         afficher("Tour n°" + tour);
         afficher("");
+    }
+
+    public void afficherPropriete(CarreauPropriete c) {
+        if (c instanceof Gare) {
+            afficherGare((Gare) c);
+        } else if (c instanceof Compagnie) {
+            afficherCompagnie((Compagnie) c);
+        } else if (c instanceof ProprieteAConstruire) {
+            afficherPropriete((ProprieteAConstruire) c);
+        }
+
     }
 
     public void afficherPropriete(ProprieteAConstruire p) {
@@ -127,13 +138,81 @@ public class Interface {
             afficher("Coût de la gare : " + g.getPrixAchat() + "€");
         }
     }
-    
+
     public void afficherEtatConstructions(Groupe g) {
         afficher("Constructions déjà présente sur les propriétés" + g.getCouleur() + ".");
         for (ProprieteAConstruire p : g.getProprietes()) {
             afficher(p.getNomCarreau() + ":");
             afficher("Nombre de maisons déjà construites :" + p.getNbMaisons());
             afficher("Nombre d'hôtels déjà construites :" + p.getNbHotels());
+        }
+    }
+
+    public void menuAchatPropriete(CarreauPropriete c, Joueur j) {
+        if (c.getPrixAchat() > j.getCash()) {
+            afficher("Vous ne possédez pas assez d'argent pour acheter.");
+            afficher("Il vous manque " + (c.getPrixAchat() - j.getCash()) + "€");
+            afficher("  1) Abandonner");
+            afficher("  2) Terminer votre tour");
+            switch (lireInt(1, 2)) {
+                case 1:
+                    j.abandonner();
+                    break;
+                default:
+                    break;
+            }
+        } else {
+            afficherPropriete(c);
+            afficher("  1) Abandonner");
+            if (c instanceof Gare) {
+                afficher("  2) Acheter cette gare");
+            } else if (c instanceof Compagnie) {
+                afficher("  2) Acheter cette compagnie");
+            } else if (c instanceof ProprieteAConstruire) {
+                afficher("  2) Acheter cette proprieté");
+            }
+            afficher("  3) Terminer votre tour");
+            switch (lireInt(1, 3)) {
+                case 1:
+                    j.abandonner();
+                    break;
+                case 2:
+                    c.achatPropriete(j);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    public void menuLoyer(CarreauPropriete c, Joueur joueur) {
+        int loyer = c.calculLoyer();
+        afficher("Vous etes chez " + c.getProprietaire());
+        afficherPropriete(c);
+        afficher("  1) Abandonner");
+        afficher("  2) Vous payez " + loyer + "€ a " + c.getProprietaire().getNom());
+        switch (lireInt(1, 2)) {
+            case 1:
+                joueur.abandonner();
+                break;
+            default:
+                c.getProprietaire().recevoirArgent(joueur.payer(loyer));
+                break;
+
+        }
+    }
+
+    public void menuMaison(CarreauPropriete c) {
+        afficher("Vous êtes chez vous");
+        afficherPropriete(c);
+        afficher("  1) Abandonner");
+        afficher("  2) Terminer votre tour");
+        switch (lireInt(1, 2)) {
+            case 1:
+                c.getProprietaire().abandonner();
+                break;
+            default:
+                break;
         }
     }
 }

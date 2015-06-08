@@ -52,7 +52,7 @@ public class ProprieteAConstruire extends CarreauPropriete {
 
     
     /* Autres Méthodes */
-    public void Construire() {
+    public void construire() {
         // Récupération du propriétaire du terrain
         Joueur p = super.getProprietaire();
         

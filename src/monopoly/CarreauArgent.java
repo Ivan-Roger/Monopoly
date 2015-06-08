@@ -25,7 +25,7 @@ public class CarreauArgent extends CarreauAction {
         if (montant<0) {
             this.monopoly.inter.afficher("  2) Payer "+(montant*-1)+"€ et terminer votre tour");
         } else if (montant>0) {
-            this.monopoly.inter.afficher("  2) Recevoir "+(montant*-1)+"€ et terminer votre tour");
+            this.monopoly.inter.afficher("  2) Recevoir "+montant+"€ et terminer votre tour");
         } else {
             this.monopoly.inter.afficher("  2) Terminer votre tour");
         }
