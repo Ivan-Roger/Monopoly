@@ -73,7 +73,7 @@ public class ProprieteAConstruire extends CarreauPropriete {
                 peutConstruire[1] = true;  // Toutes les constructions possible ont déjà été faites ou non
         }
         
-        if ( ((nbMaisons < nbMaisonsMax) && (p.getCash() < groupePropriete.getPrixAchatMaison()) ) || ( (nbMaisons == nbMaisonsMax) && (p.getCash() < groupePropriete.getPrixAchatHotel()) ) ) {
+        if ( (p.getCash() < groupePropriete.getPrixAchatMaison()) || ( (nbMaisons == nbMaisonsMax) && (p.getCash() < groupePropriete.getPrixAchatHotel()) ) ) {
             peutConstruire[2] = false;  // Le joueur possède assez d'argent ou non pour construire une maison ou un hôtel
         }
         if (monopoly.getNbMaisonsRestantes() == 0) {
@@ -95,6 +95,7 @@ public class ProprieteAConstruire extends CarreauPropriete {
         } else if (!peutConstruire[4]) {
             monopoly.inter.afficher("Il n'y a plus aucuns hôtels constructibles sur le plateau. Vous ne pouvez pas construire.");
         } else {
+            monopoly.inter.afficherEtatConstructions(groupePropriete);
             
         }
         
