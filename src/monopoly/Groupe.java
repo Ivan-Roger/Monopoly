@@ -21,4 +21,18 @@ public class Groupe {
     public void addPropriete(ProprieteAConstruire p) {
         proprietes.add(p);
     }
+    
+    public ArrayList<ProprieteAConstruire> getProprietes() {
+        return proprietes;
+    }
+
+    public int getPrixAchatMaison() {
+        return prixAchatMaison;
+    }
+
+    public int getPrixAchatHotel() {
+        return prixAchatHotel;
+    }
+    
+    
 }
