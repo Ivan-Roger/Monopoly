@@ -18,7 +18,9 @@ public class CarteArgent extends Carte {
         this.argent = argent;
     }
 
-    //Si l'attribut argent est négatif alors le joueur doit payer sinon il reçoit l'argent
+    /**
+     * Si l'attribut argent est négatif alors le joueur doit payer sinon il reçoit l'argent
+     **/
     @Override
     public void action(Joueur j) {
         if (argent < 0) {

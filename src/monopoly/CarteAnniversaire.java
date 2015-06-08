@@ -18,7 +18,9 @@ public class CarteAnniversaire extends Carte{
 
 
        
-    //Chaque joueur doit donné 10€ à j 
+    /**
+     * Chaque joueur doit donné 10€ à j
+    **/
     @Override
     public void action(Joueur j) {
         for (Joueur payeur : super.monopoly.getJoueurs()) {
