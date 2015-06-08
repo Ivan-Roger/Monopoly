@@ -128,4 +128,13 @@ public class Interface {
             afficher("Coût de la gare : " + g.getPrixAchat() + "€");
         }
     }
+    
+    public void afficherEtatConstructions(Groupe g) {
+        afficher("Constructions déjà présente sur les propriétés" + g.getCouleur() + ".");
+        for (ProprieteAConstruire p : g.getProprietes()) {
+            afficher(p.getNomCarreau() + ":");
+            afficher("Nombre de maisons déjà construites :" + p.getNbMaisons());
+            afficher("Nombre d'hôtels déjà construites :" + p.getNbHotels());
+        }
+    }
 }
