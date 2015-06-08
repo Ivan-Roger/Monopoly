@@ -16,6 +16,8 @@ public class Monopoly {
 
     private int nbMaisons = 32;
     private int nbHotels = 12;
+    private int nbMaisonsConstruites = 0;
+    private int nbHotelsConstruits = 0;
     private HashMap<Integer, Carreau> carreaux;
     private HashMap<CouleurPropriete, Groupe> groupes;
     private ArrayList<Joueur> joueurs;
@@ -243,11 +245,19 @@ public class Monopoly {
     }
 
     public int getNbMaisons() {
-        return this.nbMaisons;
+        return nbMaisons;
     }
 
     public int getNbHotels() {
-        return this.nbHotels;
+        return nbHotels;
+    }
+    
+    public int getNbMaisonsRestantes() {
+        return nbMaisons - nbMaisonsConstruites;
+    }
+
+    public int getNbHotelsRestants() {
+        return nbHotels - nbHotelsConstruits;
     }
 
     public void retirerJoueur(Joueur j) {
