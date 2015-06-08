@@ -13,12 +13,13 @@ public class CarreauArgent extends CarreauAction {
         return montant;
     }
     
+    //Menu CarreauArgent, Le joueur peut soit abandonner soit payer et terminer le tour
     @Override
     public void action(Joueur j) {
         monopoly.inter.afficherCarreauArgent(this);
         j.recevoirArgent(montant);
         this.monopoly.inter.afficher("  1) Abandonner");
-        this.monopoly.inter.afficher("  2) Terminer votre tour");
+        this.monopoly.inter.afficher("  2) Payer et terminer votre tour");
         switch (this.monopoly.inter.lireInt(1, 2)) {
             case 1:
                 j.abandonner();
