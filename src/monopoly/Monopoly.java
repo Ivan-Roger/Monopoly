@@ -221,36 +221,27 @@ public class Monopoly {
                         j.sortirPrison();
                     } else {
                         inter.afficher("Vous ne pouvez pas payer votre caution (50€)");
+                        inter.menuGeneral(j);
                     }
                 }
             }
-
-            this.inter.afficher("  1) Abandonner");
-            this.inter.afficher("  2) Terminer votre tour");
-            switch (this.inter.lireInt(1, 2)) {
-                case 1:
-                    j.abandonner();
-                    break;
-                default:
-                    break;
-            }
-        } else {
-            int oldId = j.getCarreau().getId();
-            if (!modeDemo) {
-                lancerDesAvancer(j);
-            } else {
-                inter.afficher("Choix de la position.");
-                demo.deplacement(j);
-            }
-            if (!j.estEnPrison()) {
-                int newId = j.getCarreau().getId();
-                if (newId < oldId && newId != 1) {
-                    inter.afficher("Vous passez par la case Départ, recevez 200€.");
-                    j.recevoirArgent(carreauDepart.getMontant());
-                }
-                j.getCarreau().action(j);
-            }
         }
+        int oldId = j.getCarreau().getId();
+        if (!modeDemo) {
+            lancerDesAvancer(j);
+        } else {
+            inter.afficher("Choix de la position.");
+            demo.deplacement(j);
+        }
+        if (!j.estEnPrison()) {
+            int newId = j.getCarreau().getId();
+            if (newId < oldId && newId != 1) {
+                inter.afficher("Vous passez par la case Départ, recevez 200€.");
+                j.recevoirArgent(carreauDepart.getMontant());
+            }
+            j.getCarreau().action(j);
+        }
+
         if (!j.abandonne()) {
             inter.afficher("Fin de votre tour ...");
             inter.afficher("Vous finissez avec " + j.getCash() + "€");
@@ -362,7 +353,7 @@ public class Monopoly {
                 @Override
                 public int compare(Carte c1, Carte c2) {
                     Random rand = new Random();
-                    return (rand.nextInt(10)+1)-5;
+                    return (rand.nextInt(10) + 1) - 5;
                 }
             });
         }

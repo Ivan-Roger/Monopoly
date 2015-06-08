@@ -215,4 +215,36 @@ public class Interface {
                 break;
         }
     }
+    
+    public void menuGeneral(Joueur j) {
+        afficher(" COUCOU C'EST MOI !!!!");
+        afficher("  1) Abandonner");
+        afficher("  2) Terminer votre tour");
+        switch (lireInt(1, 2)) {
+            case 1:
+                j.abandonner();
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void menuArgent(Joueur j, int montant) {
+        j.recevoirArgent(montant);
+        afficher("  1) Abandonner");
+        if (montant<0) {
+            afficher("  2) Payer "+(montant*-1)+"€ et terminer votre tour");
+        } else if (montant>0) {
+            afficher("  2) Recevoir "+montant+"€ et terminer votre tour");
+        } else {
+            afficher("  2) Terminer votre tour");
+        }
+        switch (lireInt(1, 2)) {
+            case 1:
+                j.abandonner();
+                break;
+            default:
+                break;
+        }
+    }
 }

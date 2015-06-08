@@ -32,17 +32,7 @@ public class CarreauTirage extends CarreauAction {
             j.addCarteLiberation((CarteLiberePrison) c);
         }
 
-        if (!(c instanceof CarteMouvement)) {
-            this.monopoly.inter.afficher("  1) Abandonner");
-            this.monopoly.inter.afficher("  2) Terminer votre tour");
-            switch (this.monopoly.inter.lireInt(1, 2)) {
-                case 1:
-                    j.abandonner();
-                    break;
-                default:
-                    break;
-            }
-        }
+        monopoly.inter.menuGeneral(j);
     }
 
 }
