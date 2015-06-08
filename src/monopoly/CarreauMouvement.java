@@ -6,7 +6,9 @@ public class CarreauMouvement extends CarreauAction {
         super(numero, nomCarreau, monopoly);
     }
 
-    //Menu CarreauMouvement, le joueur peut soit abandonner soit terminer le tour en prison
+    /**
+     * Menu CarreauMouvement, le joueur peut soit abandonner soit terminer le tour en prison
+    **/
     @Override
     public void action(Joueur j) {
         this.monopoly.inter.afficher("vous tombez sur la case \"Allez en Prison\" ...");

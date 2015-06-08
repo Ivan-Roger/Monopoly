@@ -26,15 +26,15 @@ public abstract class CarreauPropriete extends Carreau {
 
     public abstract void achatPropriete(Joueur joueur);
 
-    /*
-     Menu CarreauPropriete
-     Si la propriété n'a pas de propriétaire 
-     Si le joueur a moins d'argent que le prix de la propriété il peut soit abandonner soit terminer le tour                         
-     Ou si le joueur a plus d'argent que le prix de la propriété il peut soit l'acheter soit abandonner soit terminer le tour
-     Si la propriété a un propriétaire
-     Si ce n'est pas le joueur alors il peut soit abandonner soit payer et terminer le tour
-     Sinon il peut soit abandonner soit terminer le tour
-     */
+    /**
+    * Menu CarreauPropriete
+    * Si la propriété n'a pas de propriétaire 
+    * Si le joueur a moins d'argent que le prix de la propriété il peut soit abandonner soit terminer le tour                         
+    * Ou si le joueur a plus d'argent que le prix de la propriété il peut soit l'acheter soit abandonner soit terminer le tour
+    * Si la propriété a un propriétaire
+    * Si ce n'est pas le joueur alors il peut soit abandonner soit payer et terminer le tour
+    * Sinon il peut soit abandonner soit terminer le tour
+     **/
     @Override
     public void action(Joueur joueur) {
         if (this.proprietaire == null) {
@@ -76,15 +76,15 @@ public abstract class CarreauPropriete extends Carreau {
             }
         } else {
             if (this.proprietaire != joueur) {
-                int var = joueur.payer(this.calculLoyer());
+              
                 this.monopoly.inter.afficher("  1) Abandonner");
-                this.monopoly.inter.afficher("  2) Vous payez " + var + "€ a " + proprietaire.getNom());
+                this.monopoly.inter.afficher("  2) Vous payez " + this.calculLoyer() + "€ a " + proprietaire.getNom());
                 switch (this.monopoly.inter.lireInt(1, 2)) {
                     case 1:
                         joueur.abandonner();
                         break;
                     default:
-                        this.proprietaire.recevoirArgent(joueur.payer(var));
+                        this.proprietaire.recevoirArgent(joueur.payer(this.calculLoyer()));
                         break;
 
                 }

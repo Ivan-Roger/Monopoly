@@ -20,7 +20,7 @@ public class CarteReparation extends Carte {
         this.coutHotel = coutHotel;
     }
 
-
+    
     @Override
     public void action(Joueur j) {
         j.payer(j.getNbHotels() * this.coutHotel + j.getNbMaisons() * this.coutMaison);
