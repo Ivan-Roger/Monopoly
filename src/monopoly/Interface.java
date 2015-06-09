@@ -56,22 +56,22 @@ public class Interface {
         afficher("Nom : " + j.getNom());
         afficher("Position : " + j.getPosition().getNomCarreau() + "(" + j.getPosition().getId() + ")");
         afficher("Cash : " + j.getCash() + "€");
-        afficher("Carte de Liberation : " + j.getNbLiberation());
+        if (j.getNbLiberation()>0) {afficher("Carte de Liberation : " + j.getNbLiberation());}
 
         afficher("Propriétés :");
-        afficher("  Terrains :");
+        if (j.getProprietes().size()>0) {afficher("  Terrains :");}
         for (ProprieteAConstruire p : j.getProprietes()) {
             afficherPropriete(p);
         }
 
-        afficher("  Gares :");
+        if (j.getGares().size()>0) {afficher("  Gares :");}
         for (Gare g : j.getGares()) {
-            afficherGare(g);
+            afficherPropriete(g);
         }
 
-        afficher("  Compagnies :");
+        if (j.getCompagnies().size()>0) {afficher("  Compagnies :");}
         for (Compagnie c : j.getCompagnies()) {
-            afficherCompagnie(c);
+            afficherPropriete(c);
         }
 
         afficher("");
@@ -85,13 +85,12 @@ public class Interface {
 
     public void afficherPropriete(CarreauPropriete c) {
         if (c instanceof Gare) {
-            afficherGare((Gare) c);
+            afficherPropriete((Gare)c);
         } else if (c instanceof Compagnie) {
-            afficherCompagnie((Compagnie) c);
+            afficherPropriete((Compagnie)c);
         } else if (c instanceof ProprieteAConstruire) {
-            afficherPropriete((ProprieteAConstruire) c);
+            afficherPropriete((ProprieteAConstruire)c);
         }
-
     }
 
     public void afficherPropriete(ProprieteAConstruire p) {
@@ -107,17 +106,24 @@ public class Interface {
         }
     }
 
+    public void afficherPropriete(Compagnie c) {
+        afficher("Nom : " + c.getNomCarreau() + "(" + c.getId() + ")");
+        if (c.getProprietaire() == null) {
+            afficher("Coût de la compagnie : " + c.getPrixAchat() + "€");
+        }
+    }
+
+    public void afficherPropriete(Gare g) {
+        afficher("Nom : " + g.getNomCarreau() + "(" + g.getId() + ")");
+        if (g.getProprietaire() == null) {
+            afficher("Coût de la gare : " + g.getPrixAchat() + "€");
+        }
+    }
+
     public void afficherLancerDes(int[] lancer) {
         afficher("Lancer de dés :");
         for (int i : lancer) {
             afficher(i + "/6");
-        }
-    }
-
-    public void afficherCompagnie(Compagnie c) {
-        afficher("Nom : " + c.getNomCarreau() + "(" + c.getId() + ")");
-        if (c.getProprietaire() == null) {
-            afficher("Coût de la compagnie : " + c.getPrixAchat() + "€");
         }
     }
 
@@ -129,13 +135,6 @@ public class Interface {
             afficher("Vous devez payer " + (c.getMontant() * -1) + "€");
         } else {
             afficher("Bonne balade");
-        }
-    }
-
-    public void afficherGare(Gare g) {
-        afficher("Nom : " + g.getNomCarreau() + "(" + g.getId() + ")");
-        if (g.getProprietaire() == null) {
-            afficher("Coût de la gare : " + g.getPrixAchat() + "€");
         }
     }
 
@@ -184,13 +183,17 @@ public class Interface {
             }
         }
     }
+    
+    public void menuConstruire(ProprieteAConstruire p) {
+        
+    }
 
     public void menuLoyer(CarreauPropriete c, Joueur joueur) {
         int loyer = c.calculLoyer();
         afficher("Vous etes chez " + c.getProprietaire());
         afficherPropriete(c);
         afficher("  1) Abandonner");
-        afficher("  2) Vous payez " + loyer + "€ a " + c.getProprietaire().getNom());
+        afficher("  2) Payer " + loyer + "€ a " + c.getProprietaire().getNom());
         switch (lireInt(1, 2)) {
             case 1:
                 joueur.abandonner();
