@@ -140,7 +140,7 @@ public class Interface {
     }
 
     public void afficherEtatConstructions(Groupe g) {
-        afficher("Constructions déjà présente sur les propriétés" + g.getCouleur() + ".");
+        afficher("Constructions déjà présente sur les propriétés" + g.getCouleur() + g.getCouleur().name() + ((char) 27 + "[0m") + ".");
         for (ProprieteAConstruire p : g.getProprietes()) {
             afficher(p.getNomCarreau() + ":");
             afficher("Nombre de maisons déjà construites :" + p.getNbMaisons());
@@ -217,7 +217,6 @@ public class Interface {
     }
     
     public void menuGeneral(Joueur j) {
-        afficher(" COUCOU C'EST MOI !!!!");
         afficher("  1) Abandonner");
         afficher("  2) Terminer votre tour");
         switch (lireInt(1, 2)) {

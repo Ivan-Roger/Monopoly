@@ -11,7 +11,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Random;
-import java.util.logging.Logger;
 
 public class Monopoly {
 
@@ -48,18 +47,20 @@ public class Monopoly {
         buildCartes(this.getClass().getResourceAsStream(cartesPath));
         melangerCartes();
 
-        joueurs.add(new Joueur("Marc", this));
-        joueurs.add(new Joueur("Louis", this));
-//        joueurs.add(new Joueur("Jean-Scott", this));
-//        joueurs.add(new Joueur("Jean-Charles", this));
-//        joueurs.add(new Joueur("Jean-Paul", this));
-//        joueurs.add(new Joueur("Jean-Pierre", this));
-//        joueurs.add(new Joueur("Jean-Luc", this));
-
         inter.afficher("Mode demo ?");
         if (inter.lireBoolean()) {
             demo = new InterfaceDemo(this);
             setModeDemo(true);
+        }
+
+        inter.afficher("Saisie des joueurs :");
+        String s = "";
+        while (!(s.equals("quitter")) || joueurs.size() == 6) {
+            inter.afficher("Entrez le nom ou \"quitter\" :");
+            s = inter.lireString();
+            if (!s.equals("quitter")) {
+                joueurs.add(new Joueur(s, this));
+            }
         }
 
         int turn = 0;
@@ -226,14 +227,14 @@ public class Monopoly {
                 }
             }
         }
-        int oldId = j.getCarreau().getId();
-        if (!modeDemo) {
-            lancerDesAvancer(j);
-        } else {
-            inter.afficher("Choix de la position.");
-            demo.deplacement(j);
-        }
         if (!j.estEnPrison()) {
+            int oldId = j.getCarreau().getId();
+            if (!modeDemo) {
+                lancerDesAvancer(j);
+            } else {
+                inter.afficher("Choix de la position.");
+                demo.deplacement(j);
+            }
             int newId = j.getCarreau().getId();
             if (newId < oldId && newId != 1) {
                 inter.afficher("Vous passez par la case Départ, recevez 200€.");
