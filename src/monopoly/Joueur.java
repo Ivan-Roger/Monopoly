@@ -96,23 +96,11 @@ public class Joueur {
     }
     
     public int getNbGares() {
-        int i = 0;
-        for (CarreauPropriete c : proprietes) {
-            if (c.getClass().getSimpleName() == "Gare") {
-                i++;
-            }
-        }
-        return i;
+        return gares.size();
     }
 
     public int getNbCompagnies() {
-        int i = 0;
-        for (CarreauPropriete c : proprietes) {
-            if (c.getClass().getSimpleName() == "Compagnie") {
-                i++;
-            }
-        }
-        return i;
+        return compagnies.size();
     }
 
     public ArrayList<ProprieteAConstruire> getProprietes() {
@@ -195,4 +183,8 @@ public class Joueur {
         this.nbDouble=0;
     }
 
+    @Override
+    public String toString() {
+        return getNom();
+    }
 }

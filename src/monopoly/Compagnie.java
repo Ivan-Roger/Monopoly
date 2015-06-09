@@ -9,10 +9,13 @@ public class Compagnie extends CarreauPropriete {
     @Override
     public int calculLoyer() {
         if (this.proprietaire.getNbCompagnies() == 2) {
-
-            return this.monopoly.calculTotalDes(this.monopoly.jetDeDes()) * 10;
+            int[] var = this.monopoly.jetDeDes();
+            monopoly.inter.afficherLancerDes(var);
+            return this.monopoly.calculTotalDes(var) * 10;
         } else {
-            return this.monopoly.calculTotalDes(this.monopoly.jetDeDes()) * 4;
+            int[] var = this.monopoly.jetDeDes();
+            monopoly.inter.afficherLancerDes(var);
+            return this.monopoly.calculTotalDes(var) * 4;
         }
 
     }

@@ -10,7 +10,6 @@ public class Gare extends CarreauPropriete {
 
     @Override
     public int calculLoyer() {
-        monopoly.inter.afficher("Debug : " + loyerBase + " - " + proprietaire.getNom());          // DEBUG !!!
         return loyerBase * this.proprietaire.getNbGares();
     }
 

@@ -24,11 +24,11 @@ public class CarteMouvement extends Carte {
      * Si le type de mouvement est relatif 
      *      Si le mouvement fait passer le joueur par la case départ alors lui donner 200€ et le positionner
      *      Sinon le positionner
-     * Sinon (le mouvement est absolue) 
+     * Sinon (le mouvement est absolu) 
      *      Si le mouvement le fait avancer et le fait passer par la case départ alors lui donner 200€ et le positionner
-     *      Sinon Si le mouvement le fait avancer sans le faire passer par la case départ et le positionner
-     *      Sinon faire reculer le joueur
-     *
+     *      Sinon Si le mouvement le fait avancer sans le faire passer par la case départ alors le positionner
+     *      Sinon faire reculer le joueur du nombre indiqué
+     * Jouer l'action relative au nouveau carreau.
      */
     @Override
     public void action(Joueur j) {
@@ -50,6 +50,7 @@ public class CarteMouvement extends Carte {
                 j.setPosition(monopoly.getCarreau(mouvement));
             }
         }
+        j.getCarreau().action(j);
 
     }
 

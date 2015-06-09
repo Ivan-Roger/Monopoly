@@ -10,12 +10,12 @@ public class CarreauTirage extends CarreauAction {
     }
 
     /**
-     *Le joueur tire la carte du type chance ou communauté (selon sa position)
-     * 
-     *Si c'est une crate libéré de prison alors le joueur la récupère
-     *Sinon on remet la carte en bas du paquet
+     * Le joueur tire la carte du type chance ou communauté (selon sa position)
      *
-     *Puis le joueur peut soit abandonner soit terminer le tour
+     * Si c'est une crate libéré de prison alors le joueur la récupère Sinon on
+     * remet la carte en bas du paquet
+     *
+     * Puis le joueur peut soit abandonner soit terminer le tour
      */
     @Override
     public void action(Joueur j) {
@@ -32,15 +32,7 @@ public class CarreauTirage extends CarreauAction {
             j.addCarteLiberation((CarteLiberePrison) c);
         }
 
-        this.monopoly.inter.afficher("  1) Abandonner");
-        this.monopoly.inter.afficher("  2) Terminer votre tour");
-        switch (this.monopoly.inter.lireInt(1, 2)) {
-            case 1:
-                j.abandonner();
-                break;
-            default:
-                break;
-        }
+        monopoly.inter.menuGeneral(j);
     }
 
 }
