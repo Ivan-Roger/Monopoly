@@ -1,5 +1,6 @@
 package monopoly;
 
+import monopoly.ui.InterfaceTexte;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -11,6 +12,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Random;
+import monopoly.ui.Interface;
 
 public class Monopoly {
 
@@ -41,7 +43,7 @@ public class Monopoly {
         buildGamePlateau(this.getClass().getResourceAsStream(carreauxPath));
         carreauDepart = (CarreauArgent) carreaux.get(1);
         carreauPrison = (CarreauArgent) carreaux.get(11);
-        inter = new Interface(this);
+        inter = new InterfaceTexte(this);
         joueurs = new ArrayList<Joueur>();
         cartes = new HashMap<String, LinkedList<Carte>>();
         cartes.put("Chance", new LinkedList<Carte>());
