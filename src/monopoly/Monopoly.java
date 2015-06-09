@@ -28,6 +28,8 @@ public class Monopoly {
     public CarreauAction carreauPrison;
     public InterfaceDemo demo;
     public boolean modeDemo = false;
+    private final int nbMaisonsMax = 3; // Modifiables à la construction pour pouvoir créer une partie personalisée
+    private final int nbHotelsMax = 1;  // Modifiables à la construction pour pouvoir créer une partie personalisée
 
     public Monopoly(String carreauxPath, String cartesPath) {
         carreaux = new HashMap<Integer, Carreau>();
@@ -86,6 +88,14 @@ public class Monopoly {
 
     public void addJoueur(Joueur j) {
         joueurs.add(j);
+    }
+
+    public int getNbMaisonsMax() {
+        return nbMaisonsMax;
+    }
+
+    public int getNbHotelsMax() {
+        return nbHotelsMax;
     }
 
     public HashMap<Integer, Carreau> getCarreaux() {
@@ -236,7 +246,7 @@ public class Monopoly {
                 demo.deplacement(j);
             }
             int newId = j.getCarreau().getId();
-            if (newId < oldId && newId != 1) {
+            if (newId < oldId) {
                 inter.afficher("Vous passez par la case Départ, recevez 200€.");
                 j.recevoirArgent(carreauDepart.getMontant());
             }
