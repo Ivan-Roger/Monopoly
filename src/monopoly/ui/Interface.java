@@ -7,6 +7,7 @@ package monopoly.ui;
 
 import java.util.ArrayList;
 import monopoly.CarreauArgent;
+import monopoly.CarreauMouvement;
 import monopoly.CarreauPropriete;
 import monopoly.CarreauTirage;
 import monopoly.Compagnie;
@@ -112,7 +113,13 @@ public abstract class Interface {
      * Affichage d'un carreauArgent.
      * @param c Le carreau a decrire
      */
-    public abstract void afficherCarreauArgent(CarreauArgent c);
+    public abstract void afficherCarreauArgent(CarreauArgent c, Joueur j);
+    /**
+     * Affichage du CarreauMouvement (instance unique : Aller en prison).
+     * @param c Le carreau a decrire
+     * @param j Le joueur tombant sur le carreau.
+     */
+    public abstract void afficherCarreauMouvement(CarreauMouvement c, Joueur j);
     /**
      * Affichage des maisons et hotels sur un terrain.
      * @param g Le terrain a decrire.
@@ -152,4 +159,10 @@ public abstract class Interface {
      * @param montant Le montant du carreau.
      */
     public abstract void menuArgent(Joueur j, int montant);
+
+    /**
+     * Attends une action de l'utilisateur pour continuer.
+     */
+    public abstract void pause();
+
 }

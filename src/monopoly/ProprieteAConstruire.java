@@ -93,7 +93,7 @@ public class ProprieteAConstruire extends CarreauPropriete {
 
         }
         
-        if ( (p.getCash() < groupePropriete.getPrixAchatMaison()) || ( (nbMaisons == nbMaisonsMax) && (p.getCash() < groupePropriete.getPrixAchatHotel()) ) ) {
+        if ( (p.getCash() < groupePropriete.getPrixAchatMaison()) || ( (nbMaisons == monopoly.getNbMaisonsMax()) && (p.getCash() < groupePropriete.getPrixAchatHotel()) ) ) {
             peutConstruire[2] = false;  // Le joueur possède assez d'argent ou non pour construire une maison ou un hôtel
         }
         if (monopoly.getNbMaisonsRestantes() == 0) {
@@ -120,8 +120,8 @@ public class ProprieteAConstruire extends CarreauPropriete {
             
             // Calcul du nombre de maisons et d'hôtels constructibles en fonction du nombre restant sur la plateau et de l'argent du joueur.
             int compteurCash = p.getCash();
-            int maisons = nbMaisonsMax * groupePropriete.getNbProprietes() - groupePropriete.getNbMaisonsGroupe();
-            int hotels = nbHotelsMax * groupePropriete.getNbProprietes() - groupePropriete.getNbHotelsGroupe();
+            int maisons = monopoly.getNbMaisonsMax() * groupePropriete.getNbProprietes() - groupePropriete.getNbMaisonsGroupe();
+            int hotels = monopoly.getNbHotelsMax() * groupePropriete.getNbProprietes() - groupePropriete.getNbHotelsGroupe();
             if (monopoly.getNbMaisonsRestantes() < maisons) {
                 maisons = monopoly.getNbMaisonsRestantes();
             }
@@ -142,7 +142,7 @@ public class ProprieteAConstruire extends CarreauPropriete {
                     hotelsConstructibles++;
                 }
             }
-            monopoly.inter.afficherConstructionsPossibles(maisonsConstructibles, hotelsConstructibles, groupePropriete);
+            //monopoly.inter.afficherConstructionsPossibles(maisonsConstructibles, hotelsConstructibles, groupePropriete);
             
         }
         

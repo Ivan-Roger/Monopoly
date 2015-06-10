@@ -7,16 +7,17 @@ package monopoly.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.ScrollPaneLayout;
 import javax.swing.border.TitledBorder;
 import monopoly.Joueur;
 
@@ -25,8 +26,8 @@ import monopoly.Joueur;
  * @author rogeri
  */
 class PlayerListUI extends JPanel {
-
-    private JScrollPane list;
+    private InterfaceGraph inter;
+    private JPanel list;
     private ArrayList<JPanel> panels;
     private ArrayList<JLabel> icons;
     private ArrayList<JLabel> noms;
@@ -36,7 +37,8 @@ class PlayerListUI extends JPanel {
     private ArrayList<JButton> cartes;
     private ArrayList<Joueur> joueurs;
 
-    public PlayerListUI() {
+    public PlayerListUI(InterfaceGraph inter) {
+        this.inter=inter;
         joueurs = new ArrayList<Joueur>();
         panels = new ArrayList<JPanel>();
         icons = new ArrayList<JLabel>();
@@ -51,18 +53,22 @@ class PlayerListUI extends JPanel {
     private void initUIComponents() {
         this.setLayout(new BorderLayout());
         this.setBorder(new TitledBorder("Joueurs"));
-        list = new JScrollPane();
-        list.setLayout(new ScrollPaneLayout());
-        this.add(list, BorderLayout.CENTER);
+        list = new JPanel();
+        list.setLayout(new GridLayout(6,1));
+        JScrollPane scroll = new JScrollPane(list);
+        scroll.setPreferredSize(new Dimension(350,500));
+        this.add(scroll, BorderLayout.CENTER);
         this.add(new JLabel("Liste des Joueurs"), BorderLayout.SOUTH);
     }
 
     public void addJoueur(Joueur j) {
         joueurs.add(j);
         JPanel panel = new JPanel();
+        panel.setBorder(BorderFactory.createLineBorder(Color.black));
         panels.add(panel);
         panel.setBackground(Color.GRAY);
         panel.setLayout(new BorderLayout());
+        JPanel avatar = new JPanel();
         icons.add(new JLabel(""));
         String imagePath = j.estEnPrison() ? "/assets/AvatarPrison.png" : "/assets/Avatar.png";
         try {
@@ -70,7 +76,8 @@ class PlayerListUI extends JPanel {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        panel.add(icons.get(icons.size() - 1), BorderLayout.WEST);
+        avatar.add(icons.get(icons.size() - 1));
+        panel.add(avatar, BorderLayout.WEST);
 
         JPanel infos = new JPanel();
         infos.setLayout(new GridLayout(3, 2, 10, 10));
@@ -99,9 +106,8 @@ class PlayerListUI extends JPanel {
     public void updateJoueur(Joueur j,boolean current) {
         int index = joueurs.indexOf(j);
         if (!j.abandonne()) {
-            if (current) {
-                
-            }
+            panels.get(index).setBackground(current ? Color.GRAY : Color.LIGHT_GRAY);
+            
             cash.get(index).setText("Cash : " + j.getCash() + "€");
             String imagePath = j.estEnPrison() ? "/assets/AvatarPrison.png" : "/assets/Avatar.png";
             try {

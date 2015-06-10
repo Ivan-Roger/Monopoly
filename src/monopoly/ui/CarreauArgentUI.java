@@ -28,12 +28,12 @@ class CarreauArgentUI extends CarreauUI {
     private CarreauArgent c;
     private JLabel icon;
     private JLabel nom;
-    private JTextArea log;
-    private JButton getMoney;
+    private JTextArea info;
 
-    public CarreauArgentUI(CarreauArgent c) {
-        super();
+    public CarreauArgentUI(CarreauArgent c, InterfaceGraph inter) {
+        super(inter);
         this.c = c;
+        initUIComponents();
     }
 
     @Override
@@ -51,18 +51,15 @@ class CarreauArgentUI extends CarreauUI {
             e.printStackTrace();
         }
         top.add(icon,BorderLayout.WEST);
-        JLabel type = new JLabel("Carreau Argent ");
+        JLabel type = new JLabel("Carreau Argent");
         top.add(type,BorderLayout.CENTER);
         nom = new JLabel("");
         top.add(nom,BorderLayout.SOUTH);
         this.add(top, BorderLayout.NORTH);
         
-        log = new JTextArea();
-        log.setPreferredSize(new Dimension(50,150));
-        this.add(log, BorderLayout.CENTER);
-        
-        getMoney = new JButton("Recuperer l'argent");
-        this.add(getMoney,BorderLayout.SOUTH);
+        info = new JTextArea();
+        info.setPreferredSize(new Dimension(50,150));
+        this.add(info, BorderLayout.CENTER);
     }
 
 }

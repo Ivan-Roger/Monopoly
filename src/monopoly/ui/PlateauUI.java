@@ -26,10 +26,12 @@ import monopoly.Joueur;
  * @author rogeri
  */
 class PlateauUI extends JPanel {
+    private InterfaceGraph inter;
     private ArrayList<Joueur> joueurs;
     private ArrayList<JLabel> pions;
 
-    public PlateauUI() {
+    public PlateauUI(InterfaceGraph inter) {
+        this.inter=inter;
         joueurs = new ArrayList<Joueur>();
         pions = new ArrayList<JLabel>();
         initUIComponents();

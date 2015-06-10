@@ -17,9 +17,10 @@ import monopoly.CarreauTirage;
 class CarreauTirageUI extends CarreauUI {
     private CarreauTirage c;
 
-    public CarreauTirageUI(CarreauTirage c) {
-        super();
+    public CarreauTirageUI(CarreauTirage c, InterfaceGraph inter) {
+        super(inter);
         this.c = c;
+        initUIComponents();
     }
 
     @Override

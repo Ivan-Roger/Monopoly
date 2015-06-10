@@ -17,7 +17,9 @@ import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.OverlayLayout;
 import javax.swing.SwingConstants;
+import monopoly.Carreau;
 import monopoly.CarreauArgent;
+import monopoly.CarreauMouvement;
 import monopoly.CarreauPropriete;
 import monopoly.CarreauTirage;
 import monopoly.Compagnie;
@@ -34,7 +36,9 @@ import monopoly.ProprieteAConstruire;
  */
 public class InterfaceGraph extends Interface {
 
+    protected Joueur joueur;
     private JFrame fenetre;
+    private JPanel tab;
     private CarreauUI infoCarreau;
     private PlateauUI plateau;
     private PlayerListUI players;
@@ -46,7 +50,7 @@ public class InterfaceGraph extends Interface {
         fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         fenetre.setContentPane(initUIComponents());
         fenetre.setJMenuBar(initMenuBar());
-        fenetre.setSize(new Dimension(1300, 700));
+        fenetre.setSize(new Dimension(1300, 800));
         fenetre.setLocationRelativeTo(null);
         fenetre.setVisible(true);
     }
@@ -55,34 +59,34 @@ public class InterfaceGraph extends Interface {
         JPanel content = new JPanel();
         content.setLayout(new BorderLayout());
 
-        JPanel tab = new JPanel();
+        tab = new JPanel();
         tab.setLayout(new GridBagLayout());
-        
+
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx=0;
-        gbc.gridy=0;
-        gbc.fill=GridBagConstraints.BOTH;
-        gbc.ipadx=10;
-        gbc.ipady=0;
-        
-        infoCarreau = new CarreauArgentUI(monopoly.carreauDepart);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.ipadx = 10;
+        gbc.ipady = 0;
+
+        infoCarreau = new CarreauArgentUI(monopoly.carreauDepart, this);
         tab.add(infoCarreau, gbc);
-        
-        plateau = new PlateauUI();
+
+        plateau = new PlateauUI(this);
         gbc.gridx++;
-        gbc.gridwidth=2;
+        gbc.gridwidth = 2;
         tab.add(plateau, gbc);
-        
-        players = new PlayerListUI();
+
+        players = new PlayerListUI(this);
         gbc.gridx++;
         gbc.gridx++;
-        gbc.gridwidth=1;
+        gbc.gridwidth = 1;
         tab.add(players, gbc);
-        
+
         content.add(tab, BorderLayout.CENTER);
-        
-        controls = new ControlsUI();
-        content.add(controls ,BorderLayout.SOUTH);
+
+        controls = new ControlsUI(this);
+        content.add(controls, BorderLayout.SOUTH);
 
         return content;
     }
@@ -110,48 +114,61 @@ public class InterfaceGraph extends Interface {
 
     @Override
     public void afficher(String message) {
-        controls.log(message+"\n");
+        controls.log(message + "\n");
     }
 
     @Override
     public void afficherInfosJoueur(Joueur j) {
+        if (joueur != null) {
+            plateau.updateJoueur(joueur);
+            players.updateJoueur(joueur, false);
+        }
+        joueur = j;
+        updateCarreauInfo(getCarreauUI(j.getPosition(), this));
+        controls.clearLog();
         plateau.updateJoueur(j);
-        players.updateJoueur(j,true);
+        players.updateJoueur(j, true);
     }
 
     @Override
     public void afficherInfosTour(int tour) {
-        controls.log("\n=== Nouveau tour ===\n" + "Tour n°"+tour+"\n");
+        controls.clearLog();
+        controls.log("=== Nouveau tour ===\n" + "Tour n°" + tour + "\n");
     }
 
     @Override
     public void afficherPropriete(ProprieteAConstruire p) {
-        infoCarreau = new CarreauTerrainUI(p);
+        //infoCarreau = new CarreauTerrainUI(p,this);
     }
 
     @Override
     public void afficherPropriete(Compagnie c) {
-        infoCarreau = new CarreauCompagnieUI();
+        //infoCarreau = new CarreauCompagnieUI(c,this);
     }
 
     @Override
     public void afficherPropriete(Gare g) {
-        infoCarreau = new CarreauGareUI();
+        //infoCarreau = new CarreauGareUI(g,this);
+    }
+
+    @Override
+    public void afficherCarreauArgent(CarreauArgent c, Joueur j) {
+        //infoCarreau = new CarreauArgentUI(c,this);
+    }
+
+    @Override
+    public void afficherCarreauTirage(CarreauTirage c) {
+        //infoCarreau = new CarreauTirageUI(c,this);
+    }
+
+    @Override
+    public void afficherCarreauMouvement(CarreauMouvement c, Joueur j) {
+        //infoCarreau = new CarreauMouvementUI(c,this);
     }
 
     @Override
     public void afficherLancerDes(int[] lancer) {
         controls.setDices(lancer);
-    }
-
-    @Override
-    public void afficherCarreauArgent(CarreauArgent c) {
-        infoCarreau = new CarreauArgentUI(c);
-    }
-
-    @Override
-    public void afficherCarreauTirage(CarreauTirage c) {
-        infoCarreau = new CarreauTirageUI(c);
     }
 
     @Override
@@ -161,32 +178,32 @@ public class InterfaceGraph extends Interface {
 
     @Override
     public void menuAchatPropriete(CarreauPropriete c, Joueur j) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void menuConstruire(ProprieteAConstruire p) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void menuLoyer(CarreauPropriete c, Joueur joueur) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void menuMaison(CarreauPropriete c) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void menuGeneral(Joueur j) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void menuArgent(Joueur j, int montant) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -195,6 +212,45 @@ public class InterfaceGraph extends Interface {
             plateau.addJoueur(p);
             players.addJoueur(p);
         }
+    }
+
+    @Override
+    public void pause() {
+        controls.prompt();
+    }
+
+    private CarreauUI getCarreauUI(Carreau p, InterfaceGraph aThis) {
+        if (p instanceof ProprieteAConstruire) {
+            return new CarreauTerrainUI((ProprieteAConstruire) p, this);
+        } else if (p instanceof Gare) {
+            return new CarreauGareUI((Gare) p, this);
+        } else if (p instanceof Compagnie) {
+            return new CarreauCompagnieUI((Compagnie) p, this);
+        } else if (p instanceof CarreauArgent) {
+            return new CarreauArgentUI((CarreauArgent) p, this);
+        } else if (p instanceof CarreauTirage) {
+            return new CarreauTirageUI((CarreauTirage) p, this);
+        } else if (p instanceof CarreauMouvement) {
+            return new CarreauMouvementUI((CarreauMouvement) p, this);
+        } else {
+            System.out.println("---> Debug : NULL"); // DEBUG !!!
+            return null;
+        }
+    }
+
+    private void updateCarreauInfo(CarreauUI carreauUI) {
+        System.out.println("---> Debug :" + carreauUI.getClass().getSimpleName()); // DEBUG !!!
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.ipadx = 10;
+        gbc.ipady = 0;
+
+        tab.remove(infoCarreau);
+        infoCarreau = carreauUI;
+        tab.add(infoCarreau, gbc);
     }
 
 }

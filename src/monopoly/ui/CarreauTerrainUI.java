@@ -35,9 +35,10 @@ class CarreauTerrainUI extends CarreauUI {
     private JButton achatTerrain;
     private ProprieteAConstruire c;
 
-    public CarreauTerrainUI(ProprieteAConstruire c) {
-        super();
+    public CarreauTerrainUI(ProprieteAConstruire c, InterfaceGraph inter) {
+        super(inter);
         this.c = c;
+        initUIComponents();
     }
 
     @Override

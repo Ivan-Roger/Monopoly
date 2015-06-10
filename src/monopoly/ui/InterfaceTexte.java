@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import monopoly.CarreauArgent;
+import monopoly.CarreauMouvement;
 import monopoly.CarreauPropriete;
 import monopoly.CarreauTirage;
 import monopoly.Compagnie;
@@ -135,7 +136,7 @@ public class InterfaceTexte extends Interface {
     }
 
     @Override
-    public void afficherCarreauArgent(CarreauArgent c) {
+    public void afficherCarreauArgent(CarreauArgent c,Joueur j) {
         afficher("Nom : " + c.getNomCarreau() + "(" + c.getId() + ")");
         if (c.getMontant() > 0) {
             afficher("Vous pouvez recevoir " + c.getMontant() + "€");
@@ -144,6 +145,11 @@ public class InterfaceTexte extends Interface {
         } else {
             afficher("Bonne balade");
         }
+    }
+
+    @Override
+    public void afficherCarreauMouvement(CarreauMouvement c, Joueur j) {
+        afficher("Vosu tombez sur la case \"Allez en prison.\"");
     }
 
     @Override
@@ -292,5 +298,10 @@ public class InterfaceTexte extends Interface {
     @Override
     public void afficherCarreauTirage(CarreauTirage c) {
         afficher("Vous tirez une carte " + c.getType());
+    }
+
+    @Override
+    public void pause() {
+        lireString();
     }
 }

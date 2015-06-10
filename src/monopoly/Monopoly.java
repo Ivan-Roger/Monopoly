@@ -85,9 +85,9 @@ public class Monopoly {
             }
         }
 */
-        joueurs.add(new Joueur("AAA",this));
-        joueurs.add(new Joueur("BBB",this));
-        joueurs.add(new Joueur("CCC",this));
+        joueurs.add(new Joueur("Alpha",this));
+        joueurs.add(new Joueur("Beta",this));
+        joueurs.add(new Joueur("Gama",this));
         
         inter.initInfosJoueurs(joueurs);
         
@@ -283,7 +283,7 @@ public class Monopoly {
             inter.afficher("Fin de votre tour ...");
             inter.afficher("Vous finissez avec " + j.getCash() + "€");
             inter.afficher("Appuyez sur entrée pour continuer.");
-            inter.lireString();
+            inter.pause();
         }
 
     }

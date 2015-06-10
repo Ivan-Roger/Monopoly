@@ -15,41 +15,41 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.border.TitledBorder;
-import monopoly.Gare;
+import monopoly.CarreauMouvement;
 
 /**
- * class : CarreauGareUI
+ * class : CarreauMouvementUI
  * by    : rogeri
  * @author rogeri
  */
-class CarreauGareUI extends CarreauUI {
-    private Gare g;
+class CarreauMouvementUI extends CarreauUI {
+    private CarreauMouvement c;
     private JLabel icon;
     private JLabel nom;
     private JTextArea info;
-    
-    public CarreauGareUI(Gare g, InterfaceGraph inter) {
+
+    public CarreauMouvementUI(CarreauMouvement c, InterfaceGraph inter) {
         super(inter);
-        this.g=g;
+        this.c = c;
         initUIComponents();
     }
 
     @Override
     protected void initUIComponents() {
-        this.setBorder(new TitledBorder("Gare"));
+        this.setBorder(new TitledBorder("Carreau Mouvement"));
         this.setLayout(new BorderLayout());
         
         JPanel top = new JPanel();
         top.setLayout(new BorderLayout());
         icon = new JLabel("");
         try {
-            Image image = ImageIO.read(this.getClass().getResourceAsStream("/assets/Gare.png"));
+            Image image = ImageIO.read(this.getClass().getResourceAsStream("/assets/CarreauMouvement.png"));
             icon.setIcon(new ImageIcon(image));
         } catch (IOException e) {
             e.printStackTrace();
         }
         top.add(icon,BorderLayout.WEST);
-        JLabel type = new JLabel("Gare");
+        JLabel type = new JLabel("Carreau Mouvement");
         top.add(type,BorderLayout.CENTER);
         nom = new JLabel("");
         top.add(nom,BorderLayout.SOUTH);

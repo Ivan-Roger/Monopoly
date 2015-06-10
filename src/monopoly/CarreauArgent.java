@@ -14,12 +14,12 @@ public class CarreauArgent extends CarreauAction {
     }
     
     /**
-     * Menu CarreauArgent, Le joueur peut soit abandonner soit payer et terminer le tour  
-    **/
- 
+     * Menu CarreauArgent, Le joueur peut soit abandonner soit payer et terminer le tour.
+     * @param j Le joueur tombant sur le carreau.
+    **/ 
     @Override
     public void action(Joueur j) {
-        monopoly.inter.afficherCarreauArgent(this);
+        monopoly.inter.afficherCarreauArgent(this,j);
         monopoly.inter.menuArgent(j, montant);
     }
 }

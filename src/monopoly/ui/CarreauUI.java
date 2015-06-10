@@ -14,9 +14,10 @@ import monopoly.Carreau;
  * @author rogeri
  */
 public abstract class CarreauUI extends JPanel {
-
-    public CarreauUI() {
-        initUIComponents();
+    protected InterfaceGraph inter;
+    
+    public CarreauUI(InterfaceGraph inter) {
+        this.inter=inter;
     }
     
     protected abstract void initUIComponents();
