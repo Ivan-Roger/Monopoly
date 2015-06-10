@@ -21,7 +21,7 @@ public class CarreauTirage extends CarreauAction {
     public void action(Joueur j) {
         //communauté  3 - 18 - 34
         //chance      8 - 23 - 37
-        super.monopoly.inter.afficher("Vous tirez une carte " + type);
+        monopoly.inter.afficherCarreauTirage(this);
         Carte c = monopoly.getCarteSuivante(type);
         monopoly.inter.afficher("Carte : " + c.getDesc());
         c.action(j);
@@ -33,6 +33,10 @@ public class CarreauTirage extends CarreauAction {
         }
 
         monopoly.inter.menuGeneral(j);
+    }
+
+    public String getType() {
+        return type;
     }
 
 }

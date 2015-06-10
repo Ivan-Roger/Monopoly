@@ -1,9 +1,11 @@
 package monopoly.ui;
 
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import monopoly.CarreauArgent;
 import monopoly.CarreauPropriete;
+import monopoly.CarreauTirage;
 import monopoly.Compagnie;
 import monopoly.Gare;
 import monopoly.Groupe;
@@ -95,17 +97,6 @@ public class InterfaceTexte extends Interface {
     }
 
     @Override
-    public void afficherPropriete(CarreauPropriete c) {
-        if (c instanceof Gare) {
-            afficherPropriete((Gare)c);
-        } else if (c instanceof Compagnie) {
-            afficherPropriete((Compagnie)c);
-        } else if (c instanceof ProprieteAConstruire) {
-            afficherPropriete((ProprieteAConstruire)c);
-        }
-    }
-
-    @Override
     public void afficherPropriete(ProprieteAConstruire p) {
         afficher("Nom : " + p.getGroupe().getCouleur() + p.getNomCarreau() + ((char) 27 + "[0m") + "(" + p.getId() + ") -  " + "Groupe : " + p.getGroupe().getCouleur().name());
         if (p.getProprietaire() == null) {
@@ -165,7 +156,11 @@ public class InterfaceTexte extends Interface {
         }
     }
 
-    @Override
+    /**
+     * Menu d'achat d'un terrain, gare ou compagnie.
+     * @param c Le terrain
+     * @param j l'acheteur
+     */
     public void menuAchatPropriete(CarreauPropriete c, Joueur j) {
         if (c.getPrixAchat() > j.getCash()) {
             afficher("Vous ne possédez pas assez d'argent pour acheter.");
@@ -203,12 +198,19 @@ public class InterfaceTexte extends Interface {
         }
     }
     
-    @Override
+    /**
+     * Menu de construction de maison ou d'hotel.
+     * @param p 
+     */
     public void menuConstruire(ProprieteAConstruire p) {
         
     }
 
-    @Override
+    /**
+     * Menu pour payer le loyer lors de l'arrivée sur un terrain.
+     * @param c Le terrain
+     * @param joueur Le payeur
+     */
     public void menuLoyer(CarreauPropriete c, Joueur joueur) {
         int loyer = c.calculLoyer();
         afficher("Vous etes chez " + c.getProprietaire());
@@ -226,7 +228,10 @@ public class InterfaceTexte extends Interface {
         }
     }
 
-    @Override
+    /**
+     * Menu lors de lavisite du proprietaire sur son terrain.
+     * @param c Le terrain.
+     */
     public void menuMaison(CarreauPropriete c) {
         afficher("Vous êtes chez vous");
         afficherPropriete(c);
@@ -241,7 +246,10 @@ public class InterfaceTexte extends Interface {
         }
     }
     
-    @Override
+    /**
+     * Menu general.
+     * @param j Le joueur
+     */
     public void menuGeneral(Joueur j) {
         afficher("  1) Abandonner");
         afficher("  2) Terminer votre tour");
@@ -254,7 +262,11 @@ public class InterfaceTexte extends Interface {
         }
     }
 
-    @Override
+    /**
+     * Menu lors de l'arrivée sur un carreau argent.
+     * @param j Le visiteur.
+     * @param montant Le montant du carreau.
+     */
     public void menuArgent(Joueur j, int montant) {
         j.recevoirArgent(montant);
         afficher("  1) Abandonner");
@@ -272,5 +284,13 @@ public class InterfaceTexte extends Interface {
             default:
                 break;
         }
+    }
+
+    @Override
+    public void initInfosJoueurs(ArrayList<Joueur> j) {}
+
+    @Override
+    public void afficherCarreauTirage(CarreauTirage c) {
+        afficher("Vous tirez une carte " + c.getType());
     }
 }

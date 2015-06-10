@@ -1,6 +1,5 @@
 package monopoly;
 
-import monopoly.ui.InterfaceTexte;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -13,6 +12,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Random;
 import monopoly.ui.Interface;
+import monopoly.ui.InterfaceGraph;
+import monopoly.ui.InterfaceTexte;
 
 public class Monopoly {
 
@@ -43,30 +44,53 @@ public class Monopoly {
         buildGamePlateau(this.getClass().getResourceAsStream(carreauxPath));
         carreauDepart = (CarreauArgent) carreaux.get(1);
         carreauPrison = (CarreauArgent) carreaux.get(11);
-        inter = new InterfaceTexte(this);
+//        inter = new InterfaceTexte(this);
+        inter = new InterfaceGraph(this);
         joueurs = new ArrayList<Joueur>();
         cartes = new HashMap<String, LinkedList<Carte>>();
         cartes.put("Chance", new LinkedList<Carte>());
         cartes.put("Caisse de Communauté", new LinkedList<Carte>());
         buildCartes(this.getClass().getResourceAsStream(cartesPath));
         melangerCartes();
+        try {
+            gameLoop();
+//        } catch (UnsupportedOperationException e) {
+//            System.err.println("InDev ...");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
+    private void gameLoop() {
+/*
         inter.afficher("Mode demo ?");
         if (inter.lireBoolean()) {
             demo = new InterfaceDemo(this);
             setModeDemo(true);
         }
-
+      //>>> Remplacer par une fonction saisieJoueurs dans Interface <<<
         inter.afficher("Saisie des joueurs :");
         String s = "";
-        while (!(s.equals("quitter")) || joueurs.size() == 6) {
+        String[] anciensNoms;
+        while (!(s.equals("quitter")) && joueurs.size() < 6) {
             inter.afficher("Entrez le nom ou \"quitter\" :");
             s = inter.lireString();
+            // Empecher la saisie du meme nom
+//            while (errSaisie) {
+//                inter.afficher("Veuillez entrer un nom libre :");
+//                s = inter.lireString();
+//            }
             if (!s.equals("quitter")) {
                 joueurs.add(new Joueur(s, this));
             }
         }
-
+*/
+        joueurs.add(new Joueur("AAA",this));
+        joueurs.add(new Joueur("BBB",this));
+        joueurs.add(new Joueur("CCC",this));
+        
+        inter.initInfosJoueurs(joueurs);
+        
         int turn = 0;
         while (joueurs.size() > 1) {
             turn++;

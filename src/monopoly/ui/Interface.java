@@ -5,8 +5,10 @@
 
 package monopoly.ui;
 
+import java.util.ArrayList;
 import monopoly.CarreauArgent;
 import monopoly.CarreauPropriete;
+import monopoly.CarreauTirage;
 import monopoly.Compagnie;
 import monopoly.Gare;
 import monopoly.Groupe;
@@ -27,6 +29,12 @@ public abstract class Interface {
     public Interface(Monopoly monopoly){
         this.monopoly = monopoly;
     }
+    
+    /**
+     * Initialisation des infos sur les joueurs.
+     * @param j Tableau de joueurs.
+     */
+    public abstract void initInfosJoueurs(ArrayList<Joueur> j);
     
     /**
      * Lecture d'un entier entre les valeurs definies. Saisie verifié.
@@ -63,10 +71,23 @@ public abstract class Interface {
      */
     public abstract void afficherInfosTour(int tour);
     /**
+     * Affichage des info d'une proprieté. Propriete
+     * @param p La Proprieté a decrire
+     */
+    public abstract void afficherCarreauTirage(CarreauTirage c);
+    /**
      * Affichage des info d'une proprieté. Compagnie, Gare ou Propriete
      * @param c La propriete a decrire.
      */
-    public abstract void afficherPropriete(CarreauPropriete c);
+    public void afficherPropriete(CarreauPropriete c) {
+        if (c instanceof Gare) {
+            afficherPropriete((Gare)c);
+        } else if (c instanceof Compagnie) {
+            afficherPropriete((Compagnie)c);
+        } else if (c instanceof ProprieteAConstruire) {
+            afficherPropriete((ProprieteAConstruire)c);
+        }
+    }
     /**
      * Affichage des info d'une proprieté. Propriete
      * @param p La Proprieté a decrire
@@ -99,7 +120,7 @@ public abstract class Interface {
     public abstract void afficherEtatConstructions(Groupe g);
     
     /**
-     * Menu d'acaht d'un terrain, gare ou compagnie.
+     * Menu d'achat d'un terrain, gare ou compagnie.
      * @param c Le terrain
      * @param j l'acheteur
      */
