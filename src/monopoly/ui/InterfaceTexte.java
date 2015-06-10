@@ -7,6 +7,7 @@ import monopoly.CarreauArgent;
 import monopoly.CarreauMouvement;
 import monopoly.CarreauPropriete;
 import monopoly.CarreauTirage;
+import monopoly.Carte;
 import monopoly.Compagnie;
 import monopoly.Gare;
 import monopoly.Groupe;
@@ -22,8 +23,13 @@ public class InterfaceTexte extends Interface {
     }
 
     /* Lecture */
-    @Override
-    public int lireInt(int min, int max) {
+    /**
+     * Lecture d'un entier entre les valeurs definies. Saisie verifié.
+     * @param min Valeur minimale
+     * @param max Valeur maximale
+     * @return L'entier saisi
+     */
+    private int lireInt(int min, int max) {
         Scanner sc = new Scanner(System.in);
         int nb = min - 1;
         while (nb < min || nb > max) {
@@ -38,8 +44,11 @@ public class InterfaceTexte extends Interface {
         return nb;
     }
 
-    @Override
-    public boolean lireBoolean() {
+    /**
+     * Lecture d'un boolean (oui/non).
+     * @return (Oui - True / Non - False)
+     */
+    private boolean lireBoolean() {
         String st = "";
         Scanner sc = new Scanner(System.in);
         while (!"oui".equals(st) && !"non".equals(st)) {
@@ -49,16 +58,18 @@ public class InterfaceTexte extends Interface {
         return "oui".equals(st);
     }
 
-    @Override
-    public String lireString() {
+    /**
+     * Lecture d'un saisie libre de texte. Non limité en longueur.
+     * @return Le texte saisi
+     */
+    private String lireString() {
         Scanner sc = new Scanner(System.in);
         String st = sc.nextLine();
         return st;
     }
 
     /* Affichage */
-    @Override
-    public void afficher(String message) {
+    private void afficher(String message) {
         System.out.println(message);
     }
 
@@ -296,12 +307,40 @@ public class InterfaceTexte extends Interface {
     public void initInfosJoueurs(ArrayList<Joueur> j) {}
 
     @Override
-    public void afficherCarreauTirage(CarreauTirage c) {
-        afficher("Vous tirez une carte " + c.getType());
+    public void pause() {
+        afficher("Appuyez sue entrée pour continuer");
+        lireString();
     }
 
     @Override
-    public void pause() {
-        lireString();
+    public void afficherCarreauTirage(CarreauTirage p, Carte c) {
+        afficher("Vous tirez un carte : "+c);
+    }
+
+    @Override
+    public void info(String message) {
+        afficher(message);
+    }
+
+    @Override
+    public void afficherPrison(Joueur j) {
+        afficher("Vous etes en prison");
+    }
+
+    @Override
+    public void passageDepart() {
+        afficher("Vous passez par la case Départ, recevez 200€.");
+    }
+
+    @Override
+    public void finTour(Joueur j) {
+        afficher("Fin de votre tour ...");
+        afficher("Vous finisez avec "+j.getCash()+"€");
+        pause();
+    }
+
+    @Override
+    public void afficherLiberation(String message) {
+        afficher(message);
     }
 }

@@ -21,9 +21,8 @@ public class CarreauTirage extends CarreauAction {
     public void action(Joueur j) {
         //communauté  3 - 18 - 34
         //chance      8 - 23 - 37
-        monopoly.inter.afficherCarreauTirage(this);
         Carte c = monopoly.getCarteSuivante(type);
-        monopoly.inter.afficher("Carte : " + c.getDesc());
+        monopoly.inter.afficherCarreauTirage(this,c);
         c.action(j);
 
         if (!(c instanceof CarteLiberePrison)) {

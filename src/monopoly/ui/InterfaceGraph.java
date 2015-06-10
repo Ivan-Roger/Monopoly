@@ -5,23 +5,20 @@
 package monopoly.ui;
 
 import java.awt.BorderLayout;
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.util.ArrayList;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.OverlayLayout;
-import javax.swing.SwingConstants;
 import monopoly.Carreau;
 import monopoly.CarreauArgent;
 import monopoly.CarreauMouvement;
 import monopoly.CarreauPropriete;
 import monopoly.CarreauTirage;
+import monopoly.Carte;
 import monopoly.Compagnie;
 import monopoly.Gare;
 import monopoly.Groupe;
@@ -50,7 +47,7 @@ public class InterfaceGraph extends Interface {
         fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         fenetre.setContentPane(initUIComponents());
         fenetre.setJMenuBar(initMenuBar());
-        fenetre.setSize(new Dimension(1300, 800));
+        fenetre.setSize(new Dimension(1350, 800));
         fenetre.setLocationRelativeTo(null);
         fenetre.setVisible(true);
     }
@@ -97,23 +94,7 @@ public class InterfaceGraph extends Interface {
         return menu;
     }
 
-    @Override
-    public int lireInt(int min, int max) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean lireBoolean() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public String lireString() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void afficher(String message) {
+    private void afficher(String message) {
         controls.log(message + "\n");
     }
 
@@ -154,11 +135,6 @@ public class InterfaceGraph extends Interface {
     @Override
     public void afficherCarreauArgent(CarreauArgent c, Joueur j) {
         //infoCarreau = new CarreauArgentUI(c,this);
-    }
-
-    @Override
-    public void afficherCarreauTirage(CarreauTirage c) {
-        //infoCarreau = new CarreauTirageUI(c,this);
     }
 
     @Override
@@ -233,13 +209,11 @@ public class InterfaceGraph extends Interface {
         } else if (p instanceof CarreauMouvement) {
             return new CarreauMouvementUI((CarreauMouvement) p, this);
         } else {
-            System.out.println("---> Debug : NULL"); // DEBUG !!!
             return null;
         }
     }
 
     private void updateCarreauInfo(CarreauUI carreauUI) {
-        System.out.println("---> Debug :" + carreauUI.getClass().getSimpleName()); // DEBUG !!!
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -251,6 +225,38 @@ public class InterfaceGraph extends Interface {
         tab.remove(infoCarreau);
         infoCarreau = carreauUI;
         tab.add(infoCarreau, gbc);
+        try {fenetre.wait();} catch(Exception e) {e.printStackTrace();}
+        tab.repaint();
+    }
+
+    @Override
+    public void afficherCarreauTirage(CarreauTirage p, Carte c) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void info(String message) {
+        JOptionPane.showMessageDialog(fenetre, message);
+    }
+
+    @Override
+    public void afficherPrison(Joueur j) {
+        afficher("Vous etes en Prison.");
+    }
+
+    @Override
+    public void passageDepart() {
+        afficher("Vous passez par la case départ, recevez 200€");
+    }
+
+    @Override
+    public void finTour(Joueur j) {
+        afficher("Fin de votre tour.");
+    }
+
+    @Override
+    public void afficherLiberation(String message) {
+        afficher(message);
     }
 
 }

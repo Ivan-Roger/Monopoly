@@ -46,8 +46,8 @@ public class Monopoly {
         buildGamePlateau(this.getClass().getResourceAsStream(carreauxPath));
         carreauDepart = (CarreauArgent) carreaux.get(1);
         carreauPrison = (CarreauArgent) carreaux.get(11);
-        inter = new InterfaceTexte(this);
-        //       inter = new InterfaceGraph(this);
+        //inter = new InterfaceTexte(this);
+               inter = new InterfaceGraph(this);
         joueurs = new ArrayList<Joueur>();
         cartes = new HashMap<String, LinkedList<Carte>>();
         cartes.put("Chance", new LinkedList<Carte>());
@@ -112,11 +112,11 @@ public class Monopoly {
                 jouerUnCoup(j);
                 if (j.getCash() <= 0) {
                     joueurs.remove(j);
-                    inter.afficher("Vous avez 0€. Vous avez perdu !");
+                    inter.info("Vous avez 0€. Vous avez perdu !");
                 }
             }
         }
-        inter.afficher("Le joueur " + joueurs.get(0).getNom() + " a gagné !");
+        inter.info("Le joueur " + joueurs.get(0).getNom() + " a gagné !");
         System.exit(0);
     }
 
@@ -292,29 +292,27 @@ public class Monopoly {
      * @param j
      */
     private void jouerUnCoup(Joueur j) {
-        inter.afficher("");
         if (j.estEnPrison()) {
-            inter.afficher("Vous etes en prison");
+            inter.afficherPrison(j);
             j.addTempsPrison();
             int[] lancer = jetDeDes();
             inter.afficherLancerDes(lancer);
             if (isDouble(lancer)) {
                 j.sortirPrison();
-                inter.afficher("Vous sortez de prison");
+                inter.afficherLiberation("Vous avez fait un double, vous sortez de prison");
             } else if (j.getNbLiberation() > 0) {
-                inter.afficher("Vous utilisez votre carte de liberation. Bonne route !");
+                inter.afficherLiberation("Vous utilisez votre carte de liberation, vous sortez de prison");
                 Carte c = j.removeCarteLiberation();
                 cartes.get(c.getType()).push(c);
                 j.sortirPrison();
-                inter.afficher("Vous sortez de prison");
             } else {
                 if (j.getTempsPrison() >= 3) {
                     if (j.getCash() >= 50) {
                         j.payer(50);
-                        inter.afficher("Vous avez payé votre caution de 50€");
+                        inter.afficherLiberation("Vous avez payé votre caution de 50€, vous sortez de prison");
                         j.sortirPrison();
                     } else {
-                        inter.afficher("Vous ne pouvez pas payer votre caution (50€)");
+                        inter.info("Vous ne pouvez pas payer votre caution (50€)");
                         inter.menuGeneral(j);
                     }
                 }
@@ -325,21 +323,18 @@ public class Monopoly {
             if (!modeDemo) {
                 lancerDesAvancer(j);
             } else {
-                inter.afficher("Choix de la position.");
                 demo.deplacement(j);
             }
             int newId = j.getCarreau().getId();
             if (newId < oldId) {
-                inter.afficher("Vous passez par la case Départ, recevez 200€.");
+                inter.passageDepart();
                 j.recevoirArgent(carreauDepart.getMontant());
             }
             j.getCarreau().action(j);
         }
 
         if (!j.abandonne()) {
-            inter.afficher("Fin de votre tour ...");
-            inter.afficher("Vous finissez avec " + j.getCash() + "€");
-            inter.afficher("Appuyez sur entrée pour continuer.");
+            inter.finTour(j);
             inter.pause();
         }
 
@@ -362,7 +357,7 @@ public class Monopoly {
                 j.addNbDouble();
             } else {
                 j.allerEnPrison();
-                inter.afficher("Vous avez fait 3 doubles ... Allez en Prison !");
+                inter.info("Vous avez fait 3 doubles ... Allez en Prison !");
             }
         }
         if (!j.estEnPrison()) {

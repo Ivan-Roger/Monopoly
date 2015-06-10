@@ -87,7 +87,7 @@ public class Joueur {
 
     public void abandonner() {
         monopoly.retirerJoueur(this);
-        this.monopoly.inter.afficher("Vous avez abandonné");
+        this.monopoly.inter.info("Vous avez abandonné");
         abandonne = true;
     }
     

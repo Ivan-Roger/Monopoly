@@ -18,6 +18,6 @@ public class Gare extends CarreauPropriete {
         this.setProprietaire(j);
         j.addGare(this);
         j.payer(prixAchat);
-        this.monopoly.inter.afficher("Vous venez d'acheter la gare.");
+        this.monopoly.inter.info("Vous venez d'acheter la gare.");
     }
 }

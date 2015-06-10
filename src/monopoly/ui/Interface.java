@@ -10,6 +10,7 @@ import monopoly.CarreauArgent;
 import monopoly.CarreauMouvement;
 import monopoly.CarreauPropriete;
 import monopoly.CarreauTirage;
+import monopoly.Carte;
 import monopoly.Compagnie;
 import monopoly.Gare;
 import monopoly.Groupe;
@@ -37,29 +38,6 @@ public abstract class Interface {
      */
     public abstract void initInfosJoueurs(ArrayList<Joueur> j);
     
-    /**
-     * Lecture d'un entier entre les valeurs definies. Saisie verifié.
-     * @param min Valeur minimale
-     * @param max Valeur maximale
-     * @return L'entier saisi
-     */
-    public abstract int lireInt(int min, int max);
-    /**
-     * Lecture d'un boolean (oui/non).
-     * @return (Oui - True / Non - False)
-     */
-    public abstract boolean lireBoolean();
-    /**
-     * Lecture d'un saisie libre de texte. Non limité en longueur.
-     * @return Le texte saisi
-     */
-    public abstract String lireString();
-    
-    /**
-     * Affichage général. A utiliser lorsque l'information n'est pas recurente.
-     * @param message Le message a afficher.
-     */
-    public abstract void afficher(String message);
     
     /**
      * Affichage de toutes les infos sur un joueur. 
@@ -72,10 +50,10 @@ public abstract class Interface {
      */
     public abstract void afficherInfosTour(int tour);
     /**
-     * Affichage des info d'une proprieté. Propriete
-     * @param p La Proprieté a decrire
+     * Affichage des info d'un carreau Tirage.
+     * @param p Le carreau a decrire
      */
-    public abstract void afficherCarreauTirage(CarreauTirage c);
+    public abstract void afficherCarreauTirage(CarreauTirage p, Carte c);
     /**
      * Affichage des info d'une proprieté. Compagnie, Gare ou Propriete
      * @param c La propriete a decrire.
@@ -164,5 +142,19 @@ public abstract class Interface {
      * Attends une action de l'utilisateur pour continuer.
      */
     public abstract void pause();
+
+    /**
+     * Affichage général. A utiliser lorsque l'information n'est pas recurente.
+     * @param message Le message a afficher.
+     */
+    public abstract void info(String message);
+
+    public abstract void afficherPrison(Joueur j);
+
+    public abstract void passageDepart();        
+
+    public abstract void finTour(Joueur j);
+
+    public abstract void afficherLiberation(String message);
 
 }

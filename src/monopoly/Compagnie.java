@@ -25,6 +25,6 @@ public class Compagnie extends CarreauPropriete {
         this.setProprietaire(j);
         j.addCompagnie(this);
         j.payer(this.prixAchat);
-        this.monopoly.inter.afficher("Vous venez d'acheter la compagnie.");
+        this.monopoly.inter.info("Vous venez d'acheter la compagnie.");
     }
 }
