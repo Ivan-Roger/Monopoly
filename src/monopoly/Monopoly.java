@@ -31,8 +31,10 @@ public class Monopoly {
     public CarreauAction carreauPrison;
     public InterfaceDemo demo;
     public boolean modeDemo = false;
-    private final int nbMaisonsMax = 3; // Modifiables à la construction pour pouvoir créer une partie personalisée
+    private final int nbMaisonsMax = 4; // Modifiables à la construction pour pouvoir créer une partie personalisée
     private final int nbHotelsMax = 1;  // Modifiables à la construction pour pouvoir créer une partie personalisée
+    
+    
 
     public Monopoly(String carreauxPath, String cartesPath) {
         carreaux = new HashMap<Integer, Carreau>();
@@ -44,8 +46,8 @@ public class Monopoly {
         buildGamePlateau(this.getClass().getResourceAsStream(carreauxPath));
         carreauDepart = (CarreauArgent) carreaux.get(1);
         carreauPrison = (CarreauArgent) carreaux.get(11);
-//        inter = new InterfaceTexte(this);
-        inter = new InterfaceGraph(this);
+        inter = new InterfaceTexte(this);
+        //       inter = new InterfaceGraph(this);
         joueurs = new ArrayList<Joueur>();
         cartes = new HashMap<String, LinkedList<Carte>>();
         cartes.put("Chance", new LinkedList<Carte>());
@@ -61,36 +63,42 @@ public class Monopoly {
         }
     }
 
+    /**
+     *
+     * Cette fonction est la boucle de jeu, elle gère donc les tours des joueurs
+     * ainsi que la victoire.
+     *
+     */
     private void gameLoop() {
-/*
-        inter.afficher("Mode demo ?");
-        if (inter.lireBoolean()) {
-            demo = new InterfaceDemo(this);
-            setModeDemo(true);
-        }
-      //>>> Remplacer par une fonction saisieJoueurs dans Interface <<<
-        inter.afficher("Saisie des joueurs :");
-        String s = "";
-        String[] anciensNoms;
-        while (!(s.equals("quitter")) && joueurs.size() < 6) {
-            inter.afficher("Entrez le nom ou \"quitter\" :");
-            s = inter.lireString();
-            // Empecher la saisie du meme nom
-//            while (errSaisie) {
-//                inter.afficher("Veuillez entrer un nom libre :");
-//                s = inter.lireString();
-//            }
-            if (!s.equals("quitter")) {
-                joueurs.add(new Joueur(s, this));
-            }
-        }
-*/
-        joueurs.add(new Joueur("AAA",this));
-        joueurs.add(new Joueur("BBB",this));
-        joueurs.add(new Joueur("CCC",this));
-        
+        /*
+         inter.afficher("Mode demo ?");
+         if (inter.lireBoolean()) {
+         demo = new InterfaceDemo(this);
+         setModeDemo(true);
+         }
+         //>>> Remplacer par une fonction saisieJoueurs dans Interface <<<
+         inter.afficher("Saisie des joueurs :");
+         String s = "";
+         String[] anciensNoms;
+         while (!(s.equals("quitter")) && joueurs.size() < 6) {
+         inter.afficher("Entrez le nom ou \"quitter\" :");
+         s = inter.lireString();
+         // Empecher la saisie du meme nom
+         //            while (errSaisie) {
+         //                inter.afficher("Veuillez entrer un nom libre :");
+         //                s = inter.lireString();
+         //            }
+         if (!s.equals("quitter")) {
+         joueurs.add(new Joueur(s, this));
+         }
+         }
+         */
+        joueurs.add(new Joueur("AAA", this));
+        joueurs.add(new Joueur("BBB", this));
+        joueurs.add(new Joueur("CCC", this));
+
         inter.initInfosJoueurs(joueurs);
-        
+
         int turn = 0;
         while (joueurs.size() > 1) {
             turn++;
@@ -144,10 +152,22 @@ public class Monopoly {
         }
     }
 
+    /**
+     * Fonction qui permet de replacer une carte d'un type donné (chance ou
+     * caisse de communauté) à la fin de la pile de carte.
+     *
+     * @param type
+     * @param c
+     */
     public void addCarteFin(String type, Carte c) {
         cartes.get(type).add(c);
     }
 
+    /**
+     * Cette fonction génère le plateau de jeu à partir du fichier de donnée
+     *
+     * @param dataFile
+     */
     private void buildGamePlateau(InputStream dataFile) {
         try {
             ArrayList<String[]> data = readDataFile(dataFile, ",");
@@ -193,6 +213,16 @@ public class Monopoly {
         }
     }
 
+    /**
+     * Cette fonction lit le fichier de donnée et permet de gérer les exceptions
+     * relatif au fichier
+     *
+     * @param file
+     * @param token
+     * @return
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
     private ArrayList<String[]> readDataFile(InputStream file, String token) throws FileNotFoundException, IOException {
         ArrayList<String[]> data = new ArrayList<String[]>();
 
@@ -206,6 +236,12 @@ public class Monopoly {
         return data;
     }
 
+    /**
+     * Retourne deux entiers aléatoires de 1 à 6 En mode DEMO, les dés sont
+     * choisis directement par l'utilisateur via l'interface
+     *
+     * @return
+     */
     public int[] jetDeDes() {
         if (modeDemo) {
             return demo.getDes();
@@ -218,6 +254,13 @@ public class Monopoly {
         }
     }
 
+    /**
+     * Permet de faire la somme des résultats des dés Utilisée surtout pour la
+     * gestion des déplacements et "payer" pour les compagnies
+     *
+     * @param des
+     * @return
+     */
     public int calculTotalDes(int[] des) {
         return des[0] + des[1];
     }
@@ -226,6 +269,12 @@ public class Monopoly {
         this.modeDemo = modeDemo;
     }
 
+    /**
+     * Renvoi TRUE si le score des dés est un double
+     *
+     * @param des
+     * @return
+     */
     public boolean isDouble(int[] des) {
         return des[0] == des[1];
     }
@@ -234,6 +283,14 @@ public class Monopoly {
         return joueurs;
     }
 
+    /**
+     * Permet de gérer les tours des joueurs ainsi que la case départ; Elle
+     * prends en compte le statut "en prison" et gère tout ce qui y est relatif;
+     * En mode DEMO, elle permet de choisir la position d'un joueur à la place
+     * de tirer des dés aléatoirement Cette fonction gère l'abandon d'un joueur
+     *
+     * @param j
+     */
     private void jouerUnCoup(Joueur j) {
         inter.afficher("");
         if (j.estEnPrison()) {
@@ -288,6 +345,13 @@ public class Monopoly {
 
     }
 
+    /**
+     * Cette fonction appelle les fonctions calculTotalDes(), jetDeDes() et
+     * isDouble(); Si un joueur fais trois double d'affilé, celui-ci va en
+     * prison
+     *
+     * @param j
+     */
     public void lancerDesAvancer(Joueur j) {
         int[] lancer;
         int distance = calculTotalDes(lancer = jetDeDes());
@@ -335,6 +399,12 @@ public class Monopoly {
         joueurs.remove(j);
     }
 
+    /**
+     * Cette fonction permet de générer les deux jeux de cartes Chance et Caisse
+     * de Communauté
+     *
+     * @param dataFile
+     */
     private void buildCartes(InputStream dataFile) {
         try {
             ArrayList<String[]> data = readDataFile(dataFile, ",");
@@ -384,6 +454,10 @@ public class Monopoly {
         }
     }
 
+    /**
+     * Cette fonction permet de mélanger les cartes selon leur type (chance ou
+     * caisse de communauté);
+     */
     private void melangerCartes() {
         for (String type : cartes.keySet()) {
             Collections.sort(cartes.get(type), new Comparator<Carte>() {
