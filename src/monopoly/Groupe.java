@@ -34,5 +34,27 @@ public class Groupe {
         return prixAchatHotel;
     }
     
+    public int getNbMaisonsGroupe() {
+        int tmp = 0;
+        for(ProprieteAConstruire p : proprietes) {
+            tmp = tmp + p.getNbMaisons();
+        }
+        return tmp;
+    }
     
+    public int getNbHotelsGroupe() {
+        int tmp = 0;
+        for(ProprieteAConstruire p : proprietes) {
+            tmp = tmp + p.getNbHotels();
+        }
+        return tmp;
+    }
+    
+    public int getNbProprietes() {
+        int tmp = 0;
+        for(ProprieteAConstruire p : proprietes) {
+            tmp++;
+        }
+        return tmp;
+    }
 }
