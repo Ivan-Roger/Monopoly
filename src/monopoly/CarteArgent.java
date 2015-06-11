@@ -20,6 +20,7 @@ public class CarteArgent extends Carte {
 
     /**
      * Si l'attribut argent est négatif alors le joueur doit payer sinon il reçoit l'argent
+     * @param j
      **/
     @Override
     public void action(Joueur j) {

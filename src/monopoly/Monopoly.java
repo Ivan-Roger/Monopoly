@@ -33,8 +33,6 @@ public class Monopoly {
     public boolean modeDemo = false;
     private final int nbMaisonsMax = 4; // Modifiables à la construction pour pouvoir créer une partie personalisée
     private final int nbHotelsMax = 1;  // Modifiables à la construction pour pouvoir créer une partie personalisée
-    
-    
 
     public Monopoly(String carreauxPath, String cartesPath) {
         carreaux = new HashMap<Integer, Carreau>();
