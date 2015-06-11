@@ -46,7 +46,7 @@ public class Monopoly {
         carreauDepart = (CarreauArgent) carreaux.get(1);
         carreauPrison = (CarreauArgent) carreaux.get(11);
         inter = new InterfaceTexte(this);
-        //inter = new InterfaceGraph(this);
+      //  inter = new InterfaceGraph(this);
         joueurs = new ArrayList<Joueur>();
         cartes = new HashMap<String, LinkedList<Carte>>();
         cartes.put("Chance", new LinkedList<Carte>());

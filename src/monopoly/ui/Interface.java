@@ -122,7 +122,7 @@ public abstract class Interface {
 
     public abstract void afficherCarte(Carte c, Joueur j);
     
-    public abstract void construire(ProprieteAConstruire p) throws ConstruireException;
+    public abstract void verifConstruire(ProprieteAConstruire p) throws ConstruireException;
     
     public abstract void afficherEtatConstructions(Groupe g);
 

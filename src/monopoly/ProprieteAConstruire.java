@@ -59,7 +59,7 @@ public class ProprieteAConstruire extends CarreauPropriete {
     
     @Override
     public String toString() {
-        return super.toString()+" - Groupe "+this.getGroupe().getCouleur()+this.getGroupe().getCouleur().name()+((char)27 + "[0m");
+        return super.toString()+" - Groupe "+this.getGroupe().getCouleur()+this.getGroupe().getCouleur().name()+((char)27 + "[0m")+(nbMaisons>0?" - "+nbMaisons+" Maisons":"")+(nbHotels>0?" - "+nbHotels+" Hotels":"");
     }
 
     public void construireMaison(int nb) {

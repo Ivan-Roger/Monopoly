@@ -144,7 +144,7 @@ public class InterfaceTexte extends Interface {
     @Override
     public void afficherConstructionsPossibles(int nbMaisonsConstructibles, int nbHotelConstructibles, Groupe g) {
         afficher("Le coût de construction pour les terrains " + g.getCouleur() + g.getCouleur().name() + ((char) 27 + "[0m") + " est de " + g.getPrixAchatMaison() + "€ par maison et " + g.getPrixAchatHotel() + "€ par hôtel.");
-        afficher("Vous pouvez construire jusqu'à " + nbMaisonsConstructibles + " maisons au total à raison de " + monopoly.getNbMaisonsMax() + " maisons maximum par terrain.");
+        afficher("Vous pouvez construire jusqu'à " + nbMaisonsConstructibles+ " maisons au total à raison de " + monopoly.getNbMaisonsMax() + " maisons maximum par terrain.");
         afficher("Vous pouvez construire jusqu'à " + nbHotelConstructibles + " hôtels au total à raison de " + monopoly.getNbHotelsMax() + " hôtels maximum par terrain.");
     }
 
@@ -195,10 +195,14 @@ public class InterfaceTexte extends Interface {
             afficher("Nombre de maisons que vous voulez construire :" + nbMaisonsAConstruire[i]);
             i++;
         }
-        int cout = 1500;
-        for (i = (g.getNbProprietes()-1); i >= 0; i--) {
-            cout -= (nbMaisonsAConstruire[i] * g.getPrixAchatMaison());
+        int cout = 0;
+        for (i = (g.getNbProprietes() - 1); i >= 0; i--) {
+            cout += (nbMaisonsAConstruire[i] * g.getPrixAchatMaison());
         }
+//        if (j.getCash()<(j.getCash() - cout)){
+//            throw new FailliteException("Vous n'aurez pas assez d'argent pour continuer"); 
+//        }
+        
         afficher("Si vous valider votre choix il vous restera " + (j.getCash() - cout) + "€.");
         afficher("Vous validez votre choix ?");
         if (lireBoolean()) {
@@ -206,8 +210,8 @@ public class InterfaceTexte extends Interface {
 
             int w = 0;
             for (int nb : nbMaisonsAConstruire) {
-                g.getProprietes().get(i).construireMaison(nb);
-                i++;
+                g.getProprietes().get(w).construireMaison(nb);
+                w++;
             }
         }
     }
@@ -243,7 +247,6 @@ public class InterfaceTexte extends Interface {
 
     /**
      * Menu de construction de maison ou d'hotel.
-     *
      * @param p
      */
     @Override
@@ -254,7 +257,7 @@ public class InterfaceTexte extends Interface {
         switch (lireInt(1, 2)) {
             case 2:
                 try {
-                    construire(p);
+                    verifConstruire(p);
                 } catch (ConstruireException ex) {
                     afficher(ex.getMessage());
                 }
@@ -264,7 +267,7 @@ public class InterfaceTexte extends Interface {
     }
 
     @Override
-    public void construire(ProprieteAConstruire p) throws ConstruireException {
+    public void verifConstruire(ProprieteAConstruire p) throws ConstruireException {
         // Récupération du propriétaire du terrain
         Joueur j = p.getProprietaire();
         // Verification des conditions qui peuvent empecher la construction
@@ -276,8 +279,10 @@ public class InterfaceTexte extends Interface {
                 throw new ConstruireException("Tous les terrains de ce groupe possèdent déjà le nombre maximal de maisons et d'hôtels. Vous ne pouvez pas construire.");  // Le joueur possède ou non toutes les proprietes du groupe  // Toutes les constructions possible ont déjà été faites ou non
             }
         }
-
-        if ((j.getCash() < p.getGroupe().getPrixAchatMaison()) || ((p.getNbMaisons() == monopoly.getNbMaisonsMax()) && (j.getCash() < p.getGroupe().getPrixAchatHotel()))) {
+        
+        int i = demandeNbMaison(p);
+        
+        if ((j.getCash() < i*p.getGroupe().getPrixAchatMaison()) || ((p.getNbMaisons() == monopoly.getNbMaisonsMax()))) {
             throw new ConstruireException("Vous n'avez pas assez d'argent pour construire sur les terrains de ce groupe.");  // Le joueur possède assez d'argent ou non pour construire une maison ou un hôtel
         }
         if (monopoly.getNbMaisonsRestantes() == 0) {
@@ -288,27 +293,27 @@ public class InterfaceTexte extends Interface {
         }
 
         afficherEtatConstructions(p.getGroupe());
+        
+        
+        
 
         // Calcul du nombre de maisons et d'hôtels constructibles en fonction du nombre restant sur la plateau et de l'argent du joueur.
         int compteurCash = j.getCash();
         int maisons = monopoly.getNbMaisonsMax() * p.getGroupe().getNbProprietes() - p.getGroupe().getNbMaisonsGroupe();
         int hotels = monopoly.getNbHotelsMax() * p.getGroupe().getNbProprietes() - p.getGroupe().getNbHotelsGroupe();
 
-        if (monopoly.getNbMaisonsRestantes()
-                < maisons) {
+        if (monopoly.getNbMaisonsRestantes() < maisons) {
             maisons = monopoly.getNbMaisonsRestantes();
         }
 
-        if (monopoly.getNbHotelsRestants()
-                < hotels) {
+        if (monopoly.getNbHotelsRestants() < hotels) {
             hotels = monopoly.getNbHotelsRestants();
         }
-        int maisonsConstructibles = -1, hotelsConstructibles = -1;
-        while ((compteurCash > 0) && (maisons > 0 && hotels
-                > 0)) {
+        int maisonsConstructibles = 0, hotelsConstructibles = -1;
+        while ((compteurCash > 0) && (maisons > 0 && hotels  > 0)) {
             if (maisons > 0) {
                 compteurCash = compteurCash - p.getGroupe().getPrixAchatMaison();
-                maisons--;
+                maisons--;.
                 maisonsConstructibles++;
             }
             if (maisons == 0 && hotels > 0) {
@@ -324,7 +329,6 @@ public class InterfaceTexte extends Interface {
 
     /**
      * Menu pour payer le loyer lors de l'arrivée sur un terrain.
-     *
      * @param c Le terrain
      * @param joueur Le payeur
      */
@@ -336,7 +340,6 @@ public class InterfaceTexte extends Interface {
 
     /**
      * Menu lors de la visite du proprietaire sur son terrain.
-     *
      * @param c Le terrain.
      */
     public void passageMaison(CarreauPropriete c) {
@@ -345,7 +348,6 @@ public class InterfaceTexte extends Interface {
 
     /**
      * Menu lors de l'arrivée sur un carreau argent.
-     *
      * @param j Le visiteur.
      * @param montant Le montant du carreau.
      */
@@ -440,5 +442,21 @@ public class InterfaceTexte extends Interface {
     @Override
     public void afficherCarte(Carte c, Joueur j) {
         afficher(c.toString());
+    }
+
+    private int demandeNbMaison(ProprieteAConstruire p) {
+        afficher("Combien de maisons voulez-vous construire au total ?");
+        
+        int i = 0;
+        if (p.getGroupe().getNbProprietes()==3){
+              i= lireInt(0,12);
+        }else if(p.getGroupe().getNbProprietes()==2) {
+             i= lireInt(0,8);
+        }
+       
+        
+        
+        
+        return i;
     }
 }
