@@ -12,9 +12,9 @@ public class CarreauTirage extends CarreauAction {
     /**
      * Le joueur tire la carte du type chance ou communauté (selon sa position)
      *
-     * Si c'est une crate libéré de prison alors le joueur la récupère Sinon on
-     * remet la carte en bas du paquet
-     *
+     * Si c'est une carte "libéré de prison" alors le joueur l'ajoute à son inventaire
+     * Sinon on remet la carte en bas du paquet
+     * 
      * Puis le joueur peut soit abandonner soit terminer le tour
      */
     @Override

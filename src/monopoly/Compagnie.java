@@ -6,6 +6,12 @@ public class Compagnie extends CarreauPropriete {
         super(numero, nomCarreau, monopoly, prixAchat);
     }
 
+    
+    /**
+     * Cette fonction permet de calculer le loyer en fonction du nombre de compagnie 
+     * lorsque celui-ci tombe sur une case Compagnie appartenant à un autre joueur
+     * @return 
+     */
     @Override
     public int calculLoyer() {
         if (this.proprietaire.getNbCompagnies() == 2) {
@@ -20,6 +26,8 @@ public class Compagnie extends CarreauPropriete {
 
     }
 
+    
+    
     @Override
     public void achatPropriete(Joueur j) {
         this.setProprietaire(j);
