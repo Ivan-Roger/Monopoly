@@ -1,5 +1,6 @@
 package monopoly;
 
+import monopoly.ui.InterfaceDemo;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -70,9 +71,9 @@ public class Monopoly {
     private void gameLoop() {
 
         inter.choixModeDemo();
-        
+
         joueurs = inter.saisieJoueurs();
-        
+
         inter.initInfosJoueurs(joueurs);
 
         int turn = 0;
@@ -440,6 +441,16 @@ public class Monopoly {
                 }
             });
         }
+    }
+
+    public ArrayList<ProprieteAConstruire> getProprietes() {
+        ArrayList<ProprieteAConstruire> res = new ArrayList<ProprieteAConstruire>();
+        for (Carreau c : carreaux.values()) {
+            if (c instanceof ProprieteAConstruire) {
+                res.add((ProprieteAConstruire) c);
+            }
+        }
+        return res;
     }
 
 }
