@@ -117,7 +117,7 @@ public class InterfaceTexte extends Interface {
         }
     }
 
-    @Override
+     @Override
     public void afficherEtatConstructions(Groupe g) {
         afficher("Constructions déjà présente sur les propriétés" + g.getCouleur() + g.getCouleur().name() + ((char) 27 + "[0m") + ".");
         for (ProprieteAConstruire p : g.getProprietes()) {
@@ -125,6 +125,71 @@ public class InterfaceTexte extends Interface {
             afficher("Nombre de maisons déjà construites :" + p.getNbMaisons());
             afficher("Nombre d'hôtels déjà construites :" + p.getNbHotels());
         }
+    }
+    
+    public void afficherConstructionsPossibles(int nbMaisonsConstructibles, int nbHotelConstructibles, Groupe g) {
+        afficher("Le coût de construction pour les terrains " + g.getCouleur() + " est de " + g.getPrixAchatMaison() + "€ par maison et " + g.getPrixAchatHotel() + "€ par hôtel.");
+        afficher("Vous pouvez construire jusqu'à " + nbMaisonsConstructibles + " maisons au total à raison de " + monopoly.getNbMaisonsMax() + " maisons maximum par terrain.");
+        afficher("Vous pouvez construire jusqu'à " + nbHotelConstructibles + " hôtels au total à raison de " + monopoly.getNbHotelsMax() + " hôtels maximum par terrain.");
+    }
+    
+    @Override
+    public int[] afficherChoixMaisonsAConstruire(Groupe g) {
+        Scanner sc = new Scanner(System.in);
+        monopoly.inter.afficher("Combien voulez vous construire de maisons au total ?");
+        int nbMaisonsAConstruire = sc.nextInt();
+        int[] nbMaisonsAConstruireTerrain = new int[3];
+        for(int i = 0; i < 2; i++) {
+            nbMaisonsAConstruireTerrain[i] = 0;
+        }
+        monopoly.inter.afficher("Vous allez maintenant placer vos maisons une à une.");
+        while(nbMaisonsAConstruire > 0) {
+            int compteur = 1;
+            monopoly.inter.afficher("Sur quelle terrain vouler construire une maison ?");
+            for (ProprieteAConstruire prop : g.getProprietes()) {
+                int nbMaisonsRestantesAPlacer = monopoly.getNbMaisonsMax() - (prop.getNbMaisons() + nbMaisonsAConstruireTerrain[compteur - 1]);
+                if (nbMaisonsRestantesAPlacer == 0) {
+                    monopoly.inter.afficher(prop.getNomCarreau() + " (Vous ne pouvez plus placer de maison sur ce terrain).");
+                } else {
+                monopoly.inter.afficher(compteur + ")" + prop.getNomCarreau() + "(Vous pouvez encore placer " + nbMaisonsRestantesAPlacer + " maison(s) sur ce terrain).");
+                compteur ++;
+                }
+                if (compteur == 1) {
+                    nbMaisonsAConstruire = 0;
+                }
+                
+            }
+            nbMaisonsAConstruire--;
+            int choix = monopoly.inter.lireInt(1, g.getNbProprietes());
+            nbMaisonsAConstruireTerrain[choix - 1] = nbMaisonsAConstruireTerrain[choix - 1] + 1;
+        }
+        
+        if(!afficherRecapitulatifChoixMaisonsAConstruire(nbMaisonsAConstruireTerrain, g)) {
+            menuConstruire(g.getProprietes().get(1));
+        }
+        
+        return nbMaisonsAConstruireTerrain;
+        
+        
+    }
+    
+    @Override
+    public boolean afficherRecapitulatifChoixMaisonsAConstruire(int[] nbMaisonsAConstruire, Groupe g) {
+        afficher("Recapitulatif du choix des constructions :");
+        int i =0;
+        for(ProprieteAConstruire prop : g.getProprietes()) {
+            afficher(prop.getNomCarreau() + ":");
+            afficher("Nombre de maisons déjà construites :" + prop.getNbMaisons());
+            afficher("Nombre de maisons que vous voulez construire :" + nbMaisonsAConstruire[i]);
+            i++;
+        }
+            int cashRestantJoueur = 1500;
+            for(i = g.getNbProprietes(); i > 1; i--) {
+                cashRestantJoueur = cashRestantJoueur - (nbMaisonsAConstruire[i] * g.getPrixAchatMaison());
+            }
+            afficher("Si vous valider votre choix il vous restera " + cashRestantJoueur + "€.");
+            afficher("Vous validez votre choix ?");
+        return lireBoolean();
     }
 
     /**
@@ -159,8 +224,26 @@ public class InterfaceTexte extends Interface {
      * Menu de construction de maison ou d'hotel.
      * @param p 
      */
+    @Override
     public void menuConstruire(ProprieteAConstruire p) {
-        
+        afficher("Vous pouvez construire");
+        afficher("  1) Abandonner");
+        afficher("  2) Ne rien faire");
+        afficher("  3) Maison");
+        afficher("  4) Hôtel");
+        switch (lireInt(1, 4)) {
+            case 1:
+                p.getProprietaire().abandonner();
+                break;
+            case 3:
+                p.verifConstruire();
+            case 4:
+                p.verifConstruire();
+            default:
+                
+                break;
+
+        }
     }
 
     /**

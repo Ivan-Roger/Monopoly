@@ -59,7 +59,11 @@ public abstract class Interface {
      * Affichage des maisons et hotels sur un terrain.
      * @param g Le terrain a decrire.
      */
-    public abstract void afficherEtatConstructions(Groupe g);
+    public abstract void afficherConstructionsPossibles(int nbMaisonsConstructibles, int nbHotelConstructibles, Groupe g);
+    
+    public abstract int[] afficherChoixMaisonsAConstruire(Groupe g);
+    
+    public abstract boolean afficherRecapitulatifChoixMaisonsAConstruire(int[] nbMaisonsAConstruire, Groupe g);
     
     /**
      * Menu d'achat d'un terrain, gare ou compagnie.
