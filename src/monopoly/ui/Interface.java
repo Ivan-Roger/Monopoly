@@ -18,6 +18,7 @@ import monopoly.Groupe;
 import monopoly.Joueur;
 import monopoly.Monopoly;
 import monopoly.ProprieteAConstruire;
+import monopoly.ex.ConstruireException;
 
 /**
  * class : Interface
@@ -61,9 +62,9 @@ public abstract class Interface {
      */
     public abstract void afficherConstructionsPossibles(int nbMaisonsConstructibles, int nbHotelConstructibles, Groupe g);
     
-    public abstract int[] afficherChoixMaisonsAConstruire(Groupe g);
+    public abstract void afficherChoixMaisonsAConstruire(Groupe g);
     
-    public abstract boolean afficherRecapitulatifChoixMaisonsAConstruire(int[] nbMaisonsAConstruire, Groupe g);
+    public abstract void afficherRecapitulatifChoixMaisonsAConstruire(int[] nbMaisonsAConstruire, Groupe g, Joueur j);
     
     /**
      * Menu d'achat d'un terrain, gare ou compagnie.
@@ -120,5 +121,9 @@ public abstract class Interface {
     public abstract void afficherPosition(Carreau c, Joueur j);
 
     public abstract void afficherCarte(Carte c, Joueur j);
+    
+    public abstract void construire(ProprieteAConstruire p) throws ConstruireException;
+    
+    public abstract void afficherEtatConstructions(Groupe g);
 
 }

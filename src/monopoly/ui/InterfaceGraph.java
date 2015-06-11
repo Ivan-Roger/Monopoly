@@ -252,4 +252,24 @@ public class InterfaceGraph extends Interface {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    @Override
+    public void afficherConstructionsPossibles(int nbMaisonsConstructibles, int nbHotelConstructibles, Groupe g) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void afficherChoixMaisonsAConstruire(Groupe g) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void construire(ProprieteAConstruire p) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void afficherRecapitulatifChoixMaisonsAConstruire(int[] nbMaisonsAConstruire, Groupe g, Joueur j) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

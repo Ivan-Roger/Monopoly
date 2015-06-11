@@ -57,4 +57,12 @@ public class Groupe {
         }
         return tmp;
     }
+
+    public void setPrixAchatMaison(int prix) {
+        this.prixAchatMaison = prix;
+    }
+
+    public void setPrixAchatHotel(int prix) {
+        this.prixAchatHotel = prix;
+    }
 }

@@ -160,10 +160,12 @@ public class InterfaceDemo extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ProprieteAConstruire p = (ProprieteAConstruire)propList.getSelectedItem();
+                p.setProprietaire(joueur);
                 joueur.addPropriete(p);
                 propList.removeItem(p);
             }
         });
+        
         this.validTele.addActionListener(new ActionListener() {
 
             @Override

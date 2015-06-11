@@ -160,6 +160,8 @@ public class Monopoly {
                     for (int k = 5; k < data.get(i).length; k++) {
                         loyers[k - 5] = new Integer(data.get(i)[k]);
                     }
+                    groupes.get(CouleurPropriete.valueOf(data.get(i)[3])).setPrixAchatMaison(Integer.valueOf(data.get(i)[11]));
+                    groupes.get(CouleurPropriete.valueOf(data.get(i)[3])).setPrixAchatHotel(Integer.valueOf(data.get(i)[12]));
                     ProprieteAConstruire carreau = new ProprieteAConstruire(id, data.get(i)[2], this, new Integer(data.get(i)[4]), groupes.get(CouleurPropriete.valueOf(data.get(i)[3])), loyers);
                     carreaux.put(id, carreau);
                     groupes.get(CouleurPropriete.valueOf(data.get(i)[3])).addPropriete(carreau);
@@ -189,7 +191,7 @@ public class Monopoly {
             System.err.println("[buildGamePlateau()] : Error while reading file!");
         }
     }
-
+ 
     /**
      * Cette fonction lit le fichier de donnée et permet de gérer les exceptions
      * relatif au fichier
@@ -248,7 +250,7 @@ public class Monopoly {
             demo = new InterfaceDemo(this);
         }
     }
-
+ 
     /**
      * Renvoi TRUE si le score des dés est un double
      *

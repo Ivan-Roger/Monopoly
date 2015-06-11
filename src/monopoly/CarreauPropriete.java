@@ -14,7 +14,7 @@ public abstract class CarreauPropriete extends Carreau {
         return this.proprietaire;
     }
 
-    protected void setProprietaire(Joueur proprietaire) {
+    public void setProprietaire(Joueur proprietaire) {
         this.proprietaire = proprietaire;
     }
 
@@ -48,7 +48,11 @@ public abstract class CarreauPropriete extends Carreau {
             if (this.proprietaire != joueur) {
                 monopoly.inter.payerLoyer(this, joueur);
             } else {
-                monopoly.inter.passageMaison(this);
+                if (this instanceof ProprieteAConstruire) {
+                    monopoly.inter.menuConstruire((ProprieteAConstruire)this);
+                } else {
+                    monopoly.inter.passageMaison(this);
+                }
             }
         }
     }
@@ -59,21 +63,3 @@ public abstract class CarreauPropriete extends Carreau {
     }
 
 }
-
-
-
-public void action(Joueur joueur) {
-        if (this.proprietaire == null) {
-            monopoly.inter.menuAchatPropriete(this, joueur);
-        } else {
-            if (this.proprietaire != joueur) {
-                monopoly.inter.menuLoyer(this, joueur);
-            } else {
-                if (this instanceof ProprieteAConstruire) {
-                    monopoly.inter.menuConstruire((ProprieteAConstruire)this);
-                } else {
-                    monopoly.inter.menuMaison(this);
-                }
-            }
-        }
-    }

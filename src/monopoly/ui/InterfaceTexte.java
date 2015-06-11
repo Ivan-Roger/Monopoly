@@ -3,6 +3,8 @@ package monopoly.ui;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import monopoly.Carreau;
 import monopoly.CarreauArgent;
 import monopoly.CarreauMouvement;
@@ -15,6 +17,7 @@ import monopoly.Groupe;
 import monopoly.Joueur;
 import monopoly.Monopoly;
 import monopoly.ProprieteAConstruire;
+import monopoly.ex.ConstruireException;
 
 public class InterfaceTexte extends Interface {
 
@@ -26,6 +29,7 @@ public class InterfaceTexte extends Interface {
     /* Lecture */
     /**
      * Lecture d'un entier entre les valeurs definies. Saisie verifié.
+     *
      * @param min Valeur minimale
      * @param max Valeur maximale
      * @return L'entier saisi
@@ -47,6 +51,7 @@ public class InterfaceTexte extends Interface {
 
     /**
      * Lecture d'un boolean (oui/non).
+     *
      * @return (Oui - True / Non - False)
      */
     private boolean lireBoolean() {
@@ -61,6 +66,7 @@ public class InterfaceTexte extends Interface {
 
     /**
      * Lecture d'un saisie libre de texte. Non limité en longueur.
+     *
      * @return Le texte saisi
      */
     private String lireString() {
@@ -81,22 +87,30 @@ public class InterfaceTexte extends Interface {
         afficher("Nom : " + j.getNom());
         afficher("Position : " + j.getPosition().getNomCarreau() + "(" + j.getPosition().getId() + ")");
         afficher("Cash : " + j.getCash() + "€");
-        if (j.getNbLiberation()>0) {afficher("Carte de Liberation : " + j.getNbLiberation());}
+        if (j.getNbLiberation() > 0) {
+            afficher("Carte de Liberation : " + j.getNbLiberation());
+        }
 
         afficher("Propriétés :");
-        if (j.getProprietes().size()>0) {afficher("  Terrains :");}
+        if (j.getProprietes().size() > 0) {
+            afficher("  Terrains :");
+        }
         for (ProprieteAConstruire p : j.getProprietes()) {
-            afficher("    "+p.toString());
+            afficher("    " + p.toString());
         }
 
-        if (j.getGares().size()>0) {afficher("  Gares :");}
+        if (j.getGares().size() > 0) {
+            afficher("  Gares :");
+        }
         for (Gare g : j.getGares()) {
-            afficher("    "+g.toString());
+            afficher("    " + g.toString());
         }
 
-        if (j.getCompagnies().size()>0) {afficher("  Compagnies :");}
+        if (j.getCompagnies().size() > 0) {
+            afficher("  Compagnies :");
+        }
         for (Compagnie c : j.getCompagnies()) {
-            afficher("    "+c.toString());
+            afficher("    " + c.toString());
         }
 
         afficher("");
@@ -117,83 +131,90 @@ public class InterfaceTexte extends Interface {
         }
     }
 
-     @Override
+    @Override
     public void afficherEtatConstructions(Groupe g) {
-        afficher("Constructions déjà présente sur les propriétés" + g.getCouleur() + g.getCouleur().name() + ((char) 27 + "[0m") + ".");
+        afficher("Constructions déjà présente sur les propriétés " + g.getCouleur() + g.getCouleur().name() + ((char) 27 + "[0m") + ".");
         for (ProprieteAConstruire p : g.getProprietes()) {
             afficher(p.getNomCarreau() + ":");
-            afficher("Nombre de maisons déjà construites :" + p.getNbMaisons());
-            afficher("Nombre d'hôtels déjà construites :" + p.getNbHotels());
+            afficher("  Nombre de maisons déjà construites : " + p.getNbMaisons());
+            afficher("  Nombre d'hôtels déjà construites : " + p.getNbHotels());
         }
     }
-    
+
+    @Override
     public void afficherConstructionsPossibles(int nbMaisonsConstructibles, int nbHotelConstructibles, Groupe g) {
-        afficher("Le coût de construction pour les terrains " + g.getCouleur() + " est de " + g.getPrixAchatMaison() + "€ par maison et " + g.getPrixAchatHotel() + "€ par hôtel.");
+        afficher("Le coût de construction pour les terrains " + g.getCouleur() + g.getCouleur().name() + ((char) 27 + "[0m") + " est de " + g.getPrixAchatMaison() + "€ par maison et " + g.getPrixAchatHotel() + "€ par hôtel.");
         afficher("Vous pouvez construire jusqu'à " + nbMaisonsConstructibles + " maisons au total à raison de " + monopoly.getNbMaisonsMax() + " maisons maximum par terrain.");
         afficher("Vous pouvez construire jusqu'à " + nbHotelConstructibles + " hôtels au total à raison de " + monopoly.getNbHotelsMax() + " hôtels maximum par terrain.");
     }
-    
+
     @Override
-    public int[] afficherChoixMaisonsAConstruire(Groupe g) {
+    public void afficherChoixMaisonsAConstruire(Groupe g) {
+        Joueur j = null;
         Scanner sc = new Scanner(System.in);
-        monopoly.inter.afficher("Combien voulez vous construire de maisons au total ?");
+        afficher("Combien voulez vous construire de maisons au total ?");
         int nbMaisonsAConstruire = sc.nextInt();
-        int[] nbMaisonsAConstruireTerrain = new int[3];
-        for(int i = 0; i < 2; i++) {
+        int[] nbMaisonsAConstruireTerrain = new int[g.getNbProprietes()];
+        for (int i = 0; i < g.getNbProprietes(); i++) {
             nbMaisonsAConstruireTerrain[i] = 0;
         }
-        monopoly.inter.afficher("Vous allez maintenant placer vos maisons une à une.");
-        while(nbMaisonsAConstruire > 0) {
+        afficher("Vous allez maintenant placer vos maisons une à une.");
+        while (nbMaisonsAConstruire > 0) {
             int compteur = 1;
-            monopoly.inter.afficher("Sur quelle terrain vouler construire une maison ?");
+            afficher("Sur quelle terrain voulez-vous construire une maison ?");
             for (ProprieteAConstruire prop : g.getProprietes()) {
-                int nbMaisonsRestantesAPlacer = monopoly.getNbMaisonsMax() - (prop.getNbMaisons() + nbMaisonsAConstruireTerrain[compteur - 1]);
-                if (nbMaisonsRestantesAPlacer == 0) {
-                    monopoly.inter.afficher(prop.getNomCarreau() + " (Vous ne pouvez plus placer de maison sur ce terrain).");
-                } else {
-                monopoly.inter.afficher(compteur + ")" + prop.getNomCarreau() + "(Vous pouvez encore placer " + nbMaisonsRestantesAPlacer + " maison(s) sur ce terrain).");
-                compteur ++;
+                j = prop.getProprietaire();
+                int nbMaisonsRestantesAPlacer = monopoly.getNbMaisonsMax() - (prop.getNbMaisons() + nbMaisonsAConstruireTerrain[compteur - 1]); // Calcul du nombre de maison plaçable.
+                if (nbMaisonsRestantesAPlacer == 0) { // Maximum atteint
+                    afficher(prop.getNomCarreau() + " (Vous ne pouvez plus placer de maison sur ce terrain).");
+                } else { // Construction possible sur le terrain de numero de choix compteur
+                    afficher(compteur + ")" + prop.getNomCarreau() + "(Vous pouvez encore placer " + nbMaisonsRestantesAPlacer + " maison(s) sur ce terrain).");
+                    compteur++;
                 }
-                if (compteur == 1) {
+                if (compteur == 1) { // Si compteur n'as pas changé alors il n'y a rien a construire.
                     nbMaisonsAConstruire = 0;
                 }
-                
+
             }
-            nbMaisonsAConstruire--;
-            int choix = monopoly.inter.lireInt(1, g.getNbProprietes());
-            nbMaisonsAConstruireTerrain[choix - 1] = nbMaisonsAConstruireTerrain[choix - 1] + 1;
+            nbMaisonsAConstruire--; // Nombre de tour restants - 1
+            int choix = lireInt(1, g.getNbProprietes()); // Choix
+            nbMaisonsAConstruireTerrain[choix - 1] = nbMaisonsAConstruireTerrain[choix - 1] + 1; // Enregistrement du nombre de maison a construire
         }
-        
-        if(!afficherRecapitulatifChoixMaisonsAConstruire(nbMaisonsAConstruireTerrain, g)) {
-            menuConstruire(g.getProprietes().get(1));
-        }
-        
-        return nbMaisonsAConstruireTerrain;
-        
-        
+
+        afficherRecapitulatifChoixMaisonsAConstruire(nbMaisonsAConstruireTerrain, g, j);
+
     }
-    
+
     @Override
-    public boolean afficherRecapitulatifChoixMaisonsAConstruire(int[] nbMaisonsAConstruire, Groupe g) {
+    public void afficherRecapitulatifChoixMaisonsAConstruire(int[] nbMaisonsAConstruire, Groupe g, Joueur j) {
         afficher("Recapitulatif du choix des constructions :");
-        int i =0;
-        for(ProprieteAConstruire prop : g.getProprietes()) {
+        int i = 0;
+        for (ProprieteAConstruire prop : g.getProprietes()) {
             afficher(prop.getNomCarreau() + ":");
             afficher("Nombre de maisons déjà construites :" + prop.getNbMaisons());
             afficher("Nombre de maisons que vous voulez construire :" + nbMaisonsAConstruire[i]);
             i++;
         }
-            int cashRestantJoueur = 1500;
-            for(i = g.getNbProprietes(); i > 1; i--) {
-                cashRestantJoueur = cashRestantJoueur - (nbMaisonsAConstruire[i] * g.getPrixAchatMaison());
+        int cout = 1500;
+        for (i = (g.getNbProprietes()-1); i >= 0; i--) {
+            cout -= (nbMaisonsAConstruire[i] * g.getPrixAchatMaison());
+        }
+        afficher("Si vous valider votre choix il vous restera " + (j.getCash() - cout) + "€.");
+        afficher("Vous validez votre choix ?");
+        if (lireBoolean()) {
+            j.payer(cout);
+
+            int w = 0;
+            for (int nb : nbMaisonsAConstruire) {
+                g.getProprietes().get(i).construireMaison(nb);
+                i++;
             }
-            afficher("Si vous valider votre choix il vous restera " + cashRestantJoueur + "€.");
-            afficher("Vous validez votre choix ?");
-        return lireBoolean();
+        }
     }
 
     /**
      * Menu d'achat d'un terrain, gare ou compagnie.
+     *
      * @param c Le terrain
      * @param j l'acheteur
      */
@@ -219,35 +240,91 @@ public class InterfaceTexte extends Interface {
             }
         }
     }
-    
+
     /**
      * Menu de construction de maison ou d'hotel.
-     * @param p 
+     *
+     * @param p
      */
     @Override
     public void menuConstruire(ProprieteAConstruire p) {
         afficher("Vous pouvez construire");
-        afficher("  1) Abandonner");
-        afficher("  2) Ne rien faire");
-        afficher("  3) Maison");
-        afficher("  4) Hôtel");
-        switch (lireInt(1, 4)) {
-            case 1:
-                p.getProprietaire().abandonner();
-                break;
-            case 3:
-                p.verifConstruire();
-            case 4:
-                p.verifConstruire();
+        afficher("  1) Ne rien faire");
+        afficher("  2) Construire");
+        switch (lireInt(1, 2)) {
+            case 2:
+                try {
+                    construire(p);
+                } catch (ConstruireException ex) {
+                    afficher(ex.getMessage());
+                }
             default:
-                
                 break;
-
         }
+    }
+
+    @Override
+    public void construire(ProprieteAConstruire p) throws ConstruireException {
+        // Récupération du propriétaire du terrain
+        Joueur j = p.getProprietaire();
+        // Verification des conditions qui peuvent empecher la construction
+        for (ProprieteAConstruire prop : p.getGroupe().getProprietes()) {
+            if (prop.getProprietaire() != j) {
+                throw new ConstruireException("Vous n'êtes pas propriétaire de tous les terrains de ce groupe. Vous ne pouvez pas construire.");  // Le joueur possède ou non toutes les proprietes du groupe
+            }
+            if (prop.getNbMaisons() >= monopoly.getNbMaisonsMax() || prop.getNbHotels() >= monopoly.getNbHotelsMax()) {
+                throw new ConstruireException("Tous les terrains de ce groupe possèdent déjà le nombre maximal de maisons et d'hôtels. Vous ne pouvez pas construire.");  // Le joueur possède ou non toutes les proprietes du groupe  // Toutes les constructions possible ont déjà été faites ou non
+            }
+        }
+
+        if ((j.getCash() < p.getGroupe().getPrixAchatMaison()) || ((p.getNbMaisons() == monopoly.getNbMaisonsMax()) && (j.getCash() < p.getGroupe().getPrixAchatHotel()))) {
+            throw new ConstruireException("Vous n'avez pas assez d'argent pour construire sur les terrains de ce groupe.");  // Le joueur possède assez d'argent ou non pour construire une maison ou un hôtel
+        }
+        if (monopoly.getNbMaisonsRestantes() == 0) {
+            throw new ConstruireException("Il n'y a plus aucunes maisons constructibles sur le plateau. Vous ne pouvez pas construire.");  // Il reste des maisons constructibles sur le plateau ou non
+        }
+        if (monopoly.getNbHotelsRestants() == 0) {
+            throw new ConstruireException("Il n'y a plus aucuns hôtels constructibles sur le plateau. Vous ne pouvez pas construire.");
+        }
+
+        afficherEtatConstructions(p.getGroupe());
+
+        // Calcul du nombre de maisons et d'hôtels constructibles en fonction du nombre restant sur la plateau et de l'argent du joueur.
+        int compteurCash = j.getCash();
+        int maisons = monopoly.getNbMaisonsMax() * p.getGroupe().getNbProprietes() - p.getGroupe().getNbMaisonsGroupe();
+        int hotels = monopoly.getNbHotelsMax() * p.getGroupe().getNbProprietes() - p.getGroupe().getNbHotelsGroupe();
+
+        if (monopoly.getNbMaisonsRestantes()
+                < maisons) {
+            maisons = monopoly.getNbMaisonsRestantes();
+        }
+
+        if (monopoly.getNbHotelsRestants()
+                < hotels) {
+            hotels = monopoly.getNbHotelsRestants();
+        }
+        int maisonsConstructibles = -1, hotelsConstructibles = -1;
+        while ((compteurCash > 0) && (maisons > 0 && hotels
+                > 0)) {
+            if (maisons > 0) {
+                compteurCash = compteurCash - p.getGroupe().getPrixAchatMaison();
+                maisons--;
+                maisonsConstructibles++;
+            }
+            if (maisons == 0 && hotels > 0) {
+                compteurCash = compteurCash - p.getGroupe().getPrixAchatHotel();
+                hotels--;
+                hotelsConstructibles++;
+            }
+        }
+
+        afficherConstructionsPossibles(maisonsConstructibles, hotelsConstructibles, p.getGroupe());
+        afficherChoixMaisonsAConstruire(p.getGroupe());
     }
 
     /**
      * Menu pour payer le loyer lors de l'arrivée sur un terrain.
+     *
      * @param c Le terrain
      * @param joueur Le payeur
      */
@@ -259,6 +336,7 @@ public class InterfaceTexte extends Interface {
 
     /**
      * Menu lors de la visite du proprietaire sur son terrain.
+     *
      * @param c Le terrain.
      */
     public void passageMaison(CarreauPropriete c) {
@@ -267,22 +345,24 @@ public class InterfaceTexte extends Interface {
 
     /**
      * Menu lors de l'arrivée sur un carreau argent.
+     *
      * @param j Le visiteur.
      * @param montant Le montant du carreau.
      */
     public void passageArgent(Joueur j, int montant) {
         j.recevoirArgent(montant);
-        if (montant<0) {
-            afficher("  Vous payez "+(montant*-1)+"€.");
-        } else if (montant>0) {
-            afficher("  Vous recevez "+montant+"€.");
+        if (montant < 0) {
+            afficher("  Vous payez " + (montant * -1) + "€.");
+        } else if (montant > 0) {
+            afficher("  Vous recevez " + montant + "€.");
         } else {
             afficher("  Vous passez gratuitement.");
         }
     }
 
     @Override
-    public void initInfosJoueurs(ArrayList<Joueur> j) {}
+    public void initInfosJoueurs(ArrayList<Joueur> j) {
+    }
 
     @Override
     public void pause() {
@@ -308,13 +388,13 @@ public class InterfaceTexte extends Interface {
     @Override
     public void finTour(Joueur j) {
         afficher("Fin de votre tour ...");
-        afficher("Vous finisez avec "+j.getCash()+"€");
+        afficher("Vous finisez avec " + j.getCash() + "€");
         afficher("Appuyez sur entrée pour terminer le tour ou \"Abandonner\"");
         if (lireString().toLowerCase().equals("abandonner")) {
             j.abandonner();
             pause();
         }
-        
+
     }
 
     @Override
@@ -352,7 +432,7 @@ public class InterfaceTexte extends Interface {
     @Override
     public void afficherPosition(Carreau c, Joueur j) {
         afficher(c.toString());
-        if (c instanceof CarreauPropriete && ((CarreauPropriete)c).getProprietaire()==null) {
+        if (c instanceof CarreauPropriete && ((CarreauPropriete) c).getProprietaire() == null) {
             afficher("Le terrain est disponible");
         }
     }
