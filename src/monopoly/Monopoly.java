@@ -46,8 +46,8 @@ public class Monopoly {
         buildGamePlateau(this.getClass().getResourceAsStream(carreauxPath));
         carreauDepart = (CarreauArgent) carreaux.get(1);
         carreauPrison = (CarreauArgent) carreaux.get(11);
-        //inter = new InterfaceTexte(this);
-               inter = new InterfaceGraph(this);
+        inter = new InterfaceTexte(this);
+        //inter = new InterfaceGraph(this);
         joueurs = new ArrayList<Joueur>();
         cartes = new HashMap<String, LinkedList<Carte>>();
         cartes.put("Chance", new LinkedList<Carte>());
@@ -70,32 +70,10 @@ public class Monopoly {
      *
      */
     private void gameLoop() {
-/*
-        inter.afficher("Mode demo ?");
-        if (inter.lireBoolean()) {
-            demo = new InterfaceDemo(this);
-            setModeDemo(true);
-        }
-      //>>> Remplacer par une fonction saisieJoueurs dans Interface <<<
-        inter.afficher("Saisie des joueurs :");
-        String s = "";
-        String[] anciensNoms;
-        while (!(s.equals("quitter")) && joueurs.size() < 6) {
-            inter.afficher("Entrez le nom ou \"quitter\" :");
-            s = inter.lireString();
-            // Empecher la saisie du meme nom
-//            while (errSaisie) {
-//                inter.afficher("Veuillez entrer un nom libre :");
-//                s = inter.lireString();
-//            }
-            if (!s.equals("quitter")) {
-                joueurs.add(new Joueur(s, this));
-            }
-        }
-*/
-        joueurs.add(new Joueur("Alpha",this));
-        joueurs.add(new Joueur("Beta",this));
-        joueurs.add(new Joueur("Gama",this));
+
+        inter.choixModeDemo();
+        
+        joueurs = inter.saisieJoueurs();
         
         inter.initInfosJoueurs(joueurs);
 
@@ -267,6 +245,9 @@ public class Monopoly {
 
     public void setModeDemo(boolean modeDemo) {
         this.modeDemo = modeDemo;
+        if (modeDemo) {
+            demo = new InterfaceDemo(this);
+        }
     }
 
     /**
@@ -313,7 +294,6 @@ public class Monopoly {
                         j.sortirPrison();
                     } else {
                         inter.info("Vous ne pouvez pas payer votre caution (50€)");
-                        inter.menuGeneral(j);
                     }
                 }
             }
@@ -335,7 +315,6 @@ public class Monopoly {
 
         if (!j.abandonne()) {
             inter.finTour(j);
-            inter.pause();
         }
 
     }

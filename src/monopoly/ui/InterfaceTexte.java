@@ -3,6 +3,7 @@ package monopoly.ui;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import monopoly.Carreau;
 import monopoly.CarreauArgent;
 import monopoly.CarreauMouvement;
 import monopoly.CarreauPropriete;
@@ -85,17 +86,17 @@ public class InterfaceTexte extends Interface {
         afficher("Propriétés :");
         if (j.getProprietes().size()>0) {afficher("  Terrains :");}
         for (ProprieteAConstruire p : j.getProprietes()) {
-            afficherPropriete(p);
+            // TO DO
         }
 
         if (j.getGares().size()>0) {afficher("  Gares :");}
         for (Gare g : j.getGares()) {
-            afficherPropriete(g);
+            // TO DO
         }
 
         if (j.getCompagnies().size()>0) {afficher("  Compagnies :");}
         for (Compagnie c : j.getCompagnies()) {
-            afficherPropriete(c);
+            // TO DO
         }
 
         afficher("");
@@ -109,58 +110,11 @@ public class InterfaceTexte extends Interface {
     }
 
     @Override
-    public void afficherPropriete(ProprieteAConstruire p) {
-        afficher("Nom : " + p.getGroupe().getCouleur() + p.getNomCarreau() + ((char) 27 + "[0m") + "(" + p.getId() + ") -  " + "Groupe : " + p.getGroupe().getCouleur().name());
-        if (p.getProprietaire() == null) {
-            afficher("Coût de la propriété : " + p.getPrixAchat() + "€");
-        }
-        if (p.getNbMaisons() > 0) {
-            afficher("  Nombre de maisons: " + p.getNbMaisons());
-        }
-        if (p.getNbHotels() > 0) {
-            afficher("  Nombre d'hôtels: " + p.getNbMaisons());
-        }
-    }
-
-    @Override
-    public void afficherPropriete(Compagnie c) {
-        afficher("Nom : " + c.getNomCarreau() + "(" + c.getId() + ")");
-        if (c.getProprietaire() == null) {
-            afficher("Coût de la compagnie : " + c.getPrixAchat() + "€");
-        }
-    }
-
-    @Override
-    public void afficherPropriete(Gare g) {
-        afficher("Nom : " + g.getNomCarreau() + "(" + g.getId() + ")");
-        if (g.getProprietaire() == null) {
-            afficher("Coût de la gare : " + g.getPrixAchat() + "€");
-        }
-    }
-
-    @Override
     public void afficherLancerDes(int[] lancer) {
         afficher("Lancer de dés :");
         for (int i : lancer) {
             afficher(i + "/6");
         }
-    }
-
-    @Override
-    public void afficherCarreauArgent(CarreauArgent c,Joueur j) {
-        afficher("Nom : " + c.getNomCarreau() + "(" + c.getId() + ")");
-        if (c.getMontant() > 0) {
-            afficher("Vous pouvez recevoir " + c.getMontant() + "€");
-        } else if (c.getMontant() < 0) {
-            afficher("Vous devez payer " + (c.getMontant() * -1) + "€");
-        } else {
-            afficher("Bonne balade");
-        }
-    }
-
-    @Override
-    public void afficherCarreauMouvement(CarreauMouvement c, Joueur j) {
-        afficher("Vosu tombez sur la case \"Allez en prison.\"");
     }
 
     @Override
@@ -182,31 +136,17 @@ public class InterfaceTexte extends Interface {
         if (c.getPrixAchat() > j.getCash()) {
             afficher("Vous ne possédez pas assez d'argent pour acheter.");
             afficher("Il vous manque " + (c.getPrixAchat() - j.getCash()) + "€");
-            afficher("  1) Abandonner");
-            afficher("  2) Terminer votre tour");
+        } else {
+            if (c instanceof Gare) {
+                afficher("  1) Acheter cette gare");
+            } else if (c instanceof Compagnie) {
+                afficher("  1) Acheter cette compagnie");
+            } else if (c instanceof ProprieteAConstruire) {
+                afficher("  1) Acheter cette proprieté");
+            }
+            afficher("  2) Ne rien acheter");
             switch (lireInt(1, 2)) {
                 case 1:
-                    j.abandonner();
-                    break;
-                default:
-                    break;
-            }
-        } else {
-            afficherPropriete(c);
-            afficher("  1) Abandonner");
-            if (c instanceof Gare) {
-                afficher("  2) Acheter cette gare");
-            } else if (c instanceof Compagnie) {
-                afficher("  2) Acheter cette compagnie");
-            } else if (c instanceof ProprieteAConstruire) {
-                afficher("  2) Acheter cette proprieté");
-            }
-            afficher("  3) Terminer votre tour");
-            switch (lireInt(1, 3)) {
-                case 1:
-                    j.abandonner();
-                    break;
-                case 2:
                     c.achatPropriete(j);
                     break;
                 default:
@@ -228,55 +168,18 @@ public class InterfaceTexte extends Interface {
      * @param c Le terrain
      * @param joueur Le payeur
      */
-    public void menuLoyer(CarreauPropriete c, Joueur joueur) {
+    public void payerLoyer(CarreauPropriete c, Joueur joueur) {
         int loyer = c.calculLoyer();
-        afficher("Vous etes chez " + c.getProprietaire());
-        afficherPropriete(c);
-        afficher("  1) Abandonner");
-        afficher("  2) Payer " + loyer + "€ a " + c.getProprietaire().getNom());
-        switch (lireInt(1, 2)) {
-            case 1:
-                joueur.abandonner();
-                break;
-            default:
-                c.getProprietaire().recevoirArgent(joueur.payer(loyer));
-                break;
-
-        }
+        afficher("Vous payez " + loyer + "€ a " + c.getProprietaire().getNom());
+        c.getProprietaire().recevoirArgent(joueur.payer(loyer));
     }
 
     /**
-     * Menu lors de lavisite du proprietaire sur son terrain.
+     * Menu lors de la visite du proprietaire sur son terrain.
      * @param c Le terrain.
      */
-    public void menuMaison(CarreauPropriete c) {
+    public void passageMaison(CarreauPropriete c) {
         afficher("Vous êtes chez vous");
-        afficherPropriete(c);
-        afficher("  1) Abandonner");
-        afficher("  2) Terminer votre tour");
-        switch (lireInt(1, 2)) {
-            case 1:
-                c.getProprietaire().abandonner();
-                break;
-            default:
-                break;
-        }
-    }
-    
-    /**
-     * Menu general.
-     * @param j Le joueur
-     */
-    public void menuGeneral(Joueur j) {
-        afficher("  1) Abandonner");
-        afficher("  2) Terminer votre tour");
-        switch (lireInt(1, 2)) {
-            case 1:
-                j.abandonner();
-                break;
-            default:
-                break;
-        }
     }
 
     /**
@@ -284,22 +187,14 @@ public class InterfaceTexte extends Interface {
      * @param j Le visiteur.
      * @param montant Le montant du carreau.
      */
-    public void menuArgent(Joueur j, int montant) {
+    public void passageArgent(Joueur j, int montant) {
         j.recevoirArgent(montant);
-        afficher("  1) Abandonner");
         if (montant<0) {
-            afficher("  2) Payer "+(montant*-1)+"€ et terminer votre tour");
+            afficher("  Vous payez "+(montant*-1)+"€.");
         } else if (montant>0) {
-            afficher("  2) Recevoir "+montant+"€ et terminer votre tour");
+            afficher("  Vous recevez "+montant+"€.");
         } else {
-            afficher("  2) Terminer votre tour");
-        }
-        switch (lireInt(1, 2)) {
-            case 1:
-                j.abandonner();
-                break;
-            default:
-                break;
+            afficher("  Vous passez gratuitement.");
         }
     }
 
@@ -308,13 +203,8 @@ public class InterfaceTexte extends Interface {
 
     @Override
     public void pause() {
-        afficher("Appuyez sue entrée pour continuer");
+        afficher("Appuyez sur entrée pour continuer");
         lireString();
-    }
-
-    @Override
-    public void afficherCarreauTirage(CarreauTirage p, Carte c) {
-        afficher("Vous tirez un carte : "+c);
     }
 
     @Override
@@ -336,11 +226,56 @@ public class InterfaceTexte extends Interface {
     public void finTour(Joueur j) {
         afficher("Fin de votre tour ...");
         afficher("Vous finisez avec "+j.getCash()+"€");
-        pause();
+        afficher("Appuyez sur entrée pour terminer le tour ou \"Abandonner\"");
+        if (lireString().toLowerCase().equals("abandonner")) {
+            j.abandonner();
+            pause();
+        }
+        
     }
 
     @Override
     public void afficherLiberation(String message) {
         afficher(message);
+    }
+
+    @Override
+    public ArrayList<Joueur> saisieJoueurs() {
+        ArrayList<Joueur> joueurs = new ArrayList<Joueur>();
+        afficher("Saisie des joueurs :");
+        String s = "";
+        String[] anciensNoms;
+        while (!(s.equals("quitter")) && joueurs.size() < 6) {
+            afficher("Entrez le nom ou \"quitter\" :");
+            s = lireString();
+            // Empecher la saisie du meme nom
+//            while (errSaisie) {
+//                inter.afficher("Veuillez entrer un nom libre :");
+//                s = inter.lireString();
+//            }
+            if (!s.equals("quitter")) {
+                joueurs.add(new Joueur(s, monopoly));
+            }
+        }
+        return joueurs;
+    }
+
+    @Override
+    public void choixModeDemo() {
+        afficher("Mode demo ?");
+        monopoly.setModeDemo(lireBoolean());
+    }
+
+    @Override
+    public void afficherPosition(Carreau c, Joueur j) {
+        afficher(c.toString());
+        if (c instanceof CarreauPropriete) {
+            afficher(((CarreauPropriete)c).getProprietaire()!=null ? "" : "Le terrain est disponible");
+        }
+    }
+
+    @Override
+    public void afficherCarte(Carte c, Joueur j) {
+        afficher(c.toString());
     }
 }

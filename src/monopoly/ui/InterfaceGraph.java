@@ -118,31 +118,6 @@ public class InterfaceGraph extends Interface {
     }
 
     @Override
-    public void afficherPropriete(ProprieteAConstruire p) {
-        //infoCarreau = new CarreauTerrainUI(p,this);
-    }
-
-    @Override
-    public void afficherPropriete(Compagnie c) {
-        //infoCarreau = new CarreauCompagnieUI(c,this);
-    }
-
-    @Override
-    public void afficherPropriete(Gare g) {
-        //infoCarreau = new CarreauGareUI(g,this);
-    }
-
-    @Override
-    public void afficherCarreauArgent(CarreauArgent c, Joueur j) {
-        //infoCarreau = new CarreauArgentUI(c,this);
-    }
-
-    @Override
-    public void afficherCarreauMouvement(CarreauMouvement c, Joueur j) {
-        //infoCarreau = new CarreauMouvementUI(c,this);
-    }
-
-    @Override
     public void afficherLancerDes(int[] lancer) {
         controls.setDices(lancer);
     }
@@ -159,26 +134,6 @@ public class InterfaceGraph extends Interface {
 
     @Override
     public void menuConstruire(ProprieteAConstruire p) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void menuLoyer(CarreauPropriete c, Joueur joueur) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void menuMaison(CarreauPropriete c) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void menuGeneral(Joueur j) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void menuArgent(Joueur j, int montant) {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -225,13 +180,8 @@ public class InterfaceGraph extends Interface {
         tab.remove(infoCarreau);
         infoCarreau = carreauUI;
         tab.add(infoCarreau, gbc);
-        try {fenetre.wait();} catch(Exception e) {e.printStackTrace();}
-        tab.repaint();
-    }
-
-    @Override
-    public void afficherCarreauTirage(CarreauTirage p, Carte c) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        fenetre.setSize(new Dimension(fenetre.getSize().width+1,fenetre.getSize().height));
+        fenetre.setSize(new Dimension(fenetre.getSize().width-1,fenetre.getSize().height));
     }
 
     @Override
@@ -257,6 +207,49 @@ public class InterfaceGraph extends Interface {
     @Override
     public void afficherLiberation(String message) {
         afficher(message);
+    }
+
+    @Override
+    public ArrayList<Joueur> saisieJoueurs() {
+        ArrayList<Joueur> joueurs = new ArrayList<Joueur>();
+        
+        joueurs.add(new Joueur("Alpha",monopoly));
+        joueurs.add(new Joueur("Beta",monopoly));
+        joueurs.add(new Joueur("Gama",monopoly));
+        
+        return joueurs;
+    }
+
+    @Override
+    public void choixModeDemo() {
+        monopoly.setModeDemo(JOptionPane.showConfirmDialog(fenetre, "Mode Demo ?", "Selection mode", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE)==0);
+    }
+
+    @Override
+    public void payerLoyer(CarreauPropriete c, Joueur joueur) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void passageMaison(CarreauPropriete c) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void passageArgent(Joueur j, int montant) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void afficherPosition(Carreau c, Joueur j) {
+        updateCarreauInfo(getCarreauUI(j.getPosition(), this));
+        plateau.updateJoueur(j);
+        players.updateJoueur(j, true);
+    }
+
+    @Override
+    public void afficherCarte(Carte c, Joueur j) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

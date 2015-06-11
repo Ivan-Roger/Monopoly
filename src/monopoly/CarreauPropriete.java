@@ -40,15 +40,21 @@ public abstract class CarreauPropriete extends Carreau {
      */
     @Override
     public void action(Joueur joueur) {
+        monopoly.inter.afficherPosition(this, joueur);
         if (this.proprietaire == null) {
             monopoly.inter.menuAchatPropriete(this, joueur);
         } else {
             if (this.proprietaire != joueur) {
-                monopoly.inter.menuLoyer(this, joueur);
+                monopoly.inter.payerLoyer(this, joueur);
             } else {
-                monopoly.inter.menuMaison(this);
+                monopoly.inter.passageMaison(this);
             }
         }
+    }
+    
+    @Override
+    public String toString() {
+        return super.toString()+ (proprietaire!=null ? " ("+proprietaire.getNom()+")" : "");
     }
 
 }

@@ -6,6 +6,7 @@
 
 package monopoly.ui;
 
+import java.awt.Dimension;
 import javax.swing.JPanel;
 import monopoly.Carreau;
 
@@ -18,6 +19,7 @@ public abstract class CarreauUI extends JPanel {
     
     public CarreauUI(InterfaceGraph inter) {
         this.inter=inter;
+        this.setPreferredSize(new Dimension(300,400));
     }
     
     protected abstract void initUIComponents();

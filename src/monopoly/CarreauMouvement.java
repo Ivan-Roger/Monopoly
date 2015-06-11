@@ -11,9 +11,7 @@ public class CarreauMouvement extends CarreauAction {
     **/
     @Override
     public void action(Joueur j) {
-        monopoly.inter.afficherCarreauMouvement(this,j);
+        monopoly.inter.afficherPosition(this,j);
         j.allerEnPrison();
-        
-        monopoly.inter.menuGeneral(j);
     }
 }

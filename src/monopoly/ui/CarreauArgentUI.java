@@ -7,12 +7,10 @@ package monopoly.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.awt.Image;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
@@ -53,7 +51,7 @@ class CarreauArgentUI extends CarreauUI {
         top.add(icon,BorderLayout.WEST);
         JLabel type = new JLabel("Carreau Argent");
         top.add(type,BorderLayout.CENTER);
-        nom = new JLabel("");
+        nom = new JLabel(c.getNomCarreau());
         top.add(nom,BorderLayout.SOUTH);
         this.add(top, BorderLayout.NORTH);
         

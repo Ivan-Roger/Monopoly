@@ -51,7 +51,7 @@ class CarreauGareUI extends CarreauUI {
         top.add(icon,BorderLayout.WEST);
         JLabel type = new JLabel("Gare");
         top.add(type,BorderLayout.CENTER);
-        nom = new JLabel("");
+        nom = new JLabel(g.getNomCarreau());
         top.add(nom,BorderLayout.SOUTH);
         this.add(top, BorderLayout.NORTH);
         

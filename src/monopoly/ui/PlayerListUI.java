@@ -105,8 +105,10 @@ class PlayerListUI extends JPanel {
 
     public void updateJoueur(Joueur j,boolean current) {
         int index = joueurs.indexOf(j);
+        System.out.println("DEBUG : "+index+", current = "+current); // DEBUG !!!!!
         if (!j.abandonne()) {
-            panels.get(index).setBackground(current ? Color.GRAY : Color.LIGHT_GRAY);
+            panels.get(index).setBackground(current ? Color.RED : Color.WHITE);
+            panels.get(index).setBorder(BorderFactory.createLineBorder(current ? Color.RED : Color.BLACK));
             
             cash.get(index).setText("Cash : " + j.getCash() + "€");
             String imagePath = j.estEnPrison() ? "/assets/AvatarPrison.png" : "/assets/Avatar.png";
@@ -121,6 +123,7 @@ class PlayerListUI extends JPanel {
             cartes.get(index).setEnabled(false);
             statut.get(index).setText("Abandonne");
         }
+        this.repaint();
     }
 
 }

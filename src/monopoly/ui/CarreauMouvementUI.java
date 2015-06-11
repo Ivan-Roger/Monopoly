@@ -51,7 +51,7 @@ class CarreauMouvementUI extends CarreauUI {
         top.add(icon,BorderLayout.WEST);
         JLabel type = new JLabel("Carreau Mouvement");
         top.add(type,BorderLayout.CENTER);
-        nom = new JLabel("");
+        nom = new JLabel(c.getNomCarreau());
         top.add(nom,BorderLayout.SOUTH);
         this.add(top, BorderLayout.NORTH);
         

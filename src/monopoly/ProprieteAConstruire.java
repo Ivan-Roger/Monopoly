@@ -46,5 +46,10 @@ public class ProprieteAConstruire extends CarreauPropriete {
     public Groupe getGroupe() {
         return groupePropriete;
     }
+    
+    @Override
+    public String toString() {
+        return super.toString()+" - Groupe "+this.getGroupe().getCouleur()+this.getGroupe().getCouleur().name()+((char)27 + "[0m");
+    }
 
 }

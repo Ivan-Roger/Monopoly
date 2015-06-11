@@ -22,7 +22,7 @@ public class Joueur {
 
     /* Constructeur */
     // Changer le carreau de départ, plus en paramètre mais direct dans constructeur
-    Joueur(String nom, Monopoly monopoly) {
+    public Joueur(String nom, Monopoly monopoly) {
         nomJoueur = nom;
         this.monopoly = monopoly;
         position = monopoly.carreauDepart;

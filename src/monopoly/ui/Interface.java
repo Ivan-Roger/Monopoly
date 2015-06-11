@@ -6,6 +6,7 @@
 package monopoly.ui;
 
 import java.util.ArrayList;
+import monopoly.Carreau;
 import monopoly.CarreauArgent;
 import monopoly.CarreauMouvement;
 import monopoly.CarreauPropriete;
@@ -50,54 +51,10 @@ public abstract class Interface {
      */
     public abstract void afficherInfosTour(int tour);
     /**
-     * Affichage des info d'un carreau Tirage.
-     * @param p Le carreau a decrire
-     */
-    public abstract void afficherCarreauTirage(CarreauTirage p, Carte c);
-    /**
-     * Affichage des info d'une proprieté. Compagnie, Gare ou Propriete
-     * @param c La propriete a decrire.
-     */
-    public void afficherPropriete(CarreauPropriete c) {
-        if (c instanceof Gare) {
-            afficherPropriete((Gare)c);
-        } else if (c instanceof Compagnie) {
-            afficherPropriete((Compagnie)c);
-        } else if (c instanceof ProprieteAConstruire) {
-            afficherPropriete((ProprieteAConstruire)c);
-        }
-    }
-    /**
-     * Affichage des info d'une proprieté. Propriete
-     * @param p La Proprieté a decrire
-     */
-    public abstract void afficherPropriete(ProprieteAConstruire p);
-    /**
-     * Affichage des info d'une Compagnie.
-     * @param p La Proprieté a decrire
-     */
-    public abstract void afficherPropriete(Compagnie c);
-    /**
-     * Affichage des info d'une Gare.
-     * @param p La Proprieté a decrire
-     */
-    public abstract void afficherPropriete(Gare g);
-    /**
      * Affichage d'un lancer de dés.
      * @param lancer Le lancer composé de deux dés sur 6.
      */
     public abstract void afficherLancerDes(int[] lancer);
-    /**
-     * Affichage d'un carreauArgent.
-     * @param c Le carreau a decrire
-     */
-    public abstract void afficherCarreauArgent(CarreauArgent c, Joueur j);
-    /**
-     * Affichage du CarreauMouvement (instance unique : Aller en prison).
-     * @param c Le carreau a decrire
-     * @param j Le joueur tombant sur le carreau.
-     */
-    public abstract void afficherCarreauMouvement(CarreauMouvement c, Joueur j);
     /**
      * Affichage des maisons et hotels sur un terrain.
      * @param g Le terrain a decrire.
@@ -120,23 +77,18 @@ public abstract class Interface {
      * @param c Le terrain
      * @param joueur Le payeur
      */
-    public abstract void menuLoyer(CarreauPropriete c, Joueur joueur);
+    public abstract void payerLoyer(CarreauPropriete c, Joueur joueur);
     /**
      * Menu lors de lavisite du proprietaire sur son terrain.
      * @param c Le terrain.
      */
-    public abstract void menuMaison(CarreauPropriete c);
-    /**
-     * Menu general.
-     * @param j Le joueur
-     */
-    public abstract void menuGeneral(Joueur j);
+    public abstract void passageMaison(CarreauPropriete c);
     /**
      * Menu lors de l'arrivée sur un carreau argent.
      * @param j Le visiteur.
      * @param montant Le montant du carreau.
      */
-    public abstract void menuArgent(Joueur j, int montant);
+    public abstract void passageArgent(Joueur j, int montant);
 
     /**
      * Attends une action de l'utilisateur pour continuer.
@@ -156,5 +108,13 @@ public abstract class Interface {
     public abstract void finTour(Joueur j);
 
     public abstract void afficherLiberation(String message);
+    
+    public abstract ArrayList<Joueur> saisieJoueurs();
+    
+    public abstract void choixModeDemo();
+
+    public abstract void afficherPosition(Carreau c, Joueur j);
+
+    public abstract void afficherCarte(Carte c, Joueur j);
 
 }

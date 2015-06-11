@@ -19,7 +19,11 @@ public class CarreauArgent extends CarreauAction {
     **/ 
     @Override
     public void action(Joueur j) {
-        monopoly.inter.afficherCarreauArgent(this,j);
-        monopoly.inter.menuArgent(j, montant);
+        monopoly.inter.afficherPosition(this,j);
+    }
+    
+    @Override
+    public String toString() {
+        return super.toString() + (montant!=0 ? " ("+montant+")" : "");
     }
 }
