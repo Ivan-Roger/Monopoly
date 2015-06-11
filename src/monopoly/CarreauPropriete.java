@@ -59,3 +59,21 @@ public abstract class CarreauPropriete extends Carreau {
     }
 
 }
+
+
+
+public void action(Joueur joueur) {
+        if (this.proprietaire == null) {
+            monopoly.inter.menuAchatPropriete(this, joueur);
+        } else {
+            if (this.proprietaire != joueur) {
+                monopoly.inter.menuLoyer(this, joueur);
+            } else {
+                if (this instanceof ProprieteAConstruire) {
+                    monopoly.inter.menuConstruire((ProprieteAConstruire)this);
+                } else {
+                    monopoly.inter.menuMaison(this);
+                }
+            }
+        }
+    }
