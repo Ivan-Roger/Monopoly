@@ -108,7 +108,7 @@ public class Joueur {
 
             @Override
             public int compare(ProprieteAConstruire o1, ProprieteAConstruire o2) {
-                return o1.getGroupe().getCouleur().compareTo(o2.getGroupe().getCouleur());
+                return ((Integer)o1.getId()).compareTo(o2.getId());
             }
         
     });

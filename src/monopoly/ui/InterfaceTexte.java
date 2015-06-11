@@ -86,17 +86,17 @@ public class InterfaceTexte extends Interface {
         afficher("Propriétés :");
         if (j.getProprietes().size()>0) {afficher("  Terrains :");}
         for (ProprieteAConstruire p : j.getProprietes()) {
-            // TO DO
+            afficher("    "+p.toString());
         }
 
         if (j.getGares().size()>0) {afficher("  Gares :");}
         for (Gare g : j.getGares()) {
-            // TO DO
+            afficher("    "+g.toString());
         }
 
         if (j.getCompagnies().size()>0) {afficher("  Compagnies :");}
         for (Compagnie c : j.getCompagnies()) {
-            // TO DO
+            afficher("    "+c.toString());
         }
 
         afficher("");
@@ -269,8 +269,8 @@ public class InterfaceTexte extends Interface {
     @Override
     public void afficherPosition(Carreau c, Joueur j) {
         afficher(c.toString());
-        if (c instanceof CarreauPropriete) {
-            afficher(((CarreauPropriete)c).getProprietaire()!=null ? "" : "Le terrain est disponible");
+        if (c instanceof CarreauPropriete && ((CarreauPropriete)c).getProprietaire()==null) {
+            afficher("Le terrain est disponible");
         }
     }
 
