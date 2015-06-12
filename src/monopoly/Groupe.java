@@ -112,7 +112,7 @@ public class Groupe {
             max = (choix[i]>max ? choix[i] : max ); // Si nb[i] < max alors max = nb[i] sinon max = max
             min = (choix[i]<min ? choix[i] : min ); // Pareil
         }
-        if (max-min>1 || max-min<1) {
+        if (max-min>1) {
             throw new ConstruireException("Vous devez assurer que vos terrain soient equitablement repartis.");
         }
 

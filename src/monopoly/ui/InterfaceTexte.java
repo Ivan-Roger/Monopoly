@@ -283,7 +283,7 @@ public class InterfaceTexte extends Interface {
     public int[] selectionConstruction(Groupe g, Joueur j) {
         int[] res = new int[g.getNbProprietes()];
         
-        afficher("Construction sur le groupe "+g.getCouleur()+g.getCouleur().name()+((char)27)+" :");
+        afficher("Construction sur le groupe "+g.getCouleur()+g.getCouleur().name()+((char)27)+"[0m"+" :");
         afficher("  Prix d'achat d'une maison : "+g.getPrixAchatMaison()+"€");
         afficher("  Prix d'achat d'un hotel : "+g.getPrixAchatHotel()+"€");
         
@@ -292,11 +292,11 @@ public class InterfaceTexte extends Interface {
             boolean hotel = false;
             afficher("Que construire sur le terrain " + g.getProprietes().get(i).getNomCarreau() + " ?");
             afficher("  1) Ne rien construire");
-            afficher("  2) Maison");
-            afficher("  3) Hotel");
+            afficher("  2) Maisons");
+            afficher("  3) Hotels");
             switch (lireInt(1, 3)) {
                 case 2:
-                    afficher("Combien de maison (max " + monopoly.getNbMaisonsMax() + ") :");
+                    afficher("Combien de maisons (max " + monopoly.getNbMaisonsMax() + ") :");
                     choix = lireInt(1, monopoly.getNbMaisonsMax());
                     break;
                 case 3:
@@ -308,7 +308,7 @@ public class InterfaceTexte extends Interface {
                     break;
             }
             if (choix > 0) {
-                afficher("Confirmer la construction de " + choix + " " + (hotel ? "hotels" : "maison") + " sur " + g.getProprietes().get(i).getNomCarreau());
+                afficher("Confirmer la construction de " + choix + " " + (hotel ? "hotels" : "maisons") + " sur " + g.getProprietes().get(i).getNomCarreau());
                 if (lireString().toLowerCase().equals("non")) {
                     i--;
                 } else {
