@@ -1,17 +1,20 @@
 package monopoly;
 
 import java.util.ArrayList;
+import monopoly.ex.ConstruireException;
 
 public class Groupe {
 
+    private Monopoly monopoly;
     private int prixAchatMaison;
     private int prixAchatHotel;
     private CouleurPropriete couleur;
     private ArrayList<ProprieteAConstruire> proprietes;
 
-    public Groupe(CouleurPropriete c) {
+    public Groupe(CouleurPropriete c, Monopoly monopoly) {
         couleur = c;
         proprietes = new ArrayList<ProprieteAConstruire>();
+        this.monopoly = monopoly;
     }
 
     public CouleurPropriete getCouleur() {
@@ -21,7 +24,7 @@ public class Groupe {
     public void addPropriete(ProprieteAConstruire p) {
         proprietes.add(p);
     }
-    
+
     public ArrayList<ProprieteAConstruire> getProprietes() {
         return proprietes;
     }
@@ -33,26 +36,26 @@ public class Groupe {
     public int getPrixAchatHotel() {
         return prixAchatHotel;
     }
-    
+
     public int getNbMaisonsGroupe() {
         int tmp = 0;
-        for(ProprieteAConstruire p : proprietes) {
+        for (ProprieteAConstruire p : proprietes) {
             tmp = tmp + p.getNbMaisons();
         }
         return tmp;
     }
-    
+
     public int getNbHotelsGroupe() {
         int tmp = 0;
-        for(ProprieteAConstruire p : proprietes) {
+        for (ProprieteAConstruire p : proprietes) {
             tmp = tmp + p.getNbHotels();
         }
         return tmp;
     }
-    
+
     public int getNbProprietes() {
         int tmp = 0;
-        for(ProprieteAConstruire p : proprietes) {
+        for (ProprieteAConstruire p : proprietes) {
             tmp++;
         }
         return tmp;
@@ -64,5 +67,69 @@ public class Groupe {
 
     public void setPrixAchatHotel(int prix) {
         this.prixAchatHotel = prix;
+    }
+
+    public void verifConstruire(Joueur j) throws ConstruireException {
+        for (ProprieteAConstruire p : proprietes) {
+            if (p.getProprietaire() != j) {
+                throw new ConstruireException("Vous ne possedez pas tous les terrains du groupe. Vous ne pouvez pas construire.");
+            }
+        }
+
+        int[] choix = monopoly.inter.selectionConstruction(this, j);
+        int cash = j.getCash();
+        for (int i = 0; i < choix.length; i++) {
+            ProprieteAConstruire t = proprietes.get(i);
+            if (choix[i] >= monopoly.getNbMaisonsMax() + 1) { // Si tentative de construire des hotels.
+                if ((choix[i] - monopoly.getNbMaisonsMax()) > monopoly.getNbHotelsRestants()) { // Si construction de plus d'hotel que le max plateau
+                    throw new ConstruireException("Vous ne pouvez plus construire que " + monopoly.getNbHotelsRestants() + " hotels sur le plateau");
+                }
+                if (t.getNbMaisons() < monopoly.getNbMaisonsMax()) { // Si nombre de maisons inferieur au max.
+                    throw new ConstruireException("Vous ne pouvez pas construire un hotel sur le terrain " + t.getNomCarreau() + " car vous n'avez pas construit toutes les maisons.");
+                }
+                if (t.getNbHotels() + (choix[i] - monopoly.getNbMaisonsMax()) > monopoly.getNbHotelsMax()) { // Construire plus d'hotels que le max.
+                    throw new ConstruireException("Vous ne pouvez pas construire plus de " + monopoly.getNbHotelsMax() + " hotels sur un terrain.");
+                }
+                cash -= choix[i]*this.prixAchatHotel;
+            } else {
+                if (choix[i] > monopoly.getNbMaisonsRestantes()) {
+                    throw new ConstruireException("Vous ne pouvez plus contruire que " + monopoly.getNbMaisonsRestantes() + " maisons sur le plateau.");
+                }
+                if (t.getNbMaisons() + choix[i] > monopoly.getNbMaisonsMax()) { // Si tentative de construire plus de maison que le max.
+                    throw new ConstruireException("Vous ne pouvez pas construire plus de " + monopoly.getNbMaisonsMax() + " maisons sur un terrain.");
+                }
+                cash -= choix[i]*this.prixAchatMaison;
+            }
+        }
+        if (cash<=0) {
+            throw new ConstruireException("Vous n'avez pas assez d'argent pour effectuer cela.");
+        }
+        
+        
+        int min = choix[0];
+        int max = choix[0];
+        for (int i=0; i<choix.length; i++) {
+            max = (choix[i]>max ? choix[i] : max ); // Si nb[i] < max alors max = nb[i] sinon max = max
+            min = (choix[i]<min ? choix[i] : min ); // Pareil
+        }
+        if (max-min>1 || max-min<1) {
+            throw new ConstruireException("Vous devez assurer que vos terrain soient equitablement repartis.");
+        }
+
+        for (int i=0; i<choix.length; i++) {
+            proprietes.get(i).construire(choix[i]);
+        }
+        /*
+         Il faut :
+         tout les proprietés du groupe
+         ne pas depasser le nbMax de maisons sur le plateau
+         ne pas depasser le nbMax de maisons sur le Carreau
+         il faut avoir assez d'argent
+        
+         Valeur de retour :
+         tableau d'entier par terrain dans l'ordre du plateau.
+         exemple : [2,2,3] / pour l'hotel = nbMaxMaison + 1
+        
+         */
     }
 }

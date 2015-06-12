@@ -39,7 +39,7 @@ public class Monopoly {
         carreaux = new HashMap<Integer, Carreau>();
         groupes = new HashMap<CouleurPropriete, Groupe>();
         for (CouleurPropriete c : CouleurPropriete.values()) {
-            groupes.put(c, new Groupe(c));
+            groupes.put(c, new Groupe(c,this));
         }
 
         buildGamePlateau(this.getClass().getResourceAsStream(carreauxPath));

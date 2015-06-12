@@ -60,11 +60,11 @@ public abstract class Interface {
      * Affichage des maisons et hotels sur un terrain.
      * @param g Le terrain a decrire.
      */
-    public abstract void afficherConstructionsPossibles(int nbMaisonsConstructibles, int nbHotelConstructibles, Groupe g);
+    //public abstract void afficherConstructionsPossibles(int nbMaisonsConstructibles, int nbHotelConstructibles, Groupe g);
     
-    public abstract void afficherChoixMaisonsAConstruire(Groupe g);
+    //public abstract void afficherChoixMaisonsAConstruire(Groupe g);
     
-    public abstract void afficherRecapitulatifChoixMaisonsAConstruire(int[] nbMaisonsAConstruire, Groupe g, Joueur j);
+    //public abstract void afficherRecapitulatifChoixMaisonsAConstruire(int[] nbMaisonsAConstruire, Groupe g, Joueur j);
     
     /**
      * Menu d'achat d'un terrain, gare ou compagnie.
@@ -122,8 +122,10 @@ public abstract class Interface {
 
     public abstract void afficherCarte(Carte c, Joueur j);
     
-    public abstract void verifConstruire(ProprieteAConstruire p) throws ConstruireException;
+    //public abstract void verifConstruire(ProprieteAConstruire p) throws ConstruireException;
     
-    public abstract void afficherEtatConstructions(Groupe g);
+    //public abstract void afficherEtatConstructions(Groupe g);
+
+    public abstract int[] selectionConstruction(Groupe g, Joueur j);
 
 }

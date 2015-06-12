@@ -14,7 +14,7 @@ public class ProprieteAConstruire extends CarreauPropriete {
         this.loyers = loyers;
         groupePropriete = g;
     }
-    
+
     /* Réecriture des méthodes super */
     @Override
     public void achatPropriete(Joueur joueur) {
@@ -46,24 +46,27 @@ public class ProprieteAConstruire extends CarreauPropriete {
     public Groupe getGroupe() {
         return groupePropriete;
     }
-    
-    
+
     /* Autres Méthodes */
     public void addMaisons(int m) {
         nbMaisons = nbMaisons + m;
     }
-    
+
     public void addHotels(int h) {
         nbHotels = nbHotels + h;
     }
-    
+
     @Override
     public String toString() {
-        return super.toString()+" - Groupe "+this.getGroupe().getCouleur()+this.getGroupe().getCouleur().name()+((char)27 + "[0m")+(nbMaisons>0?" - "+nbMaisons+" Maisons":"")+(nbHotels>0?" - "+nbHotels+" Hotels":"");
+        return super.toString() + " - Groupe " + this.getGroupe().getCouleur() + this.getGroupe().getCouleur().name() + ((char) 27 + "[0m") + (nbMaisons > 0 ? " - " + nbMaisons + " Maisons" : "") + (nbHotels > 0 ? " - " + nbHotels + " Hotels" : "");
     }
 
-    public void construireMaison(int nb) {
-        nbMaisons+=nb;
+    public void construire(int nb) {
+        if (nb > monopoly.getNbMaisonsMax()) { // Si nb > nbMaisonsMax alors hotel
+            nbHotels += (nb - monopoly.getNbMaisonsMax());
+        } else { // Sinon maison
+            nbMaisons += nb;
+        }
     }
 
 }
