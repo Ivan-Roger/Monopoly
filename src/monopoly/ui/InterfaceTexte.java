@@ -305,6 +305,8 @@ public class InterfaceTexte extends Interface {
         afficher("Construction sur le groupe " + g.getCouleur() + g.getCouleur().name() + ((char) 27) + "[0m" + " :");
         afficher("  Prix d'achat d'une maison : " + g.getPrixAchatMaison() + "€");
         afficher("  Prix d'achat d'un hotel : " + g.getPrixAchatHotel() + "€");
+        afficher("Maisons encore disponibles sur le plateau : "+monopoly.getMaisonsPlateauRestantes());
+        afficher("Hotels encore disponibles sur le plateau : "+monopoly.getHotelsPlateauRestants());
 
         for (int i = 0; i < res.length; i++) {
             int choix = 0;
@@ -315,12 +317,12 @@ public class InterfaceTexte extends Interface {
             afficher("  3) Hotels");
             switch (lireInt(1, 3)) {
                 case 2:
-                    afficher("Combien de maisons (max " + monopoly.getNbMaisonsMax() + ") :");
-                    choix = lireInt(1, monopoly.getNbMaisonsMax());
+                    afficher("Combien de maisons (max " + monopoly.getMaxMaisonsTerrain() + ") :");
+                    choix = lireInt(1, monopoly.getMaxMaisonsTerrain());
                     break;
                 case 3:
-                    afficher("Combien d'hotels (max " + monopoly.getNbHotelsMax() + ") :");
-                    choix = lireInt(1, monopoly.getNbHotelsMax());
+                    afficher("Combien d'hotels (max " + monopoly.getMaxHotelsTerrain() + ") :");
+                    choix = lireInt(1, monopoly.getMaxHotelsTerrain());
                     hotel = true;
                     break;
                 default:
@@ -332,7 +334,7 @@ public class InterfaceTexte extends Interface {
                     i--;
                 } else {
                     if (hotel) {
-                        choix += monopoly.getNbMaisonsMax();
+                        choix += monopoly.getMaxMaisonsTerrain();
                     }
                     res[i] = choix;
                 }

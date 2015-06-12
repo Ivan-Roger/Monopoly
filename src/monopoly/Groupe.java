@@ -70,6 +70,9 @@ public class Groupe {
     }
 
     public void verifConstruire(Joueur j) throws ConstruireException {
+        int maisonsRestantes = monopoly.getMaisonsPlateauRestantes();
+        int hotelsRestants = monopoly.getHotelsPlateauRestants();
+        
         for (ProprieteAConstruire p : proprietes) {
             if (p.getProprietaire() != j) {
                 throw new ConstruireException("Vous ne possedez pas tous les terrains du groupe. Vous ne pouvez pas construire.");
@@ -80,24 +83,26 @@ public class Groupe {
         int cash = j.getCash();
         for (int i = 0; i < choix.length; i++) {
             ProprieteAConstruire t = proprietes.get(i);
-            if (choix[i] >= monopoly.getNbMaisonsMax() + 1) { // Si tentative de construire des hotels.
-                if ((choix[i] - monopoly.getNbMaisonsMax()) > monopoly.getNbHotelsRestants()) { // Si construction de plus d'hotel que le max plateau
-                    throw new ConstruireException("Vous ne pouvez plus construire que " + monopoly.getNbHotelsRestants() + " hotels sur le plateau");
+            if (choix[i] >= monopoly.getMaxMaisonsTerrain() + 1) { // Si tentative de construire des hotels.
+                if ((choix[i] - monopoly.getMaxMaisonsTerrain()) > hotelsRestants) { // Si construction de plus d'hotel que le max plateau
+                    throw new ConstruireException("Vous ne pouvez plus construire que " + monopoly.getHotelsPlateauRestants() + " hotels sur le plateau");
                 }
-                if (t.getNbMaisons() < monopoly.getNbMaisonsMax()) { // Si nombre de maisons inferieur au max.
+                if (t.getNbMaisons() < monopoly.getMaxMaisonsTerrain()) { // Si nombre de maisons inferieur au max.
                     throw new ConstruireException("Vous ne pouvez pas construire un hotel sur le terrain " + t.getNomCarreau() + " car vous n'avez pas construit toutes les maisons.");
                 }
-                if (t.getNbHotels() + (choix[i] - monopoly.getNbMaisonsMax()) > monopoly.getNbHotelsMax()) { // Construire plus d'hotels que le max.
-                    throw new ConstruireException("Vous ne pouvez pas construire plus de " + monopoly.getNbHotelsMax() + " hotels sur un terrain.");
+                if (t.getNbHotels() + (choix[i] - monopoly.getMaxMaisonsTerrain()) > monopoly.getMaxHotelsTerrain()) { // Construire plus d'hotels que le max.
+                    throw new ConstruireException("Vous ne pouvez pas construire plus de " + monopoly.getMaxHotelsTerrain() + " hotels sur un terrain.");
                 }
-                cash -= (choix[i] - monopoly.getNbMaisonsMax())*this.prixAchatHotel;
+                hotelsRestants -= (choix[i] - monopoly.getMaxMaisonsTerrain());
+                cash -= (choix[i] - monopoly.getMaxMaisonsTerrain())*this.prixAchatHotel;
             } else {
-                if (choix[i] > monopoly.getNbMaisonsRestantes()) { // Plus de maisons que maxPlateau
-                    throw new ConstruireException("Vous ne pouvez plus contruire que " + monopoly.getNbMaisonsRestantes() + " maisons sur le plateau.");
+                if (choix[i] > maisonsRestantes) { // Plus de maisons que maxPlateau
+                    throw new ConstruireException("Vous ne pouvez plus contruire que " + monopoly.getMaisonsPlateauRestantes() + " maisons sur le plateau.");
                 }
-                if (t.getNbMaisons() + choix[i] > monopoly.getNbMaisonsMax()) { // Si tentative de construire plus de maison que le max.
-                    throw new ConstruireException("Vous ne pouvez pas construire plus de " + monopoly.getNbMaisonsMax() + " maisons sur un terrain.");
+                if (t.getNbMaisons() + choix[i] > monopoly.getMaxMaisonsTerrain()) { // Si tentative de construire plus de maison que le max terrain.
+                    throw new ConstruireException("Vous ne pouvez pas construire plus de " + monopoly.getMaxMaisonsTerrain() + " maisons sur un terrain.");
                 }
+                maisonsRestantes -= choix[i];
                 cash -= choix[i]*this.prixAchatMaison;
             }
         }

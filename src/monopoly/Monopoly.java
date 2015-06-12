@@ -18,8 +18,8 @@ import monopoly.ui.InterfaceTexte;
 
 public class Monopoly {
 
-    private int nbMaisons = 32;
-    private int nbHotels = 12;
+    private int maxMaisonsPlateau = 32;
+    private int maxHotelsPlateau = 12;
     private int nbMaisonsConstruites = 0;
     private int nbHotelsConstruits = 0;
     private HashMap<Integer, Carreau> carreaux;
@@ -32,8 +32,8 @@ public class Monopoly {
     public CarreauAction carreauPrison;
     public InterfaceDemo demo;
     public boolean modeDemo = false;
-    private final int nbMaisonsMax = 4; // Modifiables à la construction pour pouvoir créer une partie personalisée
-    private final int nbHotelsMax = 1;  // Modifiables à la construction pour pouvoir créer une partie personalisée
+    private final int maxMaisonsTerrain = 4; // Modifiables à la construction pour pouvoir créer une partie personalisée
+    private final int maxHotelsTerrain = 1;  // Modifiables à la construction pour pouvoir créer une partie personalisée
 
     public Monopoly(String carreauxPath, String cartesPath) {
         carreaux = new HashMap<Integer, Carreau>();
@@ -99,14 +99,6 @@ public class Monopoly {
 
     public void addJoueur(Joueur j) {
         joueurs.add(j);
-    }
-
-    public int getNbMaisonsMax() {
-        return nbMaisonsMax;
-    }
-
-    public int getNbHotelsMax() {
-        return nbHotelsMax;
     }
 
     public HashMap<Integer, Carreau> getCarreaux() {
@@ -354,20 +346,36 @@ public class Monopoly {
         return carreaux.size();
     }
 
-    public int getNbMaisons() {
-        return nbMaisons;
+    public void addMaisons(int nb) {
+        this.nbMaisonsConstruites += nb;
     }
 
-    public int getNbHotels() {
-        return nbHotels;
+    public void addHotels(int nb) {
+        this.nbHotelsConstruits += nb;
     }
 
-    public int getNbMaisonsRestantes() {
-        return nbMaisons - nbMaisonsConstruites;
+    public int getMaxMaisonsPlateau() {
+        return maxMaisonsPlateau;
     }
 
-    public int getNbHotelsRestants() {
-        return nbHotels - nbHotelsConstruits;
+    public int getMaxHotelsPlateau() {
+        return maxHotelsPlateau;
+    }
+
+    public int getMaxMaisonsTerrain() {
+        return maxMaisonsTerrain;
+    }
+
+    public int getMaxHotelsTerrain() {
+        return maxHotelsTerrain;
+    }
+
+    public int getMaisonsPlateauRestantes() {
+        return maxMaisonsPlateau - nbMaisonsConstruites;
+    }
+
+    public int getHotelsPlateauRestants() {
+        return maxHotelsPlateau - nbHotelsConstruits;
     }
 
     public void retirerJoueur(Joueur j) {
@@ -453,6 +461,10 @@ public class Monopoly {
             }
         }
         return res;
+    }
+
+    public void removeMaison(int nbMaisons) {
+        nbMaisonsConstruites -= nbMaisons;
     }
 
 }

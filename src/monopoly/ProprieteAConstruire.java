@@ -26,10 +26,10 @@ public class ProprieteAConstruire extends CarreauPropriete {
 
     @Override
     public int calculLoyer() {
-        if (nbHotels < monopoly.getNbHotelsMax()) {
+        if (nbHotels>0) { // S'il existe des hotels
+            return loyers[monopoly.getMaxMaisonsTerrain() + nbHotels];
+        } else { // Sinon maison
             return loyers[nbMaisons];
-        } else {
-            return loyers[monopoly.getNbMaisonsMax() + nbHotels];
         }
 
     }
@@ -62,10 +62,14 @@ public class ProprieteAConstruire extends CarreauPropriete {
     }
 
     public void construire(int nb) {
-        if (nb > monopoly.getNbMaisonsMax()) { // Si nb > nbMaisonsMax alors hotel
-            nbHotels += (nb - monopoly.getNbMaisonsMax());
+        if (nb > monopoly.getMaxMaisonsTerrain()) { // Si nb > nbMaisonsMaxTerrain alors hotel
+            nbHotels += (nb - monopoly.getMaxMaisonsTerrain());
+            monopoly.addHotels((nb - monopoly.getMaxMaisonsTerrain()));
+            monopoly.removeMaison(monopoly.getMaxMaisonsTerrain());
+            nbMaisons = 0;
         } else { // Sinon maison
             nbMaisons += nb;
+            monopoly.addMaisons(nb);
         }
     }
 
