@@ -10,11 +10,11 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -30,7 +30,7 @@ import monopoly.ProprieteAConstruire;
  * @author rogeri
  */
 public class InterfaceDemo extends JFrame {
-
+    private JPanel GUI;
     private JButton switchMove;
     private int moveMode = 0;
     private JLabel moveLabel;
@@ -47,6 +47,9 @@ public class InterfaceDemo extends JFrame {
     private JButton validTele;
     private JButton validDice;
     private JButton validCard;
+    private JComboBox batList;
+    private JButton addMaison;
+    private JButton addHotel;
     private JComboBox[] listeDes;
     private boolean teleOver = false;
     private boolean diceOver = false;
@@ -58,7 +61,8 @@ public class InterfaceDemo extends JFrame {
         this.monopoly = m;
         listeDes = new JComboBox[2];
         listeCartes = new HashMap<>();
-        this.getContentPane().add(initUIcomponent());
+        GUI = initUIcomponent();
+        this.getContentPane().add(GUI);
         initListeners();
         this.setSize(new Dimension(1000, 700));
         this.setLocationRelativeTo(null);
@@ -75,7 +79,7 @@ public class InterfaceDemo extends JFrame {
         content.add(new JLabel("Demo Monopoly", SwingConstants.CENTER), BorderLayout.NORTH);
 
         JPanel controles = new JPanel();
-        controles.setLayout(new GridLayout(6, 1));
+        controles.setLayout(new GridLayout(7, 1));
 
         JPanel optPanel = new JPanel();
         optPanel.setLayout(new GridLayout(2, 2));
@@ -116,6 +120,23 @@ public class InterfaceDemo extends JFrame {
         validProp.setEnabled(false);
         propPanel.add(validProp);
         controles.add(propPanel);
+
+        JPanel batPanel = new JPanel();
+        batPanel.setLayout(new GridLayout(2, 2));
+        batPanel.add(new JLabel("Constructions", SwingConstants.CENTER));
+        batList = new JComboBox();
+        batPanel.add(batList);
+        batPanel.add(new JLabel(""));
+        JPanel batPanel2 = new JPanel();
+        batPanel2.setLayout(new GridLayout(1, 2));
+        addMaison = new JButton("Maison");
+        addMaison.setEnabled(false);
+        batPanel2.add(addMaison);
+        addHotel = new JButton("Hotel");
+        addHotel.setEnabled(false);
+        batPanel2.add(addHotel);
+        batPanel.add(batPanel2);
+        controles.add(batPanel);
 
         // Gestion du deplacement
         JPanel telePanel = new JPanel();
@@ -229,20 +250,59 @@ public class InterfaceDemo extends JFrame {
                 validCard.setEnabled(false);
             }
         });
+        this.addMaison.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ProprieteAConstruire p = ((ProprieteAConstruire) batList.getSelectedItem());
+                if (p.getGroupe().getProprietaire() == null) {
+                    JOptionPane.showMessageDialog(batList.getRootPane(), "Vous ne pouvez pas construire si vous ne possedez pas tous les terrains.", "Impossible", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    p.construire(1);
+                    if (p.getNbMaisons() >= monopoly.getMaxMaisonsTerrain()) {
+                        addMaison.setEnabled(false);
+                    }
+                }
+            }
+        });
+        this.addHotel.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ProprieteAConstruire p = ((ProprieteAConstruire) batList.getSelectedItem());
+                if (p.getGroupe().getProprietaire() == null) {
+                    JOptionPane.showMessageDialog(batList.getRootPane(), "Vous ne pouvez pas construire si vous ne possedez pas tous les terrains.", "Impossible", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    if (p.getNbMaisons() < monopoly.getMaxMaisonsTerrain()) {
+                        JOptionPane.showMessageDialog(batList.getRootPane(), "Vous ne pouvez pas construire si toute les maisons ne sont pas achetées.", "Impossible", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        p.construire(monopoly.getMaxMaisonsTerrain() + 1);
+                        if (p.getNbHotels() >= monopoly.getMaxHotelsTerrain()) {
+                            addHotel.setEnabled(false);
+                        }
+                    }
+                }
+            }
+        });
     }
 
-    public int deplacement(Joueur j,int[] lancer) {
-        lancer[0]=1;
+    public int deplacement(Joueur j, int[] lancer) {
+        lancer[0] = 1;
         info.setText("> " + j.getNom() + " <");
         joueur = j;
         int dist;
 
         propList.removeAllItems();
+        batList.removeAllItems();
         for (ProprieteAConstruire x : monopoly.getProprietes()) {
             if (x.getProprietaire() == null) {
                 propList.addItem(x);
+            } else {
+                batList.addItem(x);
             }
         }
+        addMaison.setEnabled(batList.getItemCount() > 0);
+        addHotel.setEnabled(batList.getItemCount() > 0);
         validProp.setEnabled(propList.getItemCount() != 0);
         cashValue.setText(Integer.toString(j.getCash()));
         validCash.setEnabled(true);
@@ -254,12 +314,13 @@ public class InterfaceDemo extends JFrame {
             while (!teleOver) {
                 try {
                     this.wait();
-                } catch (Exception e) {}
+                } catch (Exception e) {
+                }
             }
-            dist = ((Carreau)listeCarreaux.getSelectedItem()).getId()-j.getPosition().getId();
+            dist = ((Carreau) listeCarreaux.getSelectedItem()).getId() - j.getPosition().getId();
         } else {
             lancer = getDes();
-            dist = lancer[0]+lancer[1];
+            dist = lancer[0] + lancer[1];
         }
         return dist;
     }

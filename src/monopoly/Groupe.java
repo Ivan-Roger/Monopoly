@@ -2,6 +2,7 @@ package monopoly;
 
 import java.util.ArrayList;
 import monopoly.ex.ConstruireException;
+import monopoly.ex.UnknownException;
 
 public class Groupe {
 
@@ -72,7 +73,7 @@ public class Groupe {
     public void verifConstruire(Joueur j) throws ConstruireException {
         int maisonsRestantes = monopoly.getMaisonsPlateauRestantes();
         int hotelsRestants = monopoly.getHotelsPlateauRestants();
-        
+
         for (ProprieteAConstruire p : proprietes) {
             if (p.getProprietaire() != j) {
                 throw new ConstruireException("Vous ne possedez pas tous les terrains du groupe. Vous ne pouvez pas construire.");
@@ -87,16 +88,16 @@ public class Groupe {
                 if ((choix[i] - monopoly.getMaxMaisonsTerrain()) > hotelsRestants) { // Si construction de plus d'hotel que le max plateau
                     throw new ConstruireException("Vous ne pouvez plus construire que " + monopoly.getHotelsPlateauRestants() + " hotels sur le plateau");
                 }
-                if (t.getNbMaisons() < monopoly.getMaxMaisonsTerrain() && t.getNbHotels()==0) { // Si nombre de maisons inferieur au max et aucun hotels
+                if (t.getNbMaisons() < monopoly.getMaxMaisonsTerrain() && t.getNbHotels() == 0) { // Si nombre de maisons inferieur au max et aucun hotels
                     throw new ConstruireException("Vous ne pouvez pas construire un hotel sur le terrain " + t.getNomCarreau() + " car vous n'avez pas construit toutes les maisons.");
                 }
                 if (t.getNbHotels() + (choix[i] - monopoly.getMaxMaisonsTerrain()) > monopoly.getMaxHotelsTerrain()) { // Construire plus d'hotels que le max.
                     throw new ConstruireException("Vous ne pouvez pas construire plus de " + monopoly.getMaxHotelsTerrain() + " hotels sur un terrain.");
                 }
                 hotelsRestants -= (choix[i] - monopoly.getMaxMaisonsTerrain());
-                cash -= (choix[i] - monopoly.getMaxMaisonsTerrain())*this.prixAchatHotel;
+                cash -= (choix[i] - monopoly.getMaxMaisonsTerrain()) * this.prixAchatHotel;
             } else {
-                if (t.getNbHotels()>0) {
+                if (t.getNbHotels() > 0) {
                     throw new ConstruireException("Vous ne pouvez pas construire de maisons si il y a déjà un hotel.");
                 }
                 if (choix[i] > maisonsRestantes) { // Plus de maisons que maxPlateau
@@ -106,28 +107,27 @@ public class Groupe {
                     throw new ConstruireException("Vous ne pouvez pas construire plus de " + monopoly.getMaxMaisonsTerrain() + " maisons sur un terrain.");
                 }
                 maisonsRestantes -= choix[i];
-                cash -= choix[i]*this.prixAchatMaison;
+                cash -= choix[i] * this.prixAchatMaison;
             }
         }
-        if (cash<=0) {
+        if (cash <= 0) {
             throw new ConstruireException("Vous n'avez pas assez d'argent pour effectuer cela.");
         }
-        
-        
+
         int min = choix[0];
         int max = choix[0];
-        for (int i=0; i<choix.length; i++) {
-            max = (choix[i]>max ? choix[i] : max ); // Si nb[i] < max alors max = nb[i] sinon max = max
-            min = (choix[i]<min ? choix[i] : min ); // Pareil
+        for (int i = 0; i < choix.length; i++) {
+            max = (choix[i] > max ? choix[i] : max); // Si nb[i] < max alors max = nb[i] sinon max = max
+            min = (choix[i] < min ? choix[i] : min); // Pareil
         }
-        if (max-min>1) {
+        if (max - min > 1) {
             throw new ConstruireException("Vous devez assurer que vos terrain soient equitablement repartis.");
         }
 
-        for (int i=0; i<choix.length; i++) {
+        for (int i = 0; i < choix.length; i++) {
             proprietes.get(i).construire(choix[i]); // Construction
         }
-        j.payer(j.getCash()-cash); // Paiement
+        j.payer(j.getCash() - cash); // Paiement
         /*
          Il faut :
          tout les proprietés du groupe
@@ -140,5 +140,19 @@ public class Groupe {
          exemple : [2,2,3] / pour l'hotel = nbMaxMaison + 1
         
          */
+    }
+
+    public Joueur getProprietaire() {
+        Joueur j = proprietes.get(0).getProprietaire();
+        try {
+            for (ProprieteAConstruire p : proprietes) {
+                if (p.getProprietaire() != j) {
+                    throw new UnknownException("Non proprietaire de tout les terrains.");
+                }
+            }
+        } catch (UnknownException e) {
+            return null;
+        }
+        return j;
     }
 }
