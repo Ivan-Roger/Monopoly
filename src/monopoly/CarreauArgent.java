@@ -20,6 +20,7 @@ public class CarreauArgent extends CarreauAction {
     @Override
     public void action(Joueur j) {
         monopoly.inter.afficherPosition(this,j);
+        j.recevoirArgent(montant);
     }
     
     @Override
