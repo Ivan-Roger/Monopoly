@@ -87,7 +87,7 @@ public class Groupe {
                 if ((choix[i] - monopoly.getMaxMaisonsTerrain()) > hotelsRestants) { // Si construction de plus d'hotel que le max plateau
                     throw new ConstruireException("Vous ne pouvez plus construire que " + monopoly.getHotelsPlateauRestants() + " hotels sur le plateau");
                 }
-                if (t.getNbMaisons() < monopoly.getMaxMaisonsTerrain()) { // Si nombre de maisons inferieur au max.
+                if (t.getNbMaisons() < monopoly.getMaxMaisonsTerrain() && t.getNbHotels()==0) { // Si nombre de maisons inferieur au max et aucun hotels
                     throw new ConstruireException("Vous ne pouvez pas construire un hotel sur le terrain " + t.getNomCarreau() + " car vous n'avez pas construit toutes les maisons.");
                 }
                 if (t.getNbHotels() + (choix[i] - monopoly.getMaxMaisonsTerrain()) > monopoly.getMaxHotelsTerrain()) { // Construire plus d'hotels que le max.
@@ -96,6 +96,9 @@ public class Groupe {
                 hotelsRestants -= (choix[i] - monopoly.getMaxMaisonsTerrain());
                 cash -= (choix[i] - monopoly.getMaxMaisonsTerrain())*this.prixAchatHotel;
             } else {
+                if (t.getNbHotels()>0) {
+                    throw new ConstruireException("Vous ne pouvez pas construire de maisons si il y a déjà un hotel.");
+                }
                 if (choix[i] > maisonsRestantes) { // Plus de maisons que maxPlateau
                     throw new ConstruireException("Vous ne pouvez plus contruire que " + monopoly.getMaisonsPlateauRestantes() + " maisons sur le plateau.");
                 }

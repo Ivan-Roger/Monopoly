@@ -39,14 +39,14 @@ public class Monopoly {
         carreaux = new HashMap<Integer, Carreau>();
         groupes = new HashMap<CouleurPropriete, Groupe>();
         for (CouleurPropriete c : CouleurPropriete.values()) {
-            groupes.put(c, new Groupe(c,this));
+            groupes.put(c, new Groupe(c, this));
         }
 
         buildGamePlateau(this.getClass().getResourceAsStream(carreauxPath));
         carreauDepart = (CarreauArgent) carreaux.get(1);
         carreauPrison = (CarreauArgent) carreaux.get(11);
         inter = new InterfaceTexte(this);
-      //  inter = new InterfaceGraph(this);
+        //  inter = new InterfaceGraph(this);
         joueurs = new ArrayList<Joueur>();
         cartes = new HashMap<String, LinkedList<Carte>>();
         cartes.put("Chance", new LinkedList<Carte>());
@@ -183,7 +183,7 @@ public class Monopoly {
             System.err.println("[buildGamePlateau()] : Error while reading file!");
         }
     }
- 
+
     /**
      * Cette fonction lit le fichier de donnée et permet de gérer les exceptions
      * relatif au fichier
@@ -242,7 +242,7 @@ public class Monopoly {
             demo = new InterfaceDemo(this);
         }
     }
- 
+
     /**
      * Renvoi TRUE si le score des dés est un double
      *
