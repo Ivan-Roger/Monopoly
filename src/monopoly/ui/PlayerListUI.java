@@ -34,7 +34,7 @@ class PlayerListUI extends JPanel {
     private ArrayList<JLabel> cash;
     private ArrayList<JLabel> statut;
     private ArrayList<JButton> proprietes;
-    private ArrayList<JButton> cartes;
+    private ArrayList<JLabel> cartes;
     private ArrayList<Joueur> joueurs;
 
     public PlayerListUI(InterfaceGraph inter) {
@@ -46,7 +46,7 @@ class PlayerListUI extends JPanel {
         cash = new ArrayList<JLabel>();
         statut = new ArrayList<JLabel>();
         proprietes = new ArrayList<JButton>();
-        cartes = new ArrayList<JButton>();
+        cartes = new ArrayList<JLabel>();
         initUIComponents();
     }
 
@@ -96,7 +96,7 @@ class PlayerListUI extends JPanel {
         statut.add(new JLabel((j.estEnPrison() ? "En prison" : "...")));
         infos.add(statut.get(statut.size() - 1));
 
-        cartes.add(new JButton("Cartes"));
+        cartes.add(new JLabel("Cartes : 0"));
         infos.add(cartes.get(cartes.size() - 1));
         panel.add(infos, BorderLayout.CENTER);
 
@@ -105,7 +105,6 @@ class PlayerListUI extends JPanel {
 
     public void updateJoueur(Joueur j,boolean current) {
         int index = joueurs.indexOf(j);
-        System.out.println("DEBUG : "+index+", current = "+current); // DEBUG !!!!!
         if (!j.abandonne()) {
             panels.get(index).setBackground(current ? Color.RED : Color.WHITE);
             panels.get(index).setBorder(BorderFactory.createLineBorder(current ? Color.RED : Color.BLACK));
@@ -118,6 +117,7 @@ class PlayerListUI extends JPanel {
                 e.printStackTrace();
             }
             statut.get(index).setText((j.estEnPrison() ? "En prison" : "..."));
+            cartes.get(index).setText("Cartes : " + j.getNbLiberation());
         } else {
             proprietes.get(index).setEnabled(false);
             cartes.get(index).setEnabled(false);

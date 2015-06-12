@@ -8,7 +8,10 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
@@ -32,7 +35,7 @@ import monopoly.ProprieteAConstruire;
  * @author rogeri
  */
 public class InterfaceGraph extends Interface {
-
+    private boolean waitOver;
     protected Joueur joueur;
     private JFrame fenetre;
     private JPanel tab;
@@ -175,8 +178,8 @@ public class InterfaceGraph extends Interface {
         tab.remove(infoCarreau);
         infoCarreau = carreauUI;
         tab.add(infoCarreau, gbc);
-        fenetre.setSize(new Dimension(fenetre.getSize().width+1,fenetre.getSize().height));
-        fenetre.setSize(new Dimension(fenetre.getSize().width-1,fenetre.getSize().height));
+        fenetre.setSize(new Dimension(fenetre.getSize().width + 1, fenetre.getSize().height));
+        fenetre.setSize(new Dimension(fenetre.getSize().width - 1, fenetre.getSize().height));
     }
 
     @Override
@@ -197,6 +200,7 @@ public class InterfaceGraph extends Interface {
     @Override
     public void finTour(Joueur j) {
         afficher("Fin de votre tour.");
+        controls.prompt();
     }
 
     @Override
@@ -207,17 +211,17 @@ public class InterfaceGraph extends Interface {
     @Override
     public ArrayList<Joueur> saisieJoueurs() {
         ArrayList<Joueur> joueurs = new ArrayList<Joueur>();
-        
-        joueurs.add(new Joueur("Alpha",monopoly));
-        joueurs.add(new Joueur("Beta",monopoly));
-        joueurs.add(new Joueur("Gama",monopoly));
-        
+
+        joueurs.add(new Joueur("Alpha", monopoly));
+        joueurs.add(new Joueur("Beta", monopoly));
+        joueurs.add(new Joueur("Gama", monopoly));
+
         return joueurs;
     }
 
     @Override
     public void choixModeDemo() {
-        monopoly.setModeDemo(JOptionPane.showConfirmDialog(fenetre, "Mode Demo ?", "Selection mode", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE)==0);
+        monopoly.setModeDemo(JOptionPane.showConfirmDialog(fenetre, "Mode Demo ?", "Selection mode", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == 0);
     }
 
     @Override

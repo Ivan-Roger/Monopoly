@@ -7,18 +7,12 @@ package monopoly.ui;
 
 import java.util.ArrayList;
 import monopoly.Carreau;
-import monopoly.CarreauArgent;
-import monopoly.CarreauMouvement;
 import monopoly.CarreauPropriete;
-import monopoly.CarreauTirage;
 import monopoly.Carte;
-import monopoly.Compagnie;
-import monopoly.Gare;
 import monopoly.Groupe;
 import monopoly.Joueur;
 import monopoly.Monopoly;
 import monopoly.ProprieteAConstruire;
-import monopoly.ex.ConstruireException;
 
 /**
  * class : Interface
