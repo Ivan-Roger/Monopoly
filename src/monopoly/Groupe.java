@@ -90,9 +90,9 @@ public class Groupe {
                 if (t.getNbHotels() + (choix[i] - monopoly.getNbMaisonsMax()) > monopoly.getNbHotelsMax()) { // Construire plus d'hotels que le max.
                     throw new ConstruireException("Vous ne pouvez pas construire plus de " + monopoly.getNbHotelsMax() + " hotels sur un terrain.");
                 }
-                cash -= choix[i]*this.prixAchatHotel;
+                cash -= (choix[i] - monopoly.getNbMaisonsMax())*this.prixAchatHotel;
             } else {
-                if (choix[i] > monopoly.getNbMaisonsRestantes()) {
+                if (choix[i] > monopoly.getNbMaisonsRestantes()) { // Plus de maisons que maxPlateau
                     throw new ConstruireException("Vous ne pouvez plus contruire que " + monopoly.getNbMaisonsRestantes() + " maisons sur le plateau.");
                 }
                 if (t.getNbMaisons() + choix[i] > monopoly.getNbMaisonsMax()) { // Si tentative de construire plus de maison que le max.
@@ -117,8 +117,9 @@ public class Groupe {
         }
 
         for (int i=0; i<choix.length; i++) {
-            proprietes.get(i).construire(choix[i]);
+            proprietes.get(i).construire(choix[i]); // Construction
         }
+        j.payer(j.getCash()-cash); // Paiement
         /*
          Il faut :
          tout les proprietés du groupe

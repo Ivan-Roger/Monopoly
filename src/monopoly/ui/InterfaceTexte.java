@@ -146,7 +146,7 @@ public class InterfaceTexte extends Interface {
                 try {
                     p.getGroupe().verifConstruire(p.getProprietaire());
                 } catch (ConstruireException ex) {
-                    afficher("\nAnnulation : "+ex.getMessage()+"\n");
+                    afficher("\nAnnulation : " + ex.getMessage() + "\n");
                     menuConstruire(p);
                 }
             default:
@@ -276,17 +276,36 @@ public class InterfaceTexte extends Interface {
 
     @Override
     public void menuAchatPropriete(CarreauPropriete c, Joueur j) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (c.getPrixAchat() > j.getCash()) {
+            afficher("Vous ne possédez pas assez d'argent pour acheter.");
+            afficher("Il vous manque " + (c.getPrixAchat() - j.getCash()) + "€");
+        } else {
+            if (c instanceof Gare) {
+                afficher("  1) Acheter cette gare");
+            } else if (c instanceof Compagnie) {
+                afficher("  1) Acheter cette compagnie");
+            } else if (c instanceof ProprieteAConstruire) {
+                afficher("  1) Acheter cette proprieté");
+            }
+            afficher("  2) Ne rien acheter");
+            switch (lireInt(1, 2)) {
+                case 1:
+                    c.achatPropriete(j);
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     @Override
     public int[] selectionConstruction(Groupe g, Joueur j) {
         int[] res = new int[g.getNbProprietes()];
-        
-        afficher("Construction sur le groupe "+g.getCouleur()+g.getCouleur().name()+((char)27)+"[0m"+" :");
-        afficher("  Prix d'achat d'une maison : "+g.getPrixAchatMaison()+"€");
-        afficher("  Prix d'achat d'un hotel : "+g.getPrixAchatHotel()+"€");
-        
+
+        afficher("Construction sur le groupe " + g.getCouleur() + g.getCouleur().name() + ((char) 27) + "[0m" + " :");
+        afficher("  Prix d'achat d'une maison : " + g.getPrixAchatMaison() + "€");
+        afficher("  Prix d'achat d'un hotel : " + g.getPrixAchatHotel() + "€");
+
         for (int i = 0; i < res.length; i++) {
             int choix = 0;
             boolean hotel = false;
@@ -308,14 +327,14 @@ public class InterfaceTexte extends Interface {
                     break;
             }
             if (choix > 0) {
-                afficher("Confirmer la construction de " + choix + " " + (hotel ? "hotels" : "maisons") + " sur " + g.getProprietes().get(i).getNomCarreau());
+                afficher("Confirmer la construction de " + choix + " " + (hotel ? "hotels" : "maisons") + " sur " + g.getProprietes().get(i).getNomCarreau() + " avec entrée ou \"non\"");
                 if (lireString().toLowerCase().equals("non")) {
                     i--;
                 } else {
                     if (hotel) {
                         choix += monopoly.getNbMaisonsMax();
                     }
-                    res[i]=choix;
+                    res[i] = choix;
                 }
             } else {
                 afficher("Passage au terrain suivant.");
