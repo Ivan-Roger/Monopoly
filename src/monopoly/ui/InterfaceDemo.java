@@ -60,7 +60,7 @@ public class InterfaceDemo extends JFrame {
         this.setSize(new Dimension(600, 700));
         this.setLocationRelativeTo(null);
         this.setVisible(true);
-        
+
         for (ProprieteAConstruire p : m.getProprietes()) {
             propList.addItem(p);
         }
@@ -73,7 +73,7 @@ public class InterfaceDemo extends JFrame {
 
         JPanel controles = new JPanel();
         controles.setLayout(new GridLayout(6, 1));
-        
+
         JPanel cashPanel = new JPanel();
         cashPanel.setLayout(new BoxLayout(cashPanel, BoxLayout.PAGE_AXIS));
         cashValue = new JTextField(10);
@@ -82,7 +82,7 @@ public class InterfaceDemo extends JFrame {
         validCash.setEnabled(false);
         cashPanel.add(validCash);
         controles.add(cashPanel);
-        
+
         JPanel propPanel = new JPanel();
         propPanel.setLayout(new BoxLayout(propPanel, BoxLayout.PAGE_AXIS));
         propList = new JComboBox();
@@ -152,20 +152,23 @@ public class InterfaceDemo extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                joueur.recevoirArgent(Integer.valueOf(cashValue.getText())-joueur.getCash());
+                joueur.recevoirArgent(Integer.valueOf(cashValue.getText()) - joueur.getCash());
             }
         });
         this.validProp.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                ProprieteAConstruire p = (ProprieteAConstruire)propList.getSelectedItem();
+                ProprieteAConstruire p = (ProprieteAConstruire) propList.getSelectedItem();
                 p.setProprietaire(joueur);
                 joueur.addPropriete(p);
                 propList.removeItem(p);
+                if (propList.getItemCount() == 0) {
+                    validProp.setEnabled(false);
+                }
             }
         });
-        
+
         this.validTele.addActionListener(new ActionListener() {
 
             @Override
@@ -193,12 +196,14 @@ public class InterfaceDemo extends JFrame {
     public void deplacement(Joueur j) {
         propList.removeAllItems();
         for (ProprieteAConstruire x : monopoly.getProprietes()) {
-            propList.addItem(x);
+            if (x.getProprietaire() == null) {
+                propList.addItem(x);
+            }
         }
+        validProp.setEnabled(propList.getItemCount() != 0);
         joueur = j;
         cashValue.setText(Integer.toString(j.getCash()));
         validCash.setEnabled(true);
-        validProp.setEnabled(true);
         infoDeplacement.setText("> " + j.getNom() + " <");
         listeCarreaux.setSelectedItem(j.getCarreau());
         validTele.setEnabled(true);

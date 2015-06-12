@@ -145,6 +145,8 @@ public class InterfaceTexte extends Interface {
             case 2:
                 try {
                     p.getGroupe().verifConstruire(p.getProprietaire());
+                    afficher("Vous avez bien construit.");
+                    afficherConstructions(p.getGroupe());
                 } catch (ConstruireException ex) {
                     afficher("\nAnnulation : " + ex.getMessage() + "\n");
                     menuConstruire(p);
@@ -344,6 +346,12 @@ public class InterfaceTexte extends Interface {
         }
 
         return res;
+    }
+
+    private void afficherConstructions(Groupe groupe) {
+        for (ProprieteAConstruire p : groupe.getProprietes()) {
+            afficher("  "+p.getNomCarreau()+" : "+p.getNbMaisons()+" maisons, "+p.getNbHotels()+" hotels.");
+        }
     }
 
 }
