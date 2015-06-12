@@ -293,11 +293,7 @@ public class Monopoly {
         }
         if (!j.estEnPrison()) {
             int oldId = j.getCarreau().getId();
-            if (!modeDemo) {
-                lancerDesAvancer(j);
-            } else {
-                demo.deplacement(j);
-            }
+            lancerDesAvancer(j);
             int newId = j.getCarreau().getId();
             if (newId < oldId) {
                 inter.passageDepart();
@@ -320,9 +316,14 @@ public class Monopoly {
      * @param j
      */
     public void lancerDesAvancer(Joueur j) {
-        int[] lancer;
-        int distance = calculTotalDes(lancer = jetDeDes());
-        inter.afficherLancerDes(lancer);
+        int[] lancer = new int[2];
+        int distance;
+        if (modeDemo) {
+            distance = demo.deplacement(j,lancer);
+        } else {
+            distance = calculTotalDes(lancer = jetDeDes());
+            inter.afficherLancerDes(lancer);
+        }
         if (isDouble(lancer)) {
             if (j.getNbDouble() < 2) {
                 idPlayer--;
